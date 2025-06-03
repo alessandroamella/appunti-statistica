@@ -42,7 +42,14 @@ fi
 echo "Verifico che tutti i file necessari siano presenti..."
 
 FILES=(
-  "01-how-to-esame.tex"
+  "01-introduzione.tex"
+  "02-fondamenti-di-probabilita.tex"
+  "03-variabili-aleatorie-discrete.tex"
+  "04-variabili-aleatorie-continue.tex"
+  "05-variabili-aleatorie-congiunte.tex"
+  "06-catene-di-markov.tex"
+  "07-strategie-per-risolvere-gli-esercizi-e-riepilogo.tex"
+  "08-tabelle-e-formulario-essenziale.tex"
 )
 
 # Generate the appropriate preamble
@@ -141,8 +148,31 @@ Sentiti libero di utilizzare, condividere o contribuire a questi appunti attrave
 
 \clearpage
 
-\chapter{How to Esame}
-\input{01-how-to-esame-content}
+\chapter{Introduzione}
+\input{01-introduzione-content}
+
+\chapter{Fondamenti di Probabilità}
+\input{02-fondamenti-di-probabilita-content}
+
+\chapter{Variabili Aleatorie Discrete}
+\input{03-variabili-aleatorie-discrete-content}
+
+\chapter{Variabili Aleatorie Continue}
+\input{04-variabili-aleatorie-continue-content}
+
+\chapter{Variabili Aleatorie Congiunte}
+\input{05-variabili-aleatorie-congiunte-content}
+
+\chapter{Catene di Markov}
+\input{06-catene-di-markov-content}
+
+\chapter{Strategie per Risolvere gli Esercizi e Riepilogo}
+\input{07-strategie-per-risolvere-gli-esercizi-e-riepilogo-content}
+
+\appendix
+
+\chapter{Tabelle e Formulario Essenziale}
+\input{08-tabelle-e-formulario-essenziale-content}
 
 \end{document}
 EOT

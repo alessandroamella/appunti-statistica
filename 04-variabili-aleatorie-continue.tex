@@ -1,0 +1,210 @@
+\input{preambolo_comune}
+
+% --- Titolo ---
+\title{Variabili Aleatorie Continue}
+\author{Basato sulle prove d'esame}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\label{cap:va_continue}
+% ... contenuto ...
+A differenza delle v.a. discrete, una v.a. continua può assumere un'infinità (più che numerabile) di valori in un intervallo. Per una v.a. continua $X$, la probabilità che $X$ assuma un valore specifico $x$ è zero: $\Prob(X=x)=0$. Ha senso invece parlare della probabilità che $X$ cada in un intervallo.
+
+\section{Funzione di Densità di Probabilità (PDF)}
+\begin{definition}[Funzione di Densità di Probabilità]
+Una funzione $f_X(x)$ è una \textbf{funzione di densità di probabilità} (PDF) per una v.a. continua $X$ se:
+\begin{enumerate}
+    \item $f_X(x) \ge 0$ per ogni $x \in \R$.
+    \item $\int_{-\infty}^{+\infty} f_X(x) \dd x = 1$.
+\end{enumerate}
+La probabilità che $X$ assuma valori in un intervallo $[a,b]$ è data da:
+\[ \Prob(a \le X \le b) = \int_a^b f_X(x) \dd x \]
+Nota: Poiché $\Prob(X=x)=0$, allora $\Prob(a \le X \le b) = \Prob(a < X \le b) = \Prob(a \le X < b) = \Prob(a < X < b)$.
+\end{definition}
+
+\begin{example}[Esercizio 3, Punto 1, 22/05/2024]
+$f_X(x) = \begin{cases} 2x/\theta & \text{se } 0 < x < 3 \\ 0 & \text{altrimenti} \end{cases}$. Determinare $\theta$ affinché $f_X(x)$ sia una densità.
+\textit{Soluzione Passo Passo:}
+\begin{enumerate}
+    \item \textbf{Verificare $f_X(x) \ge 0$:}
+    Poiché $x \in (0,3)$, $2x > 0$. Affinché $2x/\theta \ge 0$, e dato che $\theta>0$ è specificato nel testo, questa condizione è soddisfatta.
+    \item \textbf{Imporre l'integrale unitario:}
+    \[ \int_{-\infty}^{+\infty} f_X(x) \dd x = 1 \]
+    L'integrale è non nullo solo tra 0 e 3:
+    \[ \int_0^3 \frac{2x}{\theta} \dd x = \frac{2}{\theta} \int_0^3 x \dd x = \frac{2}{\theta} \left[ \frac{x^2}{2} \right]_0^3 = \frac{2}{\theta} \left( \frac{3^2}{2} - \frac{0^2}{2} \right) = \frac{2}{\theta} \cdot \frac{9}{2} = \frac{9}{\theta} \]
+    Imponiamo che questo sia uguale a 1:
+    \[ \frac{9}{\theta} = 1 \Rightarrow \theta = 9 \]
+    Questo corrisponde alla soluzione.
+\end{enumerate}
+\end{example}
+
+\section{Funzione di Ripartizione (CDF)}
+La definizione di CDF è la stessa vista per le v.a. discrete: $F_X(x) = \Prob(X \le x)$.
+Per una v.a. continua con PDF $f_X(t)$:
+\[ F_X(x) = \int_{-\infty}^x f_X(t) \dd t \]
+Proprietà:
+\begin{itemize}
+    \item Le stesse 4 proprietà viste per le discrete (non decrescente, limiti 0 e 1, continua da destra).
+    \item Per una v.a. continua, $F_X(x)$ è una funzione continua (non solo da destra).
+    \item Se $F_X(x)$ è derivabile, allora $f_X(x) = \frac{\dd}{\dd x} F_X(x)$ nei punti di continuità di $f_X(x)$.
+\end{itemize}
+
+\begin{example}[Esercizio 3, Punto 2, 22/05/2024]
+Data $f_X(x)$ con $\theta=9$, determinare $F_X(x)$.
+$f_X(x) = \begin{cases} 2x/9 & \text{se } 0 < x < 3 \\ 0 & \text{altrimenti} \end{cases}$.
+\textit{Soluzione Passo Passo:}
+Dobbiamo calcolare $F_X(x) = \int_{-\infty}^x f_X(t) \dd t$ per diversi intervalli di $x$.
+\begin{itemize}
+    \item \textbf{Se $x \le 0$:}
+    $F_X(x) = \int_{-\infty}^x 0 \dd t = 0$.
+    \item \textbf{Se $0 < x < 3$:}
+    $F_X(x) = \int_{-\infty}^0 0 \dd t + \int_0^x \frac{2t}{9} \dd t = 0 + \frac{2}{9} \left[ \frac{t^2}{2} \right]_0^x = \frac{2}{9} \left( \frac{x^2}{2} - 0 \right) = \frac{x^2}{9}$.
+    \item \textbf{Se $x \ge 3$:}
+    $F_X(x) = \int_{-\infty}^0 0 \dd t + \int_0^3 \frac{2t}{9} \dd t + \int_3^x 0 \dd t = 0 + \frac{2}{9} \left[ \frac{t^2}{2} \right]_0^3 + 0 = \frac{2}{9} \left( \frac{3^2}{2} - 0 \right) = \frac{9}{9} = 1$.
+\end{itemize}
+Quindi:
+\[ F_X(x) = \begin{cases} 0 & \text{se } x \le 0 \\ x^2/9 & \text{se } 0 < x < 3 \\ 1 & \text{se } x \ge 3 \end{cases} \]
+Questo corrisponde alla soluzione (notare che la soluzione dell'esame ha $x \le 0$ e $x \ge 3$ come casi, il che è corretto, ma per $x=0$ e $x=3$ le formule $x^2/9$ danno gli stessi valori di $0$ e $1$ rispettivamente, rendendo la funzione continua).
+\end{example}
+
+\section{Valore Atteso e Varianza}
+\begin{definition}[Valore Atteso]
+Il \textbf{valore atteso} (o media) di una v.a. continua $X$ con PDF $f_X(x)$ è:
+\[ \E[X] = \int_{-\infty}^{+\infty} x f_X(x) \dd x \]
+Se $g(X)$ è una funzione di $X$, allora $\E[g(X)] = \int_{-\infty}^{+\infty} g(x) f_X(x) \dd x$.
+Le proprietà sono le stesse del caso discreto.
+\end{definition}
+
+\begin{definition}[Varianza]
+La \textbf{varianza} di una v.a. continua $X$ è:
+\[ \Var(X) = \E[(X - \E[X])^2] = \int_{-\infty}^{+\infty} (x - \E[X])^2 f_X(x) \dd x \]
+E la formula computazionale:
+\[ \Var(X) = \E[X^2] - (\E[X])^2 \]
+dove $\E[X^2] = \int_{-\infty}^{+\infty} x^2 f_X(x) \dd x$.
+Le proprietà sono le stesse del caso discreto.
+\end{definition}
+
+\begin{example}[Esercizio 3, Punto 3, 22/05/2024]
+Calcolare $\Prob(1 \le X \le 2)$ e $\E[X]$ per la $X$ dell'esempio precedente.
+\textit{Soluzione Passo Passo:}
+\begin{enumerate}
+    \item \textbf{Calcolare $\Prob(1 \le X \le 2)$:}
+    Possiamo usare la PDF o la CDF.
+    Con la PDF: $\Prob(1 \le X \le 2) = \int_1^2 f_X(x) \dd x = \int_1^2 \frac{2x}{9} \dd x = \frac{2}{9} \left[ \frac{x^2}{2} \right]_1^2 = \frac{2}{9} \left( \frac{4}{2} - \frac{1}{2} \right) = \frac{2}{9} \cdot \frac{3}{2} = \frac{3}{9} = \frac{1}{3}$.
+    Con la CDF: $\Prob(1 \le X \le 2) = F_X(2) - F_X(1)$.
+    $F_X(2) = 2^2/9 = 4/9$.
+    $F_X(1) = 1^2/9 = 1/9$.
+    $F_X(2) - F_X(1) = 4/9 - 1/9 = 3/9 = 1/3$.
+    Entrambi i metodi danno lo stesso risultato, che corrisponde alla soluzione.
+    \item \textbf{Calcolare $\E[X]$:}
+    $\E[X] = \int_{-\infty}^{+\infty} x f_X(x) \dd x = \int_0^3 x \left(\frac{2x}{9}\right) \dd x = \int_0^3 \frac{2x^2}{9} \dd x$
+    $= \frac{2}{9} \left[ \frac{x^3}{3} \right]_0^3 = \frac{2}{9} \left( \frac{3^3}{3} - 0 \right) = \frac{2}{9} \cdot \frac{27}{3} = \frac{2}{9} \cdot 9 = 2$.
+    Corrisponde alla soluzione.
+\end{enumerate}
+\end{example}
+
+\section{Principali Distribuzioni Continue}
+
+\subsection{Distribuzione Uniforme Continua \texorpdfstring{$X \sim \text{Unif}(a,b)$}{X ~ Unif(a,b)}}
+Una v.a. $X$ ha la stessa probabilità di assumere valori in qualsiasi sottointervallo di uguale lunghezza all'interno di $[a,b]$.
+PDF: $f_X(x) = \begin{cases} \frac{1}{b-a} & \text{se } a \le x \le b \\ 0 & \text{altrimenti} \end{cases}$.
+CDF: $F_X(x) = \begin{cases} 0 & \text{se } x < a \\ \frac{x-a}{b-a} & \text{se } a \le x \le b \\ 1 & \text{se } x > b \end{cases}$.
+$\E[X] = (a+b)/2$.
+$\Var(X) = (b-a)^2/12$.
+\begin{example}[Esercizio 3, 17/07/2024]
+$X \sim \text{Unif}(0,2)$.
+Quindi $a=0, b=2$.
+PDF: $f_X(x) = 1/(2-0) = 1/2$ per $0 \le x \le 2$, e 0 altrove.
+$\E[X] = (0+2)/2 = 1$.
+$\Var(X) = (2-0)^2/12 = 4/12 = 1/3$.
+\end{example}
+
+\subsection{Distribuzione Esponenziale \texorpdfstring{$X \sim \text{Exp}(\lambda)$}{X ~ Exp(lambda)}}
+Spesso usata per modellare tempi di attesa o durate di vita, con $\lambda > 0$.
+PDF: $f_X(x) = \begin{cases} \lambda e^{-\lambda x} & \text{se } x \ge 0 \\ 0 & \text{se } x < 0 \end{cases}$.
+CDF: $F_X(x) = \begin{cases} 1 - e^{-\lambda x} & \text{se } x \ge 0 \\ 0 & \text{se } x < 0 \end{cases}$.
+$\E[X] = 1/\lambda$.
+$\Var(X) = 1/\lambda^2$.
+Proprietà di \textbf{assenza di memoria}: $\Prob(X > s+t | X > s) = \Prob(X > t)$ per $s, t \ge 0$.
+(Significa che se un oggetto è "sopravvissuto" fino al tempo $s$, la probabilità che sopravviva per un ulteriore tempo $t$ è la stessa che un oggetto nuovo sopravviva per un tempo $t$).
+
+\begin{example}[Esercizio 4, 12/01/2024 - Tempo di attesa casse]
+\textit{Problema (parte):} Cassa A, tempo $T_A \sim \text{Exp}(0.2)$. Cassa B, tempo $T_B \sim \text{Exp}(0.5)$. Il cliente sceglie la cassa a caso (prob 1/2 ciascuna). $T$ è il tempo d'attesa.
+Determinare $F_T(t)$.
+\textit{Soluzione Passo Passo:}
+Sia $C_A = \text{"sceglie cassa A"}$, $C_B = \text{"sceglie cassa B"}$. $\Prob(C_A)=\Prob(C_B)=1/2$.
+Usiamo la Formula delle Probabilità Totali per la CDF:
+$F_T(t) = \Prob(T \le t) = \Prob(T \le t | C_A)\Prob(C_A) + \Prob(T \le t | C_B)\Prob(C_B)$.
+Se sceglie A, $T=T_A$, quindi $\Prob(T \le t | C_A) = F_{T_A}(t) = 1 - e^{-0.2t}$ (per $t \ge 0$).
+Se sceglie B, $T=T_B$, quindi $\Prob(T \le t | C_B) = F_{T_B}(t) = 1 - e^{-0.5t}$ (per $t \ge 0$).
+Quindi, per $t \ge 0$:
+$F_T(t) = (1 - e^{-0.2t}) \cdot \frac{1}{2} + (1 - e^{-0.5t}) \cdot \frac{1}{2}$
+$= \frac{1}{2} - \frac{1}{2}e^{-0.2t} + \frac{1}{2} - \frac{1}{2}e^{-0.5t} = 1 - \frac{e^{-0.2t} + e^{-0.5t}}{2}$.
+Per $t < 0$, $F_T(t)=0$.
+Questo corrisponde alla soluzione.
+\end{example}
+
+\subsection{Distribuzione Normale (Gaussiana) \texorpdfstring{$X \sim N(\mu, \sigma^2)$}{X ~ N(mu, sigma^2)}}
+È una delle distribuzioni più importanti e diffuse. Caratterizzata da media $\mu$ e varianza $\sigma^2$.
+PDF: $f_X(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}$ per $x \in \R$.
+$\E[X] = \mu$.
+$\Var(X) = \sigma^2$.
+La CDF non ha una forma chiusa semplice. Ci si riferisce alla \textbf{Normale Standard} $Z \sim N(0,1)$, la cui CDF è indicata con $\Phi(z) = \Prob(Z \le z)$.
+Per una $X \sim N(\mu, \sigma^2)$, si può \textbf{standardizzare}: $Z = \frac{X-\mu}{\sigma} \sim N(0,1)$.
+Quindi $\Prob(X \le x) = \Prob\left(\frac{X-\mu}{\sigma} \le \frac{x-\mu}{\sigma}\right) = \Prob\left(Z \le \frac{x-\mu}{\sigma}\right) = \Phi\left(\frac{x-\mu}{\sigma}\right)$.
+Proprietà di $\Phi(z)$:
+\begin{itemize}
+    \item $\Phi(-z) = 1 - \Phi(z)$.
+    \item $\Prob(a < Z < b) = \Phi(b) - \Phi(a)$.
+    \item Se $z_\alpha$ è tale che $\Prob(Z > z_\alpha) = \alpha$, allora $\Phi(z_\alpha)=1-\alpha$, e $z_\alpha = \Phi^{-1}(1-\alpha)$.
+    \item Se $\Prob(Z < z_\beta) = \beta$, allora $z_\beta = \Phi^{-1}(\beta)$. Dalla simmetria, $\Phi^{-1}(\beta) = -\Phi^{-1}(1-\beta)$.
+\end{itemize}
+
+\begin{example}[Esercizio 4, 08/09/2023 - Temperatura]
+\textit{Problema (parte):} Temperatura $T \sim N(\mu=20, \sigma^2=4)$. Quindi $\sigma=\sqrt{4}=2$.
+$N$ (numero lettini) dipende da $T$: $N=0$ se $T<17$, $N=20$ se $17 \le T < 22$, ecc.
+Determinare $\E[N]$.
+\textit{Soluzione Passo Passo (per $\E[N]$):}
+$\E[N] = 0 \cdot \Prob(T<17) + 20 \cdot \Prob(17 \le T < 22) + 50 \cdot \Prob(22 \le T < 24) + 100 \cdot \Prob(T \ge 24)$.
+Dobbiamo calcolare queste probabilità. Standardizziamo $Z = (T-20)/2$.
+\begin{itemize}
+    \item $E_1 = \{T<17\}$:
+    $\Prob(T<17) = \Prob\left(Z < \frac{17-20}{2}\right) = \Prob(Z < -1.5) = \Phi(-1.5)$.
+    La soluzione usa $\approx 0.067$.
+    \item $E_2 = \{17 \le T < 22\}$:
+    $\Prob(17 \le T < 22) = \Prob\left(\frac{17-20}{2} \le Z < \frac{22-20}{2}\right) = \Prob(-1.5 \le Z < 1)$
+    $= \Phi(1) - \Phi(-1.5)$. La soluzione usa $\approx 0.774$.
+    \item $E_3 = \{22 \le T < 24\}$:
+    $\Prob(22 \le T < 24) = \Prob\left(\frac{22-20}{2} \le Z < \frac{24-20}{2}\right) = \Prob(1 \le Z < 2)$
+    $= \Phi(2) - \Phi(1)$. La soluzione usa $\approx 0.136$.
+    \item $E_4 = \{T \ge 24\}$:
+    $\Prob(T \ge 24) = \Prob\left(Z \ge \frac{24-20}{2}\right) = \Prob(Z \ge 2) = 1 - \Prob(Z < 2) = 1 - \Phi(2)$.
+    La soluzione usa $\approx 0.023$.
+\end{itemize}
+Somma delle probabilità (verifica): $0.067 + 0.774 + 0.136 + 0.023 = 1$. Corretto.
+$\E[N] = 0 \cdot (0.067) + 20 \cdot (0.774) + 50 \cdot (0.136) + 100 \cdot (0.023)$
+$= 0 + 15.48 + 6.8 + 2.3 = 24.58$. Corrisponde alla soluzione.
+\end{example}
+
+\begin{example}[Esercizio 4, Punto 3, 08/09/2023 - Soglia di temperatura]
+Determinare $t$ tale che $\Prob(T > t) \ge 0.70$. Viene dato $\Phi^{-1}(0.7) \approx 0.5244$.
+\textit{Soluzione Passo Passo:}
+$\Prob(T > t) = 0.70$ (prendiamo il caso limite).
+$\Prob\left(Z > \frac{t-20}{2}\right) = 0.70$.
+Questo significa $1 - \Prob\left(Z \le \frac{t-20}{2}\right) = 0.70$.
+$1 - \Phi\left(\frac{t-20}{2}\right) = 0.70 \Rightarrow \Phi\left(\frac{t-20}{2}\right) = 1 - 0.70 = 0.30$.
+Quindi $\frac{t-20}{2} = \Phi^{-1}(0.30)$.
+Usiamo la proprietà $\Phi^{-1}(\beta) = -\Phi^{-1}(1-\beta)$:
+$\Phi^{-1}(0.30) = -\Phi^{-1}(1-0.30) = -\Phi^{-1}(0.70)$.
+Dato $\Phi^{-1}(0.70) \approx 0.5244$, allora $\Phi^{-1}(0.30) \approx -0.5244$.
+$\frac{t-20}{2} = -0.5244 \Rightarrow t-20 = 2(-0.5244) = -1.0488$.
+$t = 20 - 1.0488 = 18.9512$.
+Questo corrisponde alla soluzione. La condizione $\Prob(T > t) \ge 0.70$ implica che $t$ deve essere al massimo questo valore, quindi $t \le 18.9512$. La domanda chiede "soglia massima", ma il contesto suggerisce "valore $t$ tale che la probabilità di superarlo sia 0.7".
+\end{example}
+
+

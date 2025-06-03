@@ -1,0 +1,359 @@
+\input{preambolo_comune}
+
+% --- Titolo ---
+\title{Fondamenti di Probabilità}
+\author{Basato sulle prove d'esame}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\label{cap:fondamenti}
+In questo capitolo introdurremo i concetti di base del calcolo delle probabilità, che sono il mattone fondamentale per tutto ciò che seguirà.
+
+\section{Spazio Campionario (\texorpdfstring{$\Omega$}{Omega}) ed Eventi}
+
+\begin{definition}[Esperimento Aleatorio]
+Un \textbf{esperimento aleatorio} è un processo il cui esito non può essere previsto con certezza prima che venga eseguito, anche se tutte le possibili realizzazioni sono note.
+\end{definition}
+
+\begin{example}
+Esempi di esperimenti aleatori sono:
+\begin{itemize}
+    \item Il lancio di una moneta (possibili esiti: Testa, Croce).
+    \item Il lancio di un dado a sei facce (possibili esiti: 1, 2, 3, 4, 5, 6).
+    \item L'estrazione di una carta da un mazzo.
+    \item La scelta di uno studente da una classe per un'interrogazione.
+\end{itemize}
+\end{example}
+
+\begin{definition}[Spazio Campionario \texorpdfstring{$\Omega$}{Omega}]
+Lo \textbf{spazio campionario}, indicato con $\Omega$, è l'insieme di tutti i possibili esiti (o risultati elementari) di un esperimento aleatorio.
+\end{definition}
+
+\begin{example}
+\begin{enumerate}
+    \item Lancio di una moneta: $\Omega = \{T, C\}$ (dove T=Testa, C=Croce).
+    \item Lancio di un dado: $\Omega = \{1, 2, 3, 4, 5, 6\}$.
+    \item Lancio di due monete (o una moneta due volte): $\Omega = \{(T,T), (T,C), (C,T), (C,C)\}$. Nota che l'ordine può essere importante.
+    \item \textbf{Esercizio 2, 08/09/2023 (Scelta gruppo):} Una classe di 10 studenti viene suddivisa in due sottogruppi di 5. Il primo va a Firenze, il secondo a Roma. Se definiamo un esito come la composizione del gruppo che va a Roma (o Firenze), $\Omega$ è l'insieme di tutte le possibili combinazioni di 5 studenti scelti da 10. Il numero di tali esiti è $\binom{10}{5}$.
+\end{enumerate}
+\end{example}
+
+\begin{definition}[Evento]
+Un \textbf{evento} $A$ è un qualsiasi sottoinsieme dello spazio campionario $\Omega$ (cioè $A \subseteq \Omega$). Un evento si dice \textbf{verificato} (o che si è realizzato) se l'esito dell'esperimento aleatorio è un elemento di $A$.
+\end{definition}
+
+\begin{example}
+Consideriamo il lancio di un dado, $\Omega = \{1, 2, 3, 4, 5, 6\}$.
+\begin{itemize}
+    \item Evento $A = \text{"esce un numero pari"}$: $A = \{2, 4, 6\}$.
+    \item Evento $B = \text{"esce un numero maggiore di 4"}$: $B = \{5, 6\}$.
+    \item Evento $C = \text{"esce il numero 3"}$: $C = \{3\}$ (questo è un evento elementare).
+    \item L'insieme vuoto $\emptyset$ è un evento, chiamato \textbf{evento impossibile} (non può mai verificarsi).
+    \item Lo spazio campionario $\Omega$ è un evento, chiamato \textbf{evento certo} (si verifica sempre).
+\end{itemize}
+\end{example}
+
+\subsection{Operazioni tra Eventi}
+Essendo gli eventi degli insiemi, possiamo applicare le usuali operazioni insiemistiche:
+\begin{itemize}
+    \item \textbf{Unione ($A \cup B$):} L'evento "si verifica $A$ oppure si verifica $B$ (o entrambi)". Corrisponde al connettivo logico "OR".
+    \item \textbf{Intersezione ($A \cap B$):} L'evento "si verificano sia $A$ che $B$". Corrisponde al connettivo logico "AND".
+    \item \textbf{Complementare ($A^c$ o $\bar{A}$):} L'evento "non si verifica $A$".
+\end{itemize}
+Due eventi $A$ e $B$ si dicono \textbf{incompatibili} (o \textbf{disgiunti} o \textbf{mutuamente esclusivi}) se non possono verificarsi contemporaneamente, cioè se $A \cap B = \emptyset$.
+
+\begin{example}
+Sempre con il lancio del dado:
+\begin{itemize}
+    \item $A = \{2, 4, 6\}$, $B = \{5, 6\}$.
+    \item $A \cup B = \{2, 4, 5, 6\}$ (esce un numero pari OPPURE un numero maggiore di 4).
+    \item $A \cap B = \{6\}$ (esce un numero pari E maggiore di 4).
+    \item $A^c = \{1, 3, 5\}$ (non esce un numero pari, cioè esce un numero dispari).
+    \item Se $D = \{1, 3\}$, allora $A \cap D = \emptyset$, quindi $A$ e $D$ sono incompatibili.
+\end{itemize}
+\end{example}
+
+\section{Definizione di Probabilità}
+Vogliamo assegnare un numero a ciascun evento che ne misuri la "possibilità" di verificarsi.
+
+\begin{definition}[Probabilità]
+Dato uno spazio campionario $\Omega$, una \textbf{funzione di probabilità} $\Prob$ è una funzione che assegna a ogni evento $A \subseteq \Omega$ un numero reale $\Prob(A)$ tale che siano soddisfatti i seguenti assiomi (assiomi di Kolmogorov):
+\begin{enumerate}
+    \item $\Prob(A) \ge 0$ per ogni evento $A$ (non negatività).
+    \item $\Prob(\Omega) = 1$ (normalizzazione: l'evento certo ha probabilità 1).
+    \item Se $A_1, A_2, \dots, A_n, \dots$ è una successione di eventi a due a due incompatibili (cioè $A_i \cap A_j = \emptyset$ per $i \neq j$), allora
+    \[ \Prob\left(\bigcup_{i=1}^{\infty} A_i\right) = \sum_{i=1}^{\infty} \Prob(A_i) \quad (\sigma\text{-additività}) \]
+    Se lo spazio campionario $\Omega$ è finito, la $\sigma$-additività si riduce alla \textbf{additività finita}: se $A$ e $B$ sono incompatibili ($A \cap B = \emptyset$), allora $\Prob(A \cup B) = \Prob(A) + \Prob(B)$.
+\end{enumerate}
+\end{definition}
+
+Da questi assiomi derivano alcune proprietà importanti:
+\begin{itemize}
+    \item $\Prob(\emptyset) = 0$.
+    \item Se $A \subseteq B$, allora $\Prob(A) \le \Prob(B)$.
+    \item $0 \le \Prob(A) \le 1$ per ogni evento $A$.
+    \item $\Prob(A^c) = 1 - \Prob(A)$.
+    \item $\Prob(A \cup B) = \Prob(A) + \Prob(B) - \Prob(A \cap B)$ (principio di inclusione-esclusione per due eventi).
+\end{itemize}
+
+\subsection{Spazi Equiprobabili e Calcolo Combinatorio}
+In molti problemi, specialmente quelli che coinvolgono dadi, monete "bilanciate", o estrazioni "casuali", si assume che tutti gli esiti elementari in $\Omega$ abbiano la stessa probabilità di verificarsi. Questo è il caso di uno \textbf{spazio campionario equiprobabile} (o uniforme).
+
+Se $\Omega$ è uno spazio campionario finito con $N = |\Omega|$ esiti elementari, e se ogni esito ha la stessa probabilità, allora la probabilità di un singolo esito $\omega_i$ è $\Prob(\{\omega_i\}) = 1/N$.
+In questo caso, la probabilità di un evento $A$ è data da:
+\[ \Prob(A) = \frac{\text{numero di esiti favorevoli ad } A}{\text{numero di esiti possibili}} = \frac{|A|}{|\Omega|} \]
+
+Qui entra in gioco il \textbf{calcolo combinatorio}, che ci aiuta a contare $|A|$ e $|\Omega|$.
+Vediamo alcuni strumenti utili:
+
+\begin{itemize}
+    \item \textbf{Disposizioni con Ripetizione ($DR_{n,k}$):} Il numero di modi di scegliere $k$ oggetti da un insieme di $n$ oggetti, con reimmissione e tenendo conto dell'ordine. $DR_{n,k} = n^k$.
+    \textit{Esempio:} Numero di sequenze di 3 lanci di una moneta ($n=2$ esiti T/C, $k=3$ lanci): $2^3=8$.
+    \textit{Esempio d'esame (Esercizio 1, 22/05/2024):} 5 palline inserite una dopo l'altra in 3 urne. Per ogni pallina ci sono 3 scelte (urna A, B, C). Quindi $|\Omega| = 3^5 = 243$.
+
+    \item \textbf{Permutazioni Semplici ($P_n$):} Il numero di modi di ordinare $n$ oggetti distinti. $P_n = n! = n \cdot (n-1) \cdot \dots \cdot 1$.
+    \textit{Esempio:} Numero di modi di anagrammare la parola "TRE": $3! = 6$.
+
+    \item \textbf{Disposizioni Semplici ($D_{n,k}$):} Il numero di modi di scegliere $k$ oggetti da un insieme di $n$ oggetti distinti, senza reimmissione e tenendo conto dell'ordine. $D_{n,k} = n \cdot (n-1) \cdot \dots \cdot (n-k+1) = \frac{n!}{(n-k)!}$.
+    \textit{Esempio:} Scegliere un presidente e un tesoriere da 10 persone: $D_{10,2} = 10 \cdot 9 = 90$.
+
+    \item \textbf{Combinazioni Semplici ($C_{n,k}$ o $\binom{n}{k}$):} Il numero di modi di scegliere $k$ oggetti da un insieme di $n$ oggetti distinti, senza reimmissione e \textbf{senza} tener conto dell'ordine.
+    \[ \binom{n}{k} = \frac{D_{n,k}}{k!} = \frac{n!}{k!(n-k)!} \]
+    \textit{Esempio:} Numero di modi di formare un comitato di 3 persone da un gruppo di 10: $\binom{10}{3}$.
+    \textit{Esempio d'esame (Esercizio 2, 08/09/2023):} $|\Omega| = \binom{10}{5}$ è il numero di modi di scegliere i 5 studenti che vanno a Roma (l'altro gruppo è determinato).
+    \textit{Esempio d'esame (Esercizio 1, 19/06/2024):} Scegliere 2 lupi da 10 amici. $|\Omega| = \binom{10}{2} = 45$.
+\end{itemize}
+
+\begin{example}[Esercizio 2, 08/09/2023 - Studenti biondi a Roma]
+\textit{Problema:} Una classe di 10 studenti (4 biondi, 6 non biondi) è divisa in due gruppi di 5, uno per Roma e uno per Firenze. Qual è la probabilità che 2 studenti biondi vadano a Roma?
+\textit{Soluzione Passo Passo:}
+\begin{enumerate}
+    \item \textbf{Definire lo spazio campionario $\Omega$:} L'esito è la composizione del gruppo di 5 studenti che va a Roma. Non conta l'ordine.
+    $|\Omega| = \binom{10}{5} = \frac{10!}{5!5!} = \frac{10 \cdot 9 \cdot 8 \cdot 7 \cdot 6}{5 \cdot 4 \cdot 3 \cdot 2 \cdot 1} = 252$.
+    Questo è uno spazio equiprobabile.
+    \item \textbf{Definire l'evento $B_2 = \text{"2 studenti biondi vanno a Roma"}$}.
+    Perché questo evento si verifichi, il gruppo di Roma deve essere formato da:
+    \begin{itemize}
+        \item 2 studenti biondi (scelti tra i 4 biondi disponibili).
+        \item 3 studenti non biondi (scelti tra i 6 non biondi disponibili, per completare il gruppo di 5).
+    \end{itemize}
+    \item \textbf{Calcolare il numero di esiti favorevoli a $B_2$ ($|B_2|$):}
+    Usiamo il principio di moltiplicazione (o delle scelte successive):
+    \begin{itemize}
+        \item Modi di scegliere 2 biondi da 4: $\binom{4}{2} = \frac{4!}{2!2!} = 6$.
+        \item Modi di scegliere 3 non biondi da 6: $\binom{6}{3} = \frac{6!}{3!3!} = \frac{6 \cdot 5 \cdot 4}{3 \cdot 2 \cdot 1} = 20$.
+    \end{itemize}
+    Quindi, $|B_2| = \binom{4}{2} \cdot \binom{6}{3} = 6 \cdot 20 = 120$.
+    \item \textbf{Calcolare la probabilità $\Prob(B_2)$:}
+    $\Prob(B_2) = \frac{|B_2|}{|\Omega|} = \frac{120}{252}$.
+    Semplificando (dividendo per 12): $\frac{10}{21} \approx 0.476$. (La soluzione dell'esame indica $\approx 0.48$, il che è corretto).
+\end{enumerate}
+\end{example}
+
+\section{Probabilità Condizionata}
+\label{sec:prob_cond}
+Spesso siamo interessati alla probabilità di un evento $A$ sapendo che un altro evento $B$ si è già verificato. Questa è la probabilità condizionata.
+
+\begin{definition}[Probabilità Condizionata]
+Siano $A$ e $B$ due eventi con $\Prob(B) > 0$. La \textbf{probabilità condizionata} di $A$ dato $B$, indicata con $\Prob(A|B)$, è definita come:
+\[ \Prob(A|B) = \frac{\Prob(A \cap B)}{\Prob(B)} \]
+Intuizione: $B$ diventa il "nuovo" spazio campionario. Stiamo valutando la probabilità della parte di $A$ che si trova in $B$, normalizzata rispetto alla probabilità di $B$.
+\end{definition}
+
+Dalla definizione, segue direttamente la \textbf{Regola della Catena} (o delle probabilità composte):
+\[ \Prob(A \cap B) = \Prob(A|B) \Prob(B) \]
+Se $\Prob(A)>0$, vale anche $\Prob(A \cap B) = \Prob(B|A) \Prob(A)$.
+Per tre eventi $A, B, C$:
+\[ \Prob(A \cap B \cap C) = \Prob(A) \Prob(B|A) \Prob(C|A \cap B) \]
+e generalizzazioni simili.
+
+\begin{example}[Esercizio 1, 12/01/2024 - Urna di Polya]
+\textit{Problema:} Urna con 6 palline (4 Rosse R, 2 Nere N). 3 estrazioni. Quando una pallina è estratta, viene reimbussolata con una nuova pallina dello stesso colore. Calcolare $\Prob(R_3)$, dove $R_3$ è "viene estratta una pallina rossa alla terza estrazione".
+\textit{Soluzione (parte di essa, illustrando la regola della catena):}
+Consideriamo una sequenza specifica, ad esempio $R_1 \cap N_2 \cap R_3$ (Rossa alla prima, Nera alla seconda, Rossa alla terza).
+Usiamo la regola della catena: $\Prob(R_1 \cap N_2 \cap R_3) = \Prob(R_1) \Prob(N_2|R_1) \Prob(R_3|R_1 \cap N_2)$.
+\begin{itemize}
+    \item $\Prob(R_1)$: Inizialmente 4R, 2N (tot 6). $\Prob(R_1) = 4/6$.
+    \item $\Prob(N_2|R_1)$: Se $R_1$ si è verificata, si è aggiunta una R. Urna ora: 5R, 2N (tot 7). $\Prob(N_2|R_1) = 2/7$.
+    \item $\Prob(R_3|R_1 \cap N_2)$: Se $R_1$ e $N_2$ si sono verificate, si è aggiunta prima una R, poi una N. Urna ora: 5R, 3N (tot 8). $\Prob(R_3|R_1 \cap N_2) = 5/8$.
+\end{itemize}
+Quindi, $\Prob(R_1 \cap N_2 \cap R_3) = \frac{4}{6} \cdot \frac{2}{7} \cdot \frac{5}{8}$.
+Per calcolare $\Prob(R_3)$ si devono considerare tutte le 8 possibili sequenze che portano a $R_3$ (RR$R_3$, RN$R_3$, NR$R_3$, NN$R_3$) e sommare le loro probabilità (lo vedremo meglio con la formula delle probabilità totali).
+\end{example}
+
+\subsection{Indipendenza tra Eventi}
+\begin{definition}[Indipendenza tra Eventi]
+Due eventi $A$ e $B$ si dicono \textbf{indipendenti} se il verificarsi di uno non influenza la probabilità del verificarsi dell'altro. Formalmente:
+\[ \Prob(A \cap B) = \Prob(A) \Prob(B) \]
+Se $\Prob(B)>0$, l'indipendenza è equivalente a $\Prob(A|B) = \Prob(A)$.
+Se $\Prob(A)>0$, l'indipendenza è equivalente a $\Prob(B|A) = \Prob(B)$.
+\end{definition}
+
+\begin{remark}
+Non confondere eventi indipendenti con eventi incompatibili!
+\begin{itemize}
+    \item Se $A, B$ sono incompatibili ($A \cap B = \emptyset$) e $\Prob(A)>0, \Prob(B)>0$, allora $\Prob(A \cap B) = 0$. Ma $\Prob(A)\Prob(B) > 0$. Quindi $A$ e $B$ \textbf{non} sono indipendenti (anzi, sono fortemente dipendenti: se uno si verifica, l'altro non può).
+    \item L'unica eccezione è se uno degli eventi ha probabilità zero.
+\end{itemize}
+\end{remark}
+
+\begin{example}
+Lancio di due dadi. $A = \text{"il primo dado è 1"}$, $B = \text{"la somma dei dadi è 7"}$.
+$\Omega$ ha $6 \times 6 = 36$ esiti equiprobabili.
+$A = \{(1,1), (1,2), (1,3), (1,4), (1,5), (1,6)\}$, $\Prob(A) = 6/36 = 1/6$.
+$B = \{(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)\}$, $\Prob(B) = 6/36 = 1/6$.
+$A \cap B = \{(1,6)\}$, $\Prob(A \cap B) = 1/36$.
+Verifichiamo: $\Prob(A)\Prob(B) = (1/6)(1/6) = 1/36$.
+Poiché $\Prob(A \cap B) = \Prob(A)\Prob(B)$, gli eventi $A$ e $B$ sono indipendenti.
+\end{example}
+
+\section{Formula delle Probabilità Totali e Teorema di Bayes}
+Questi due strumenti sono potentissimi e molto usati negli esercizi.
+
+\begin{definition}[Partizione dello Spazio Campionario]
+Una famiglia di eventi $\{B_1, B_2, \dots, B_n\}$ costituisce una \textbf{partizione} di $\Omega$ se:
+\begin{enumerate}
+    \item $B_i \neq \emptyset$ per ogni $i$.
+    \item $B_i \cap B_j = \emptyset$ per ogni $i \neq j$ (sono a due a due incompatibili).
+    \item $\bigcup_{i=1}^n B_i = \Omega$ (la loro unione copre tutto lo spazio).
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Formula delle Probabilità Totali]
+Sia $\{B_1, B_2, \dots, B_n\}$ una partizione di $\Omega$ tale che $\Prob(B_i) > 0$ per ogni $i$. Allora, per qualsiasi evento $A$:
+\[ \Prob(A) = \sum_{i=1}^n \Prob(A \cap B_i) = \sum_{i=1}^n \Prob(A|B_i) \Prob(B_i) \]
+\end{theorem}
+\textit{Idea:} Per calcolare $\Prob(A)$, si "scompone" $A$ nelle sue parti che intersecano ciascun $B_i$, e si somma la probabilità di queste parti.
+
+\begin{example}[Esercizio 1, 08/09/2023 - Gioco con due monete]
+\textit{Problema (Parte 1):} Scommettitore sceglie a caso una di due monete: A (bilanciata, P(Testa)=1/2) o B (truccata, P(Testa)=2/3). Inizia con 1 euro, gioca max 5 volte. Vince 1 euro se Testa, perde 1 euro se Croce. Si ferma se perde tutto (0 euro) o vince 3 euro (ha 4 euro).
+Calcolare $\Prob(I_2)$, dove $I_2 = \text{"il gioco si interrompe dopo il secondo lancio"}$.
+\textit{Soluzione Passo Passo:}
+\begin{enumerate}
+    \item \textbf{Identificare la partizione:} L'evento iniziale che condiziona tutto è la scelta della moneta.
+    Sia $D_A = \text{"viene scelta la moneta A"}$ e $D_B = \text{"viene scelta la moneta B"}$.
+    Poiché la scelta è casuale, $\Prob(D_A) = 1/2$ e $\Prob(D_B) = 1/2$.
+    $\{D_A, D_B\}$ è una partizione di $\Omega$ (relativo alla scelta della moneta).
+    \item \textbf{Applicare la Formula delle Probabilità Totali a $I_2$:}
+    $\Prob(I_2) = \Prob(I_2|D_A)\Prob(D_A) + \Prob(I_2|D_B)\Prob(D_B)$.
+    \item \textbf{Analizzare $\Prob(I_2|D_A)$ e $\Prob(I_2|D_B)$:}
+    Il giocatore inizia con 1 euro.
+    Condizioni di stop: 0 euro o 4 euro.
+    Perché il gioco si interrompa AL SECONDO lancio:
+    \begin{itemize}
+        \item NON deve interrompersi al primo lancio.
+        \item DEVE interrompersi al secondo.
+    \end{itemize}
+    Analizziamo gli stati del capitale del giocatore ($S_0=1$):
+    \begin{itemize}
+        \item Lancio 1:
+            \begin{itemize}
+                \item Testa (T1): capitale $S_1=2$. Gioco continua.
+                \item Croce (C1): capitale $S_1=0$. Gioco si ferma. Questo è $I_1$.
+            \end{itemize}
+    \end{itemize}
+    Se il gioco arriva al secondo lancio, significa che al primo lancio è uscita Testa (capitale $S_1=2$).
+    \begin{itemize}
+        \item Lancio 2 (dato T1, quindi $S_1=2$):
+            \begin{itemize}
+                \item Testa (T2): capitale $S_2=3$. Gioco continua.
+                \item Croce (C2): capitale $S_2=1$. Gioco continua.
+            \end{itemize}
+    \end{itemize}
+    In nessuno dei due casi (Testa o Croce al secondo lancio, se si è arrivati al secondo lancio) il giocatore ha 0 euro o 4 euro.
+    Quindi, se il secondo lancio viene effettuato, il gioco NON si interrompe dopo il secondo lancio.
+    L'unico modo per interrompersi *dopo* il secondo lancio sarebbe se al primo si fosse già interrotto, il che è una contraddizione.
+    La soluzione fornita nell'esame afferma: "Si noti che, a prescindere dalla moneta utilizzata, se il secondo lancio viene effettuato, allora al primo lancio c'è stata una vittoria. In questo caso però, il giocatore dispone di 2 euro prima del secondo lancio, e perciò, se anche perdesse al secondo lancio, la sequenza non terminerebbe poiché avrebbe ancora un euro da giocare. Quindi $I_2 = \emptyset \Rightarrow \Prob(I_2) = 0$."
+    Questo significa che $\Prob(I_2|D_A) = 0$ e $\Prob(I_2|D_B) = 0$.
+    \item \textbf{Calcolare $\Prob(I_2)$:}
+    $\Prob(I_2) = 0 \cdot (1/2) + 0 \cdot (1/2) = 0$.
+\end{enumerate}
+Questo esercizio specifico per $I_2$ era un po' un "trabocchetto" o un test di comprensione delle regole del gioco. Gli altri punti richiedono calcoli più standard.
+\end{example}
+
+\begin{theorem}[Teorema di Bayes]
+Sia $\{B_1, B_2, \dots, B_n\}$ una partizione di $\Omega$ con $\Prob(B_i) > 0$ per ogni $i$. Sia $A$ un evento con $\Prob(A) > 0$. Allora, per ogni $k=1, \dots, n$:
+\[ \Prob(B_k|A) = \frac{\Prob(A|B_k) \Prob(B_k)}{\Prob(A)} = \frac{\Prob(A|B_k) \Prob(B_k)}{\sum_{i=1}^n \Prob(A|B_i) \Prob(B_i)} \]
+\end{theorem}
+\textit{Idea:} Il teorema di Bayes ci permette di "invertire" la probabilità condizionata. Se conosciamo $\Prob(A|B_k)$ (la probabilità dell'effetto data la causa), possiamo calcolare $\Prob(B_k|A)$ (la probabilità della causa dato l'effetto).
+$\Prob(B_k)$ è detta probabilità \textit{a priori} di $B_k$.
+$\Prob(B_k|A)$ è detta probabilità \textit{a posteriori} di $B_k$ (dopo aver osservato $A$).
+
+\begin{example}[Esercizio 1, Punto 4, 08/09/2023]
+\textit{Problema:} Determinare $\Prob(D_A|P)$, dove $P = \text{"il gioco termina con lo scommettitore che non perde tutti i soldi"}$.
+Ricordiamo $D_A = \text{"viene scelta la moneta A"}$.
+\textit{Soluzione Passo Passo:}
+\begin{enumerate}
+    \item \textbf{Applicare il Teorema di Bayes:}
+    \[ \Prob(D_A|P) = \frac{\Prob(P|D_A)\Prob(D_A)}{\Prob(P)} \]
+    \item \textbf{Scomporre $\Prob(P)$ usando la Formula delle Probabilità Totali:}
+    La partizione è $\{D_A, D_B\}$.
+    \[ \Prob(P) = \Prob(P|D_A)\Prob(D_A) + \Prob(P|D_B)\Prob(D_B) \]
+    Quindi:
+    \[ \Prob(D_A|P) = \frac{\Prob(P|D_A)\Prob(D_A)}{\Prob(P|D_A)\Prob(D_A) + \Prob(P|D_B)\Prob(D_B)} \]
+    \item \textbf{Utilizzare i valori forniti/calcolati nelle soluzioni dell'esame:}
+    Sappiamo $\Prob(D_A) = 1/2$ e $\Prob(D_B) = 1/2$.
+    La soluzione dell'esame al punto 3 calcola (anche se con un errore di battitura $D_A$ al posto di $D_B$ nella formula di $P(P^c|D_B)$) e poi fornisce:
+    $\Prob(P|D_B) = 136/243$.
+    $\Prob(P|D_A) = 5/16$. (Questo è calcolato nel testo della soluzione del punto 4).
+    \item \textbf{Sostituire i valori:}
+    \[ \Prob(D_A|P) = \frac{(5/16) \cdot (1/2)}{(5/16) \cdot (1/2) + (136/243) \cdot (1/2)} \]
+    Si può semplificare il $1/2$:
+    \[ \Prob(D_A|P) = \frac{5/16}{5/16 + 136/243} = \frac{5/16}{(5 \cdot 243 + 136 \cdot 16)/(16 \cdot 243)} = \frac{5/16}{(1215 + 2176)/3888} = \frac{5/16}{3391/3888} \]
+    \[ = \frac{5}{16} \cdot \frac{3888}{3391} = \frac{5 \cdot 243}{3391} = \frac{1215}{3391} \]
+    Questo corrisponde al risultato fornito nella soluzione dell'esame.
+\end{enumerate}
+\textbf{Come si calcolano $\Prob(P|D_A)$ e $\Prob(P|D_B)$?}
+L'evento $P$ è "il gioco termina con lo scommettitore che non perde tutti i soldi". Questo significa che o il giocatore raggiunge i 4 euro, oppure arriva al 5° lancio senza essere andato in rovina e senza aver raggiunto i 4 euro, e termina con un capitale $>0$.
+Alternativamente, è più facile calcolare $P^c = \text{"il giocatore perde tutti i soldi"}$, e poi fare $\Prob(P|D_X) = 1 - \Prob(P^c|D_X)$.
+Per calcolare $\Prob(P^c|D_X)$ (probabilità di rovina dato che si usa la moneta X), si deve tracciare un albero delle possibili sequenze di gioco e dei capitali, fermandosi quando il capitale è 0 (rovina) o 4 (vittoria) o dopo 5 lanci.
+Ad esempio, per $\Prob(P^c|D_A)$ (moneta bilanciata, $p=1/2$ per Testa, $q=1/2$ per Croce):
+Capitale iniziale $S_0=1$.
+Sequenze di rovina:
+\begin{itemize}
+    \item C (costo 1/2): $S_1=0$. Rovina. Prob = 1/2.
+    \item TC C (costo 1/2, 1/2, 1/2): $S_0=1 \xrightarrow{T} S_1=2 \xrightarrow{C} S_2=1 \xrightarrow{C} S_3=0$. Rovina. Prob = $(1/2)^3 = 1/8$.
+    \item TC TC C (costo $(1/2)^5$): $S_0=1 \xrightarrow{T} 2 \xrightarrow{C} 1 \xrightarrow{T} 2 \xrightarrow{C} 1 \xrightarrow{C} 0$. Rovina. Prob = $(1/2)^5 = 1/32$.
+    \item TTT C C (costo $(1/2)^5$): $S_0=1 \xrightarrow{T} 2 \xrightarrow{T} 3 \xrightarrow{T} 4$ (STOP VITTORIA). Questa non è rovina.
+    \item ... e altre.
+\end{itemize}
+La soluzione dell'esame usa un approccio che somma le probabilità dei percorsi che portano alla rovina, condizionati alla scelta della moneta.
+Per $\Prob(P|D_A) = 1 - \Prob(P^c|D_A)$:
+$\Prob(P^c|D_A)$ (rovina con moneta A, $p_A=1/2$):
+\begin{itemize}
+    \item C1: $1/2$
+    \item T1 C2 C3: $(1/2)^3 = 1/8$
+    \item T1 C2 T3 C4 C5: $(1/2)^5 = 1/32$
+    \item T1 T2 C3 C4 C5: $(1/2)^5 = 1/32$
+\end{itemize}
+Somma delle probabilità di rovina: $1/2 + 1/8 + 1/32 + 1/32 = 16/32 + 4/32 + 1/32 + 1/32 = 22/32 = 11/16$.
+Quindi $\Prob(P|D_A) = 1 - 11/16 = 5/16$. Questo è corretto come nella soluzione.
+
+Per $\Prob(P^c|D_B)$ (rovina con moneta B, $p_B=2/3$ per Testa, $q_B=1/3$ per Croce):
+\begin{itemize}
+    \item C1: $q_B = 1/3$
+    \item T1 C2 C3: $p_B q_B^2 = (2/3)(1/3)^2 = 2/27$
+    \item T1 C2 T3 C4 C5: $p_B q_B p_B q_B^2 = p_B^2 q_B^3 = (2/3)^2 (1/3)^3 = 4/27 \cdot 1/27 = 4/243$ (La soluzione dell'esame ha un errore qui, usa $(1/3)^5$ che non ha senso, dovrebbe essere $p_B^2 q_B^3$. No, la soluzione dell'esame è P(C1|DB) + P(T1|DB)P(C2|DB/\text{T1})P(C3|DB/\text{T1}/\text{C2}) + ... che è corretto. Il mio errore era nell'interpretare la formula della soluzione.
+    Rivediamo la soluzione dell'esame per $P(P^c|D_B)$:
+    \begin{itemize}
+        \item $P(C_1|D_B) = 1/3$ (Capitale 0. Rovina)
+        \item $P(T_1 \cap C_2 \cap C_3 | D_B) = (2/3)(1/3)(1/3) = 2/27$ (Capitale $1 \to 2 \to 1 \to 0$. Rovina)
+        \item $P(T_1 \cap C_2 \cap T_3 \cap C_4 \cap C_5 | D_B) = (2/3)(1/3)(2/3)(1/3)(1/3) = 4/243$ (Capitale $1 \to 2 \to 1 \to 2 \to 1 \to 0$. Rovina)
+        \item $P(T_1 \cap T_2 \cap C_3 \cap C_4 \cap C_5 | D_B) = (2/3)(2/3)(1/3)(1/3)(1/3) = 4/243$ (Capitale $1 \to 2 \to 3 \to 2 \to 1 \to 0$. Rovina)
+    \end{itemize}
+    Sommando: $P(P^c|D_B) = 1/3 + 2/27 + 4/243 + 4/243 = (81+18+4+4)/243 = 107/243$.
+    Quindi $\Prob(P|D_B) = 1 - 107/243 = (243-107)/243 = 136/243$. Questo è corretto.
+\end{itemize}
+La chiave è tracciare attentamente l'albero delle decisioni e dei capitali, fermandosi alle condizioni di stop (0 euro, 4 euro, o 5 lanci).
+\end{example}
+
+Questo conclude il primo capitolo sui fondamenti. Dovrebbe darti una base solida. Il prossimo passo sarà introdurre le variabili aleatorie.
+
+% Continuo con la struttura LaTeX di base per i prossimi capitoli.
+% Il contenuto dettagliato verrà poi espanso con più esempi dagli esami.
+
