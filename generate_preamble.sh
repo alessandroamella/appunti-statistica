@@ -275,7 +275,7 @@ ${COLOR_CMD}
 % \\newcommand{\\N}{\\mathbb{N}}
 \\newcommand{\\Z}{\\mathbb{Z}}
 \\newcommand{\\E}{\\mathbb{E}}
-\\newcommand{\\Prob}{\\mathb\\nb{P}}
+\\newcommand{\\Prob}{\\mathbb{P}}
 \\newcommand{\\Var}{\\mathrm{Var}}
 \\newcommand{\\Cov}{\\mathrm{Cov}}
 \\newcommand{\\dd}{\\mathrm{d}} % per il differenziale negli integrali
