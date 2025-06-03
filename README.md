@@ -1,8 +1,8 @@
-# Appunti di Cybersecurity
+# Appunti di Calcolo delle Probabilità e Statistica
 
-> 📥 **Scarica gli ultimi appunti**: [Ultima Release](https://github.com/alessandroamella/appunti-cybersecurity/releases/latest)
+> 📥 **Scarica gli ultimi appunti**: [Ultima Release](https://github.com/alessandroamella/appunti-statistica/releases/latest)
 
-Appunti per il corso di Cybersecurity, Laurea in Informatica, Unibo, 2025.
+Appunti per il corso di Calcolo delle Probabilità e Statistica, Laurea in Informatica, Unibo, 2025.
 
 ## Informazioni sul Corso
 

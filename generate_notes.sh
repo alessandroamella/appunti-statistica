@@ -97,7 +97,7 @@ if [ "$DARK_MODE" = true ]; then
     linkcolor=white,
     filecolor=magenta,
     urlcolor=cyan,
-    pdftitle={Appunti Completi di Cybersecurity},
+    pdftitle={Appunti Completi di Calcolo delle Probabilità e Statistica},
     pdfauthor={Alessandro Amella},
     pdfpagemode=FullScreen,
 }'
@@ -108,7 +108,7 @@ else
     linkcolor=black,
     filecolor=magenta,
     urlcolor=cyan,
-    pdftitle={Appunti Completi di Cybersecurity},
+    pdftitle={Appunti Completi di Calcolo delle Probabilità e Statistica},
     pdfauthor={Alessandro Amella},
     pdfpagemode=FullScreen,
 }'
@@ -124,8 +124,8 @@ cat >appunti_completi.tex <<EOT
 $HYPERSETUP
 
 % Titolo del documento unificato
-\title{Appunti Completi di Cybersecurity\\\\
-  \large Basati sulle dispense della Prof.ssa Jocelyne Elias}
+\title{Appunti Completi di Calcolo delle Probabilità e Statistica\\\\
+  \large Basati sulle dispense della Prof.ssa Elena Bandini}
 \author{Alessandro Amella, Gemini e Claude}
 \date{\today}
 
@@ -138,14 +138,14 @@ $HYPERSETUP
 \chapter*{Informazioni sul Documento}
 \addcontentsline{toc}{chapter}{Informazioni sul Documento}
 
-Questo documento è la versione compilata automaticamente di tutti i miei appunti di Cybersecurity per il corso di Laurea in Informatica all'Università di Bologna.
+Questo documento è la versione compilata automaticamente di tutti i miei appunti di Calcolo delle Probabilità e Statistica per il corso di Laurea in Informatica all'Università di Bologna.
 
 \begin{itemize}
   \item \textbf{Fonte}: Tutti gli appunti sono disponibili come file separati nella repository GitHub: 
-        \url{https://github.com/alessandroamella/appunti-cybersecurity}
+        \url{https://github.com/alessandroamella/appunti-statistica}
   \item \textbf{Generazione}: Questo PDF è stato generato automaticamente utilizzando uno script che unisce tutti i singoli file .tex degli appunti.
   \item \textbf{Aggiornamenti}: Per la versione più recente degli appunti, visita la pagina delle release:
-        \url{https://github.com/alessandroamella/appunti-cybersecurity/releases/latest}
+        \url{https://github.com/alessandroamella/appunti-statistica/releases/latest}
   \item \textbf{Uso di AI}: Ho usato Gemini e Claude a manetta.
 \end{itemize}
 
@@ -157,48 +157,6 @@ Sentiti libero di utilizzare, condividere o contribuire a questi appunti attrave
 
 \chapter{Introduzione}
 \input{01-introduzione-content}
-
-\chapter{Crittografia}
-\input{02-crittografia-content}
-
-\chapter{Probabilità e Modelli}
-\input{03-probabilita-mod-content}
-
-\chapter{Stream Ciphers}
-\input{04-stream-ciphers-content}
-
-\chapter{Block Ciphers}
-\input{05-block-ciphers-content}
-
-\chapter{Modalità Operative}
-\input{06-modalita-operative-content}
-
-\chapter{Scambio di Chiavi}
-\input{07-scambio-chiavi-content}
-
-\chapter{Crittografia Asimmetrica}
-\input{08-crittografia-pk-content}
-
-\chapter{Network Security}
-\input{09-network-security-content}
-
-\chapter{Sicurezza dei Sistemi e Permessi}
-\input{10-sicurezza-sistemi-permessi-content}
-
-\chapter{ACL e Linux}
-\input{11-acl-content}
-
-\chapter{Sicurezza Wireless}
-\input{12-sicurezza-wireless-content}
-
-\chapter{Buffer Overflow}
-\input{13-buffer-overflow-content}
-
-\chapter{Laboratorio 1 \& 2}
-\input{14-lab-1-2-content}
-
-\chapter{Laboratorio 3 (parte 1 e 2)}
-\input{15-lab-3-content}
 
 \end{document}
 EOT
