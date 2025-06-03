@@ -6,7 +6,7 @@ Appunti per il corso di Calcolo delle Probabilità e Statistica, Laurea in Infor
 
 ## Informazioni sul Corso
 
-- [Pagina del corso](https://www.unibo.it/it/studiare/insegnamenti-competenze-trasversali-moocs/insegnamenti/insegnamento/2024/455457)
+- [Pagina del corso](https://www.unibo.it/it/studiare/insegnamenti-competenze-trasversali-moocs/insegnamenti/insegnamento/2024/320583)
 - [Materiale del professore (slide, appunti, esami)](https://virtuale.unibo.it/course/view.php?id=53267)
 
 ## Setup e Release

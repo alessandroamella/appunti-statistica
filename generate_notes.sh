@@ -155,8 +155,8 @@ Sentiti libero di utilizzare, condividere o contribuire a questi appunti attrave
 
 \clearpage
 
-\chapter{Introduzione}
-\input{01-introduzione-content}
+\chapter{How to Esame}
+\input{01-how-to-esame-content}
 
 \end{document}
 EOT
