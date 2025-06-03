@@ -42,21 +42,7 @@ fi
 echo "Verifico che tutti i file necessari siano presenti..."
 
 FILES=(
-  "01-introduzione.tex"
-  "02-crittografia.tex"
-  "03-probabilita-mod.tex"
-  "04-stream-ciphers.tex"
-  "05-block-ciphers.tex"
-  "06-modalita-operative.tex"
-  "07-scambio-chiavi.tex"
-  "08-crittografia-pk.tex"
-  "09-network-security.tex"
-  "10-sicurezza-sistemi-permessi.tex"
-  "11-acl.tex"
-  "12-sicurezza-wireless.tex"
-  "13-buffer-overflow.tex"
-  "14-lab-1-2.tex"
-  "15-lab-3.tex"
+  "01-how-to-esame.tex"
 )
 
 # Generate the appropriate preamble
