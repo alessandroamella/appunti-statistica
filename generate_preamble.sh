@@ -271,6 +271,9 @@ ${COLOR_CMD}
 }
 \\usemintedstyle{${MINTED_STYLE}}
 
+% --- Inclusione PDF ---
+\\usepackage{pdfpages}
+
 \\newcommand{\\R}{\\mathbb{R}}
 % \\newcommand{\\N}{\\mathbb{N}}
 \\newcommand{\\Z}{\\mathbb{Z}}
