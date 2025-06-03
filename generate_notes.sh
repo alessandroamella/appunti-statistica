@@ -222,7 +222,7 @@ echo "==================================================================="
 if [ "$SKIP_IMAGES" = true ]; then
   echo "Generazione immagini saltata (parametro --no-images attivo)."
 else
-  echo "Esecuzione di tutti gli script Python per generare immagini..."
+  echo "Esecuzione di tutti gli script Python per generare immagini in parallelo..."
 
   PYTHON_FILES=($(find . -maxdepth 1 -name "*.py"))
 
@@ -231,23 +231,37 @@ else
   else
     echo "Trovati ${#PYTHON_FILES[@]} file Python da eseguire."
 
-    for PY_FILE in "${PYTHON_FILES[@]}"; do
-      echo "Eseguendo $PY_FILE..."
+    # Function to execute a Python script
+    execute_python_script() {
+      local py_file="$1"
+      echo "Eseguendo $py_file..."
 
       # Check if dark mode is enabled and file contains "--dark"
-      if [ "$DARK_MODE" = true ] && grep -q "\-\-dark" "$PY_FILE"; then
+      if [ "$DARK_MODE" = true ] && grep -q "\-\-dark" "$py_file"; then
         echo "  → Modalità scura attiva, aggiungendo parametro --dark"
-        python3 "$PY_FILE" --dark
+        if python3 "$py_file" --dark >/dev/null 2>&1; then
+          echo "✅ $py_file eseguito con successo."
+          return 0
+        else
+          echo "⚠️ $py_file ha restituito un errore."
+          return 1
+        fi
       else
-        python3 "$PY_FILE"
+        if python3 "$py_file" >/dev/null 2>&1; then
+          echo "✅ $py_file eseguito con successo."
+          return 0
+        else
+          echo "⚠️ $py_file ha restituito un errore."
+          return 1
+        fi
       fi
+    }
 
-      if [ $? -eq 0 ]; then
-        echo "✅ $PY_FILE eseguito con successo."
-      else
-        echo "⚠️ $PY_FILE ha restituito un errore."
-      fi
-    done
+    export -f execute_python_script
+    export DARK_MODE
+
+    # Execute Python scripts in parallel with a progress bar
+    printf '%s\n' "${PYTHON_FILES[@]}" | parallel --bar execute_python_script
 
     echo "✅ Esecuzione degli script Python completata."
   fi
