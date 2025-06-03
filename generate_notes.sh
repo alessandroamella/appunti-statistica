@@ -7,6 +7,7 @@ set -e
 DARK_MODE=false
 COMPILE_ONCE=false
 SKIP_IMAGES=false
+COMPILE_ALL=false
 for arg in "$@"; do
   case "$arg" in
   "--dark")
@@ -17,6 +18,9 @@ for arg in "$@"; do
     ;;
   "--no-images")
     SKIP_IMAGES=true
+    ;;
+  "-a" | "--all")
+    COMPILE_ALL=true
     ;;
   esac
 done
@@ -36,6 +40,11 @@ fi
 # Show image generation status
 if [ "$SKIP_IMAGES" = true ]; then
   echo "🖼️ Generazione immagini disattivata"
+fi
+
+# Show individual compilation status
+if [ "$COMPILE_ALL" = true ]; then
+  echo "📄 Compilazione individuale dei file attivata"
 fi
 
 # Prima verifica che tutti i file esistano
@@ -278,6 +287,51 @@ fi
 mv "$TEMP_PDF" "$FINAL_PDF"
 echo "✅ Compilazione completata con successo."
 echo "Il documento PDF è stato generato come '$FINAL_PDF'"
+
+# If --all is specified, compile individual files
+if [ "$COMPILE_ALL" = true ]; then
+  echo
+  echo "==================================================================="
+  echo "Compilando i file individuali in parallelo..."
+
+  # Generate the appropriate preamble, with document class
+  if [ "$DARK_MODE" = true ]; then
+    ./generate_preamble.sh --dark
+  else
+    ./generate_preamble.sh
+  fi
+
+  # Function to compile a single file
+  compile_file() {
+    local file="$1"
+    echo "Compilando $file..."
+
+    # First compilation
+    if ! pdflatex -shell-escape "$file" >/dev/null 2>&1; then
+      echo "⚠️ Errore durante la prima compilazione di $file"
+      return 1
+    fi
+
+    if [ "$COMPILE_ONCE" = false ]; then
+      # Second compilation for TOC
+      if ! pdflatex -shell-escape "$file" >/dev/null 2>&1; then
+        echo "⚠️ Errore durante la seconda compilazione di $file"
+        return 1
+      fi
+    fi
+
+    echo "✅ $file compilato con successo"
+    return 0
+  }
+
+  export -f compile_file
+  export COMPILE_ONCE
+
+  # Filter only numbered tex files and compile them in parallel
+  printf '%s\n' "${FILES[@]}" | grep '^[0-9].*\.tex$' | parallel --bar compile_file
+
+  echo "==================================================================="
+fi
 
 echo "==================================================================="
 echo "Processo completato con successo!"
