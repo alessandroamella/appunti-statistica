@@ -55,6 +55,3 @@ Lo script `fix_minted_indent.sh` corregge l'indentazione dei blocchi di codice m
 Alessandro Amella
 
 - [GitHub](https://github.com/alessandroamella)
-
-# appunti-cybersecurity
-# appunti-statistica
