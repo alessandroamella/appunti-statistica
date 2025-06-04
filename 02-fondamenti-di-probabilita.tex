@@ -108,26 +108,164 @@ Se $\Omega$ è uno spazio campionario finito con $N = |\Omega|$ esiti elementari
 In questo caso, la probabilità di un evento $A$ è data da:
 \[ \Prob(A) = \frac{\text{numero di esiti favorevoli ad } A}{\text{numero di esiti possibili}} = \frac{|A|}{|\Omega|} \]
 
-Qui entra in gioco il \textbf{calcolo combinatorio}, che ci aiuta a contare $|A|$ e $|\Omega|$.
-Vediamo alcuni strumenti utili:
-
+Il \textbf{calcolo combinatorio} ci fornisce gli strumenti per contare efficacemente $|A|$ e $|\Omega|$. La chiave è capire quale strumento usare in base alle caratteristiche del problema:
 \begin{itemize}
-    \item \textbf{Disposizioni con Ripetizione ($DR_{n,k}$):} Il numero di modi di scegliere $k$ oggetti da un insieme di $n$ oggetti, con reimmissione e tenendo conto dell'ordine. $DR_{n,k} = n^k$.
-    \textit{Esempio:} Numero di sequenze di 3 lanci di una moneta ($n=2$ esiti T/C, $k=3$ lanci): $2^3=8$.
-    \textit{Esempio d'esame (Esercizio 1, 22/05/2024):} 5 palline inserite una dopo l'altra in 3 urne. Per ogni pallina ci sono 3 scelte (urna A, B, C). Quindi $|\Omega| = 3^5 = 243$.
-
-    \item \textbf{Permutazioni Semplici ($P_n$):} Il numero di modi di ordinare $n$ oggetti distinti. $P_n = n! = n \cdot (n-1) \cdot \dots \cdot 1$.
-    \textit{Esempio:} Numero di modi di anagrammare la parola "TRE": $3! = 6$.
-
-    \item \textbf{Disposizioni Semplici ($D_{n,k}$):} Il numero di modi di scegliere $k$ oggetti da un insieme di $n$ oggetti distinti, senza reimmissione e tenendo conto dell'ordine. $D_{n,k} = n \cdot (n-1) \cdot \dots \cdot (n-k+1) = \frac{n!}{(n-k)!}$.
-    \textit{Esempio:} Scegliere un presidente e un tesoriere da 10 persone: $D_{10,2} = 10 \cdot 9 = 90$.
-
-    \item \textbf{Combinazioni Semplici ($C_{n,k}$ o $\binom{n}{k}$):} Il numero di modi di scegliere $k$ oggetti da un insieme di $n$ oggetti distinti, senza reimmissione e \textbf{senza} tener conto dell'ordine.
-    \[ \binom{n}{k} = \frac{D_{n,k}}{k!} = \frac{n!}{k!(n-k)!} \]
-    \textit{Esempio:} Numero di modi di formare un comitato di 3 persone da un gruppo di 10: $\binom{10}{3}$.
-    \textit{Esempio d'esame (Esercizio 2, 08/09/2023):} $|\Omega| = \binom{10}{5}$ è il numero di modi di scegliere i 5 studenti che vanno a Roma (l'altro gruppo è determinato).
-    \textit{Esempio d'esame (Esercizio 1, 19/06/2024):} Scegliere 2 lupi da 10 amici. $|\Omega| = \binom{10}{2} = 45$.
+    \item Se l'ordine conta e possiamo riutilizzare gli elementi → Disposizioni con Ripetizione
+    \item Se l'ordine conta e NON possiamo riutilizzare gli elementi → Disposizioni Semplici
+    \item Se l'ordine NON conta e NON possiamo riutilizzare gli elementi → Combinazioni Semplici
+    \item Se dobbiamo solo ordinare tutti gli elementi → Permutazioni Semplici
 \end{itemize}
+
+\subsubsection{Disposizioni con Ripetizione}
+\textbf{Formula:} $DR_{n,k} = n^k$
+
+\textbf{Quando usarla:}
+\begin{itemize}
+    \item Quando possiamo \textbf{riutilizzare} gli stessi elementi
+    \item Quando l'\textbf{ordine} è importante
+    \item Quando dobbiamo fare $k$ scelte tra $n$ possibilità
+\end{itemize}
+
+\textbf{Esempi:}
+\begin{enumerate}
+    \item \textbf{Password di lunghezza 4 con cifre 0-9:}
+    \begin{itemize}
+        \item $n=10$ (cifre disponibili)
+        \item $k=4$ (lunghezza password)
+        \item Posso riusare le cifre (es: "1111" è valida)
+        \item L'ordine conta ("1234" $\neq$ "4321")
+        \item $DR_{10,4} = 10^4 = 10000$ possibili password
+    \end{itemize}
+
+    \item \textbf{Sequenze di 3 lanci di una moneta:}
+    \begin{itemize}
+        \item $n=2$ (T/C)
+        \item $k=3$ (lanci)
+        \item $DR_{2,3} = 2^3 = 8$ possibili sequenze: TTT, TTC, TCT, TCC, CTT, CTC, CCT, CCC
+    \end{itemize}
+
+    \item \textbf{Esempio:} 5 palline in 3 urne
+    \begin{itemize}
+        \item $n=3$ (urne A, B, C)
+        \item $k=5$ (palline)
+        \item Per ogni pallina posso scegliere una qualsiasi urna
+        \item $DR_{3,5} = 3^5 = 243$ possibili distribuzioni
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Permutazioni Semplici}
+\textbf{Formula:} $P_n = n!$
+
+\textbf{Quando usarla:}
+\begin{itemize}
+    \item Quando dobbiamo ordinare \textbf{tutti} gli elementi di un insieme
+    \item Quando ogni elemento deve essere usato \textbf{esattamente una volta}
+    \item Quando l'\textbf{ordine} è importante
+\end{itemize}
+
+\textbf{Esempi:}
+\begin{enumerate}
+    \item \textbf{Anagrammi della parola "CASA":}
+    \begin{itemize}
+        \item $n=4$ (lettere)
+        \item $P_4 = 4! = 24$ anagrammi
+        \item CASA, ACSA, ASCA, SACA, CSAA, CASS, ...
+    \end{itemize}
+
+    \item \textbf{Ordinare 5 persone in fila:}
+    \begin{itemize}
+        \item $n=5$ (persone)
+        \item $P_5 = 5! = 120$ possibili file
+    \end{itemize}
+
+    \item \textbf{Percorsi tra 4 città visitandole tutte:}
+    \begin{itemize}
+        \item $n=4$ (città)
+        \item $P_4 = 4! = 24$ possibili percorsi
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Disposizioni Semplici}
+\textbf{Formula:} $D_{n,k} = \frac{n!}{(n-k)!} = n \cdot (n-1) \cdot \dots \cdot (n-k+1)$
+
+\textbf{Quando usarla:}
+\begin{itemize}
+    \item Quando NON possiamo riutilizzare gli elementi
+    \item Quando l'\textbf{ordine} è importante
+    \item Quando dobbiamo scegliere $k$ elementi da $n$
+\end{itemize}
+
+\textbf{Esempi:}
+\begin{enumerate}
+    \item \textbf{Podio in una gara con 10 atleti:}
+    \begin{itemize}
+        \item $n=10$ (atleti)
+        \item $k=3$ (posizioni sul podio)
+        \item L'ordine conta (1°, 2°, 3° posto)
+        \item $D_{10,3} = \frac{10!}{7!} = 10 \cdot 9 \cdot 8 = 720$ possibili podi
+    \end{itemize}
+
+    \item \textbf{Scegliere presidente e tesoriere da 10 persone:}
+    \begin{itemize}
+        \item $n=10$ (persone)
+        \item $k=2$ (ruoli)
+        \item L'ordine conta (presidente $\neq$ tesoriere)
+        \item $D_{10,2} = 10 \cdot 9 = 90$ possibili assegnazioni
+    \end{itemize}
+
+    \item \textbf{PIN di 4 cifre diverse:}
+    \begin{itemize}
+        \item $n=10$ (cifre 0-9)
+        \item $k=4$ (lunghezza PIN)
+        \item Non posso riusare le cifre
+        \item $D_{10,4} = 10 \cdot 9 \cdot 8 \cdot 7 = 5040$ possibili PIN
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Combinazioni Semplici}
+\textbf{Formula:} $\binom{n}{k} = \frac{n!}{k!(n-k)!}$
+
+\textbf{Quando usarla:}
+\begin{itemize}
+    \item Quando NON possiamo riutilizzare gli elementi
+    \item Quando l'\textbf{ordine NON} è importante
+    \item Quando dobbiamo scegliere $k$ elementi da $n$
+\end{itemize}
+
+\textbf{Esempi:}
+\begin{enumerate}
+    \item \textbf{Formare una squadra di 5 persone da un gruppo di 12:}
+    \begin{itemize}
+        \item $n=12$ (persone disponibili)
+        \item $k=5$ (dimensione squadra)
+        \item L'ordine non conta (è la stessa squadra)
+        \item $\binom{12}{5} = \frac{12!}{5!(12-5)!} = 792$ possibili squadre
+    \end{itemize}
+
+    \item \textbf{Esempio:} Gruppo Roma/Firenze
+    \begin{itemize}
+        \item $n=10$ (studenti totali)
+        \item $k=5$ (studenti per gruppo)
+        \item L'ordine non conta
+        \item $\binom{10}{5} = 252$ possibili gruppi
+    \end{itemize}
+
+    \item \textbf{Esempio:} Scegliere 2 lupi da 10 amici
+    \begin{itemize}
+        \item $n=10$ (amici)
+        \item $k=2$ (lupi da scegliere)
+        \item L'ordine non conta
+        \item $\binom{10}{2} = 45$ possibili coppie di lupi
+    \end{itemize}
+
+    \item \textbf{Mano di 5 carte da un mazzo di 52:}
+    \begin{itemize}
+        \item $n=52$ (carte nel mazzo)
+        \item $k=5$ (carte nella mano)
+        \item L'ordine non conta
+        \item $\binom{52}{5} = 2{,}598{,}960$ possibili mani
+    \end{itemize}
+\end{enumerate}
 
 \begin{example}[Esercizio 2, 08/09/2023 - Studenti biondi a Roma]
 \textit{Problema:} Una classe di 10 studenti (4 biondi, 6 non biondi) è divisa in due gruppi di 5, uno per Roma e uno per Firenze. Qual è la probabilità che 2 studenti biondi vadano a Roma?
@@ -265,7 +403,7 @@ Calcolare $\Prob(I_2)$, dove $I_2 = \text{"il gioco si interrompe dopo il second
                 \item Croce (C2): capitale $S_2=1$. Gioco continua.
             \end{itemize}
     \end{itemize}
-    In nessuno dei due casi (Testa o Croce al secondo lancio, se si è arrivati al secondo lancio) il giocatore ha 0 euro o 4 euro.
+    In nessuno dei due casi (Testa o Croce al secondo lancio) il giocatore ha 0 euro o 4 euro.
     Quindi, se il secondo lancio viene effettuato, il gioco NON si interrompe dopo il secondo lancio.
     L'unico modo per interrompersi *dopo* il secondo lancio sarebbe se al primo si fosse già interrotto, il che è una contraddizione.
     La soluzione fornita nell'esame afferma: "Si noti che, a prescindere dalla moneta utilizzata, se il secondo lancio viene effettuato, allora al primo lancio c'è stata una vittoria. In questo caso però, il giocatore dispone di 2 euro prima del secondo lancio, e perciò, se anche perdesse al secondo lancio, la sequenza non terminerebbe poiché avrebbe ancora un euro da giocare. Quindi $I_2 = \emptyset \Rightarrow \Prob(I_2) = 0$."
