@@ -2,17 +2,15 @@
 *.log
 *.out
 *.toc
-*.synctex.gz
 *.pygtex
 _minted*
 .env
 node_modules/
 *.fdb_latexmk
 *.fls
-*.synctex(busy)
-*.synctex.gz(busy)
-# remove releases
+*.synctex*
 *.pdf
+!tavola_normale.pdf
 appunti_completi.tex
 *-content.tex
 *.acn
@@ -51,7 +49,7 @@ appunti_completi.tex
 *.xdy
 *.xml
 *blx.bib
-.bak 
+.bak
 .mtc
 build/
 images/
