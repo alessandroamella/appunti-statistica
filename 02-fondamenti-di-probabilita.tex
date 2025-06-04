@@ -116,6 +116,104 @@ Il \textbf{calcolo combinatorio} ci fornisce gli strumenti per contare efficacem
     \item Se dobbiamo solo ordinare tutti gli elementi → Permutazioni Semplici
 \end{itemize}
 
+\subsubsection{Principio Fondamentale del Conteggio (Metodo delle Scelte Successive)}
+\label{subsubsec:principio_moltiplicazione}
+
+Molti problemi di conteggio, specialmente quelli che coinvolgono la determinazione del numero di esiti possibili ($|\Omega|$) o del numero di esiti favorevoli a un evento ($|A|$), possono essere risolti scomponendo il processo di selezione o costruzione in una sequenza di \textbf{scelte successive}.
+
+\noindent Il \textbf{Principio di Moltiplicazione} (o Regola del Prodotto) afferma che se un'operazione può essere eseguita in $k$ passi (o scelte), e
+\begin{itemize}
+    \item il primo passo può essere eseguito in $n_1$ modi,
+    \item per ciascuno di questi modi, il secondo passo può essere eseguito in $n_2$ modi,
+    \item per ciascuna combinazione dei primi due passi, il terzo passo può essere eseguito in $n_3$ modi,
+    \item e così via, fino al $k$-esimo passo che può essere eseguito in $n_k$ modi (dove il numero di modi per una scelta può dipendere dalle scelte precedenti, ma è fissato una volta che tali scelte sono note),
+\end{itemize}
+allora il numero totale di modi per eseguire l'intera operazione è il prodotto $N = n_1 \cdot n_2 \cdot n_3 \cdot \dots \cdot n_k$.
+
+\begin{example}[Scelta di un pasto]
+Un ristorante offre un menù fisso con 3 antipasti, 4 primi e 2 dolci. Quanti pasti completi diversi si possono comporre scegliendo un antipasto, un primo e un dolce?
+\begin{itemize}
+    \item Scelta 1 (Antipasto): $n_1 = 3$ modi.
+    \item Scelta 2 (Primo): $n_2 = 4$ modi (per ogni antipasto scelto).
+    \item Scelta 3 (Dolce): $n_3 = 2$ modi (per ogni coppia antipasto-primo scelta).
+\end{itemize}
+Numero totale di pasti possibili: $N = n_1 \cdot n_2 \cdot n_3 = 3 \cdot 4 \cdot 2 = 24$.
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}[
+        node distance=1.2cm, % Distanza verticale tra i livelli
+        every node/.style={
+            align=center,
+            text=primarytext,
+            draw=nodecolor,
+            fill=nodecolor!60, % Riempimento leggermente più chiaro
+            rounded corners,
+            minimum width=2.5cm,
+            font=\small
+        },
+        edge from parent/.style={draw=linkcolor, thick, -latex}, % Stile per le frecce
+        dots_node/.style={draw=none, fill=none, text=linkcolor!70, font=\Large} % Stile per i nodi "..."
+    ]
+
+    % Nodo radice (Scelta iniziale)
+    \node (root) {Scelta del Pasto};
+
+    % Livello 1: Antipasti
+    % Mostriamo il primo antipasto e un nodo "..." per gli altri
+    \node (ant1) [below=of root, xshift=-1.5cm] {Antipasto 1\\(\textbf{3} opzioni totali)};
+    \node (ant_dots) [dots_node, below=of root, xshift=1.5cm] {$\vdots$};
+    \draw (root) -- (ant1);
+    \draw (root) -- (ant_dots); % Connessione per i puntini verticali
+
+    % Livello 2: Primi per Antipasto 1
+    % Mostriamo il primo primo e un nodo "..." per gli altri
+    \node (primo1_ant1) [below=of ant1, xshift=-1cm] {Primo 1\\(\textbf{4} opzioni totali)};
+    \node (primo_dots) [dots_node, below=of ant1, xshift=1cm] {$\vdots$};
+    \draw (ant1) -- (primo1_ant1);
+    \draw (ant1) -- (primo_dots);
+
+    % Livello 3: Dolci per Primo 1
+    % Mostriamo entrambi i dolci, dato che sono solo due
+    \node (dolce1_primo1) [below=of primo1_ant1, xshift=-1.5cm] {Dolce 1\\(\textbf{2} opzioni totali)};
+    \node (dolce2_primo1) [below=of primo1_ant1, xshift=1.5cm] {Dolce 2\\(\textbf{2} opzioni totali)};
+    \draw (primo1_ant1) -- (dolce1_primo1);
+    \draw (primo1_ant1) -- (dolce2_primo1);
+
+    % Nodo per il calcolo finale
+    \node (total_calc) [below=0.7cm of dolce1_primo1.south, xshift=2cm, text=primarytext, font=\large, draw=none, fill=none] {Totale combinazioni: \textbf{$3 \times 4 \times 2 = 24$}};
+
+    \end{tikzpicture}
+    \caption{Rappresentazione ad albero del metodo delle scelte successive per la composizione di un pasto.}
+    \label{fig:albero_scelte}
+\end{figure}
+\end{example}
+
+\begin{example}[Formare un codice]
+Quanti codici di 3 caratteri si possono formare se il primo carattere deve essere una lettera maiuscola (26 possibilità), il secondo una cifra (10 possibilità) e il terzo una lettera minuscola (26 possibilità), senza ripetizioni per le lettere se fossero entrambe maiuscole o minuscole e dallo stesso gruppo? In questo caso, le scelte sono indipendenti:
+\begin{itemize}
+    \item Scelta 1 (Primo carattere, lettera maiuscola): $n_1 = 26$ modi.
+    \item Scelta 2 (Secondo carattere, cifra): $n_2 = 10$ modi.
+    \item Scelta 3 (Terzo carattere, lettera minuscola): $n_3 = 26$ modi.
+\end{itemize}
+Numero totale di codici: $N = 26 \cdot 10 \cdot 26 = 6760$.
+Se, invece, i tre caratteri fossero tre cifre diverse da 0 a 9, avremmo: $n_1=10, n_2=9, n_3=8$, per un totale di $10 \cdot 9 \cdot 8 = 720$ codici. Questo illustra come $n_i$ possa dipendere dalle scelte precedenti.
+\end{example}
+
+Le formule per disposizioni e permutazioni possono essere viste come applicazioni dirette di questo principio. Ad esempio, per le Disposizioni Semplici $D_{n,k}$ (scegliere e ordinare $k$ elementi da $n$ senza ripetizione):
+\begin{itemize}
+    \item Per il primo elemento, ci sono $n$ scelte.
+    \item Per il secondo elemento (diverso dal primo), ci sono $n-1$ scelte.
+    \item ...
+    \item Per il $k$-esimo elemento, ci sono $n-k+1$ scelte.
+\end{itemize}
+Il numero totale di disposizioni è $n \cdot (n-1) \cdot \dots \cdot (n-k+1)$.
+
+Nell'esempio degli studenti biondi a Roma (Esercizio 2, 08/09/2023, discusso più avanti), quando si calcola il numero di modi per formare un gruppo con 2 biondi e 3 non biondi, $|B_2| = \binom{4}{2} \cdot \binom{6}{3}$, si sta usando il principio di moltiplicazione: la scelta dei 2 studenti biondi (tra 4 disponibili) e la scelta dei 3 studenti non biondi (tra 6 disponibili) sono due "passi" o "scelte" la cui numerosità di modi si moltiplica per ottenere il totale.
+
+\paragraph{Collegamento con la Probabilità}
+Quando gli "oggetti" che contiamo sono sequenze di eventi casuali, il principio di moltiplicazione per il conteggio si traduce, nel dominio delle probabilità, nella \textbf{Regola della Catena} (vedi Corollario~\ref{cor:catena}) per il calcolo della probabilità di un'intersezione di eventi. Questo aspetto è trattato in dettaglio nella Sezione~\ref{sec:prob_cond} sulla probabilità condizionata. Ad esempio, la probabilità di una sequenza di estrazioni da un'urna (come nell'esempio dell'Urna di Polya) è calcolata moltiplicando le probabilità condizionate di ogni estrazione, data la storia delle estrazioni precedenti.
+
 \subsubsection{Disposizioni con Ripetizione}
 \textbf{Formula:} $DR_{n,k} = n^k$
 
@@ -209,7 +307,7 @@ Il \textbf{calcolo combinatorio} ci fornisce gli strumenti per contare efficacem
     \begin{itemize}
         \item $n=10$ (persone)
         \item $k=2$ (ruoli)
-        \item L'ordine conta (presidente $\neq$ tesoriere)
+        \item L'ordine conta perché i ruoli sono diversi (presidente $\neq$ tesoriere, quindi Alice presidente e Bob tesoriere è diverso da Bob presidente e Alice tesoriere)
         \item $D_{10,2} = 10 \cdot 9 = 90$ possibili assegnazioni
     \end{itemize}
 
@@ -303,12 +401,15 @@ Siano $A$ e $B$ due eventi con $\Prob(B) > 0$. La \textbf{probabilità condizion
 Intuizione: $B$ diventa il "nuovo" spazio campionario. Stiamo valutando la probabilità della parte di $A$ che si trova in $B$, normalizzata rispetto alla probabilità di $B$.
 \end{definition}
 
-Dalla definizione, segue direttamente la \textbf{Regola della Catena} (o delle probabilità composte):
+\begin{corollary}[Regola della Catena]\label{cor:catena}
+Siano $A$ e $B$ due eventi con $\Prob(B) > 0$. Vale:
 \[ \Prob(A \cap B) = \Prob(A|B) \Prob(B) \]
-Se $\Prob(A)>0$, vale anche $\Prob(A \cap B) = \Prob(B|A) \Prob(A)$.
-Per tre eventi $A, B, C$:
+Se inoltre $\Prob(A) > 0$, vale anche:
+\[ \Prob(A \cap B) = \Prob(B|A) \Prob(A) \]
+Per tre eventi $A$, $B$, $C$:
 \[ \Prob(A \cap B \cap C) = \Prob(A) \Prob(B|A) \Prob(C|A \cap B) \]
-e generalizzazioni simili.
+con generalizzazioni analoghe per $n$ eventi.
+\end{corollary}
 
 \begin{example}[Esercizio 1, 12/01/2024 - Urna di Polya]
 \textit{Problema:} Urna con 6 palline (4 Rosse R, 2 Nere N). 3 estrazioni. Quando una pallina è estratta, viene reimbussolata con una nuova pallina dello stesso colore. Calcolare $\Prob(R_3)$, dove $R_3$ è "viene estratta una pallina rossa alla terza estrazione".
