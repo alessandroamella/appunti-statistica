@@ -209,7 +209,7 @@ Le formule per disposizioni e permutazioni possono essere viste come applicazion
 \end{itemize}
 Il numero totale di disposizioni è $n \cdot (n-1) \cdot \dots \cdot (n-k+1)$.
 
-Nell'esempio degli studenti biondi a Roma (Esercizio 2, 08/09/2023, discusso più avanti), quando si calcola il numero di modi per formare un gruppo con 2 biondi e 3 non biondi, $|B_2| = \binom{4}{2} \cdot \binom{6}{3}$, si sta usando il principio di moltiplicazione: la scelta dei 2 studenti biondi (tra 4 disponibili) e la scelta dei 3 studenti non biondi (tra 6 disponibili) sono due "passi" o "scelte" la cui numerosità di modi si moltiplica per ottenere il totale.
+Nell'esempio degli studenti biondi a Roma (Esempio~\ref{ex:studenti-roma}, discusso più avanti), quando si calcola il numero di modi per formare un gruppo con 2 biondi e 3 non biondi, $|B_2| = \binom{4}{2} \cdot \binom{6}{3}$, si sta usando il principio di moltiplicazione: la scelta dei 2 studenti biondi (tra 4 disponibili) e la scelta dei 3 studenti non biondi (tra 6 disponibili) sono due "passi" o "scelte" la cui numerosità di modi si moltiplica per ottenere il totale.
 
 \paragraph{Collegamento con la Probabilità}
 Quando gli "oggetti" che contiamo sono sequenze di eventi casuali, il principio di moltiplicazione per il conteggio si traduce, nel dominio delle probabilità, nella \textbf{Regola della Catena} (vedi Corollario~\ref{cor:catena}) per il calcolo della probabilità di un'intersezione di eventi. Questo aspetto è trattato in dettaglio nella Sezione~\ref{sec:prob_cond} sulla probabilità condizionata. Ad esempio, la probabilità di una sequenza di estrazioni da un'urna (come nell'esempio dell'Urna di Polya) è calcolata moltiplicando le probabilità condizionate di ogni estrazione, data la storia delle estrazioni precedenti.
@@ -365,30 +365,66 @@ Quando gli "oggetti" che contiamo sono sequenze di eventi casuali, il principio 
     \end{itemize}
 \end{enumerate}
 
-\begin{example}[Esercizio 2, 08/09/2023 - Studenti biondi a Roma]
+\begin{example}[Esercizio 2, 08/09/2023 - Studenti biondi a Roma]\label{ex:studenti-roma}
 \textit{Problema:} Una classe di 10 studenti (4 biondi, 6 non biondi) è divisa in due gruppi di 5, uno per Roma e uno per Firenze. Qual è la probabilità che 2 studenti biondi vadano a Roma?
+
+\textbf{Spiegazione Semplice:}
+Immaginiamo di avere 10 studenti in classe:
+\begin{itemize}
+    \item 4 studenti biondi (chiamiamoli B1, B2, B3, B4)
+    \item 6 studenti non biondi (chiamiamoli N1, N2, N3, N4, N5, N6)
+\end{itemize}
+
+\textbf{Cosa ci chiede il problema?}
+Dobbiamo calcolare la probabilità che ESATTAMENTE 2 studenti biondi finiscano nel gruppo di Roma (che deve essere di 5 studenti in totale).
+
+\textbf{Come si calcola la probabilità?}
+Come sempre in probabilità, useremo la formula:
+\[ \text{Probabilità} = \frac{\text{Casi favorevoli}}{\text{Casi possibili}} \]
+
 \textit{Soluzione Passo Passo:}
 \begin{enumerate}
-    \item \textbf{Definire lo spazio campionario $\Omega$:} L'esito è la composizione del gruppo di 5 studenti che va a Roma. Non conta l'ordine.
-    $|\Omega| = \binom{10}{5} = \frac{10!}{5!5!} = \frac{10 \cdot 9 \cdot 8 \cdot 7 \cdot 6}{5 \cdot 4 \cdot 3 \cdot 2 \cdot 1} = 252$.
-    Questo è uno spazio equiprobabile.
-    \item \textbf{Definire l'evento $B_2 = \text{"2 studenti biondi vanno a Roma"}$}.
-    Perché questo evento si verifichi, il gruppo di Roma deve essere formato da:
+    \item \textbf{Calcolare i casi possibili (denominatore):}
     \begin{itemize}
-        \item 2 studenti biondi (scelti tra i 4 biondi disponibili).
-        \item 3 studenti non biondi (scelti tra i 6 non biondi disponibili, per completare il gruppo di 5).
+        \item Dobbiamo scegliere 5 studenti da un totale di 10 per mandarli a Roma
+        \item L'ordine NON conta (non importa chi entra prima nel gruppo)
+        \item Quindi usiamo le combinazioni: $\binom{10}{5}$
+        \item $|\Omega| = \binom{10}{5} = \frac{10!}{5!5!} = \frac{10 \cdot 9 \cdot 8 \cdot 7 \cdot 6}{5 \cdot 4 \cdot 3 \cdot 2 \cdot 1} = 252$
     \end{itemize}
-    \item \textbf{Calcolare il numero di esiti favorevoli a $B_2$ ($|B_2|$):}
-    Usiamo il principio di moltiplicazione (o delle scelte successive):
+
+    \item \textbf{Calcolare i casi favorevoli (numeratore):}
+    Qui sta il punto più difficile! Per avere ESATTAMENTE 2 biondi a Roma, dobbiamo:
     \begin{itemize}
-        \item Modi di scegliere 2 biondi da 4: $\binom{4}{2} = \frac{4!}{2!2!} = 6$.
-        \item Modi di scegliere 3 non biondi da 6: $\binom{6}{3} = \frac{6!}{3!3!} = \frac{6 \cdot 5 \cdot 4}{3 \cdot 2 \cdot 1} = 20$.
+        \item Scegliere 2 studenti biondi tra i 4 disponibili
+        \item E ANCHE scegliere 3 studenti non biondi tra i 6 disponibili
+        \item (perché il gruppo di Roma deve essere di 5 persone in totale!)
     \end{itemize}
-    Quindi, $|B_2| = \binom{4}{2} \cdot \binom{6}{3} = 6 \cdot 20 = 120$.
-    \item \textbf{Calcolare la probabilità $\Prob(B_2)$:}
-    $\Prob(B_2) = \frac{|B_2|}{|\Omega|} = \frac{120}{252}$.
-    Semplificando (dividendo per 12): $\frac{10}{21} \approx 0.476$. (La soluzione dell'esame indica $\approx 0.48$, il che è corretto).
+
+    Usiamo il metodo delle scelte successive per calcolare il numero di casi favorevoli. \textbf{Perché?}
+    Facciamo un esempio pratico:
+    \begin{itemize}
+        \item Prima scegliamo 2 biondi: potremmo scegliere B1 e B2
+        \item Per OGNI scelta dei biondi, dobbiamo scegliere 3 non biondi: potremmo scegliere N1, N2, N3
+        \item Quindi un possibile gruppo sarebbe: \{B1, B2, N1, N2, N3\}
+        \item Ma potevamo anche scegliere B1 e B3 come biondi, e poi N1, N2, N3 come non biondi
+        \item O B1 e B3 come biondi, e N2, N3, N4 come non biondi
+        \item E così via...
+    \end{itemize}
+
+    Per ogni modo di scegliere 2 biondi ($\binom{4}{2} = 6$ modi), dobbiamo considerare tutti i modi di scegliere 3 non biondi ($\binom{6}{3} = 20$ modi).
+    Quindi moltiplichiamo:
+    \[ |B_2| = \binom{4}{2} \cdot \binom{6}{3} = 6 \cdot 20 = 120 \text{ casi favorevoli} \]
+
+    \item \textbf{Calcolare la probabilità finale:}
+    \[ \Prob(B_2) = \frac{\text{Casi favorevoli}}{\text{Casi possibili}} = \frac{120}{252} = \frac{10}{21} \approx 0.48 \]
 \end{enumerate}
+
+\textbf{Verifica della logica:}
+\begin{itemize}
+    \item Se il risultato fosse 1, vorrebbe dire che SEMPRE vanno 2 biondi a Roma (impossibile!)
+    \item Se fosse 0, vorrebbe dire che è IMPOSSIBILE che vadano 2 biondi a Roma (anche questo impossibile!)
+    \item 0.48 significa che circa nel 48\% dei casi, quando dividiamo la classe in modo casuale, finiranno esattamente 2 biondi a Roma
+\end{itemize}
 \end{example}
 
 \section{Probabilità Condizionata}
@@ -506,7 +542,7 @@ Calcolare $\Prob(I_2)$, dove $I_2 = \text{"il gioco si interrompe dopo il second
     \end{itemize}
     In nessuno dei due casi (Testa o Croce al secondo lancio) il giocatore ha 0 euro o 4 euro.
     Quindi, se il secondo lancio viene effettuato, il gioco NON si interrompe dopo il secondo lancio.
-    L'unico modo per interrompersi *dopo* il secondo lancio sarebbe se al primo si fosse già interrotto, il che è una contraddizione.
+    L'unico modo per interrompersi \textbf{dopo} il secondo lancio sarebbe se al primo si fosse già interrotto, il che è una contraddizione.
     La soluzione fornita nell'esame afferma: "Si noti che, a prescindere dalla moneta utilizzata, se il secondo lancio viene effettuato, allora al primo lancio c'è stata una vittoria. In questo caso però, il giocatore dispone di 2 euro prima del secondo lancio, e perciò, se anche perdesse al secondo lancio, la sequenza non terminerebbe poiché avrebbe ancora un euro da giocare. Quindi $I_2 = \emptyset \Rightarrow \Prob(I_2) = 0$."
     Questo significa che $\Prob(I_2|D_A) = 0$ e $\Prob(I_2|D_B) = 0$.
     \item \textbf{Calcolare $\Prob(I_2)$:}
