@@ -447,6 +447,76 @@ Per tre eventi $A$, $B$, $C$:
 con generalizzazioni analoghe per $n$ eventi.
 \end{corollary}
 
+\subsection{Diagrammi ad Albero e Probabilità Sequenziali}
+\label{subsec:diagrammi_albero}
+
+I diagrammi ad albero sono uno strumento grafico estremamente utile per rappresentare esperimenti aleatori che si svolgono in più fasi (o stadi) e per calcolare le probabilità degli eventi risultanti. Ogni percorso dalla radice dell'albero a una foglia rappresenta una possibile sequenza di esiti.
+
+\paragraph{Come Costruire un Diagramma ad Albero}
+\begin{enumerate}
+    \item \textbf{Radice:} Il nodo iniziale rappresenta l'inizio dell'esperimento o lo stato iniziale.
+    \item \textbf{Stadi e Rami:} Ogni stadio dell'esperimento è rappresentato da un livello di ramificazioni. Da ogni nodo, si dipartono tanti rami quanti sono i possibili esiti dello stadio successivo.
+    \item \textbf{Etichette sui Rami:}
+    \begin{itemize}
+        \item I rami che partono dalla radice (primo stadio) sono etichettati con le probabilità dei rispettivi esiti iniziali.
+        \item I rami che partono da nodi successivi (stadi successivi) sono etichettati con le \textbf{probabilità condizionate} dell'esito di quello stadio, dato che si è verificata la sequenza di esiti che ha portato a quel nodo.
+    \end{itemize}
+    \item \textbf{Foglie:} I nodi terminali dell'albero (le foglie) rappresentano gli esiti finali composti, ovvero una sequenza completa di eventi dall'inizio alla fine. Le etichette di questi nodi possono includere la probabilità congiunta del percorso.
+\end{enumerate}
+
+\paragraph{Come Usare un Diagramma ad Albero per Calcolare Probabilità}
+\begin{itemize}
+    \item \textbf{Probabilità di una Sequenza (Percorso):} Per calcolare la probabilità di una specifica sequenza di esiti (un percorso completo dalla radice a una foglia), si moltiplicano le probabilità associate a tutti i rami lungo quel percorso. Questo è un'applicazione diretta della Regola della Catena (Corollario~\ref{cor:catena}).
+    \item \textbf{Probabilità di un Evento Composto:} Se un evento $E$ può verificarsi attraverso più sequenze (cioè, più percorsi portano a un risultato che soddisfa $E$), la probabilità di $E$ è la somma delle probabilità di tutti questi percorsi disgiunti. Questo è spesso una visualizzazione della Formula delle Probabilità Totali.
+\end{itemize}
+
+\begin{example}[Scelta di una moneta e lancio]
+Supponiamo di avere due monete:
+\begin{itemize}
+    \item Moneta A: bilanciata, $\Prob(Testa|A) = P(T|A) = 1/2$.
+    \item Moneta B: truccata, $\Prob(Testa|B) = P(T|B) = 2/3$.
+\end{itemize}
+Scegliamo una moneta a caso ($\Prob(A) = 1/2, \Prob(B) = 1/2$) e la lanciamo una volta. Vogliamo calcolare la probabilità di ottenere Testa, $\Prob(T)$. Il diagramma ad albero per questo esperimento è mostrato in Figura~\ref{fig:albero_moneta_lancio}.
+
+\begin{figure}[H] % H per "here if possible"
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/albero_moneta_lancio.png}
+    \caption{Diagramma ad albero per l'esperimento della scelta della moneta e lancio.}
+    \label{fig:albero_moneta_lancio}
+\end{figure}
+
+Dalla Figura~\ref{fig:albero_moneta_lancio}, per ottenere $\Prob(T)$, sommiamo le probabilità dei percorsi che terminano in T. Le etichette dei nodi foglia mostrano le probabilità congiunte:
+\begin{itemize}
+    \item Percorso via Moneta A: $\Prob(A \cap T) = 1/4$.
+    \item Percorso via Moneta B: $\Prob(B \cap T) = 1/3$.
+\end{itemize}
+Quindi:
+\[ \Prob(T) = \Prob(A \cap T) + \Prob(B \cap T) = \frac{1}{4} + \frac{1}{3} = \frac{3+4}{12} = \frac{7}{12} \]
+Questo è esattamente ciò che si otterrebbe applicando la Formula delle Probabilità Totali, con la partizione data dalla scelta della moneta $\{A, B\}$:
+\[ \Prob(T) = \Prob(T|A)\Prob(A) + \Prob(T|B)\Prob(B) = \left(\frac{1}{2} \cdot \frac{1}{2}\right) + \left(\frac{2}{3} \cdot \frac{1}{2}\right) = \frac{1}{4} + \frac{1}{3} = \frac{7}{12} \]
+\end{example}
+
+\begin{example}[Urna di Polya - Due Estrazioni]
+Consideriamo l'urna dell'Esempio~\ref{cor:catena} con 4 palline Rosse (R) e 2 Nere (N). Si estraggono due palline con la regola di Polya (reimbussolamento con aggiunta di una pallina dello stesso colore estratto). Il diagramma ad albero corrispondente è illustrato in Figura~\ref{fig:albero_polya}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/albero_polya.png} % Usa \textwidth per larghezza massima
+    \caption{Diagramma ad albero per due estrazioni dall'Urna di Polya.}
+    \label{fig:albero_polya}
+\end{figure}
+Da questo albero (Figura~\ref{fig:albero_polya}), possiamo calcolare, ad esempio, la probabilità che la seconda pallina estratta sia Rossa ($\Prob(R_2)$). I percorsi che portano a $R_2$ sono $(R_1 \cap R_2)$ e $(N_1 \cap R_2)$. Le loro probabilità sono indicate sui nodi foglia:
+\begin{itemize}
+    \item $\Prob(R_1 \cap R_2) = 20/42$
+    \item $\Prob(N_1 \cap R_2) = 8/42$
+\end{itemize}
+Sommando queste probabilità:
+\[ \Prob(R_2) = \Prob(R_1 \cap R_2) + \Prob(N_1 \cap R_2) = \frac{20}{42} + \frac{8}{42} = \frac{28}{42} = \frac{2}{3} \]
+Notare che $\Prob(R_1) = 4/6 = 2/3$. Per l'Urna di Polya, la probabilità di estrarre un certo colore a una data estrazione (non condizionata alle precedenti) rimane costante.
+\end{example}
+
+I diagrammi ad albero diventano particolarmente potenti quando si affrontano problemi che altrimenti richiederebbero una complessa applicazione della Formula delle Probabilità Totali o del Teorema di Bayes, in quanto rendono esplicite tutte le sequenze e le relative probabilità.
+
 \begin{example}[Esercizio 1, 12/01/2024 - Urna di Polya]
 \textit{Problema:} Urna con 6 palline (4 Rosse R, 2 Nere N). 3 estrazioni. Quando una pallina è estratta, viene reimbussolata con una nuova pallina dello stesso colore. Calcolare $\Prob(R_3)$, dove $R_3$ è "viene estratta una pallina rossa alla terza estrazione".
 \textit{Soluzione (parte di essa, illustrando la regola della catena):}
@@ -478,12 +548,26 @@ Non confondere eventi indipendenti con eventi incompatibili!
 \end{remark}
 
 \begin{example}
-Lancio di due dadi. $A = \text{"il primo dado è 1"}$, $B = \text{"la somma dei dadi è 7"}$.
-$\Omega$ ha $6 \times 6 = 36$ esiti equiprobabili.
-$A = \{(1,1), (1,2), (1,3), (1,4), (1,5), (1,6)\}$, $\Prob(A) = 6/36 = 1/6$.
-$B = \{(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)\}$, $\Prob(B) = 6/36 = 1/6$.
-$A \cap B = \{(1,6)\}$, $\Prob(A \cap B) = 1/36$.
-Verifichiamo: $\Prob(A)\Prob(B) = (1/6)(1/6) = 1/36$.
+Lancio di due dadi. Consideriamo gli eventi:
+\begin{itemize}
+    \item $A = \text{"il primo dado è 1"}$
+    \item $B = \text{"la somma dei dadi è 7"}$
+\end{itemize}
+Lo spazio campionario $\Omega$ ha $6 \times 6 = 36$ esiti equiprobabili.
+
+Gli eventi sono:
+\begin{align*}
+    A &= \{(1,1), (1,2), (1,3), (1,4), (1,5), (1,6)\} \\
+    \Prob(A) &= \frac{6}{36} = \frac{1}{6} \\[1ex]
+    B &= \{(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)\} \\
+    \Prob(B) &= \frac{6}{36} = \frac{1}{6} \\[1ex]
+    A \cap B &= \{(1,6)\} \\
+    \Prob(A \cap B) &= \frac{1}{36}
+\end{align*}
+
+Verifichiamo l'indipendenza:
+\[ \Prob(A)\Prob(B) = \frac{1}{6} \cdot \frac{1}{6} = \frac{1}{36} \]
+
 Poiché $\Prob(A \cap B) = \Prob(A)\Prob(B)$, gli eventi $A$ e $B$ sono indipendenti.
 \end{example}
 
