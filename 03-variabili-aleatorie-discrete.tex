@@ -95,7 +95,6 @@ $S_X = \{0, 2, 5\}$, $E[X]=2$, $\Var(X)=2$. Determinare la funzione di ripartizi
     \end{itemize}
     Quindi:
     \[ F_X(x) = \begin{cases} 0 & \text{se } x < 0 \\ 1/5 & \text{se } 0 \le x < 2 \\ 13/15 & \text{se } 2 \le x < 5 \\ 1 & \text{se } x \ge 5 \end{cases} \]
-    Questo corrisponde alla soluzione fornita.
 \end{enumerate}
 \end{example}
 
@@ -173,15 +172,30 @@ La Binomiale $\text{Bin}(n,p)$ può essere approssimata da una Poisson $\text{Po
 \begin{example}[Esercizio 3, Punto 2, 08/09/2023]
 $Z$ è una v.a. di Poisson di parametro $\lambda=1$, indipendente da $X$.
 Calcolare $\text{cov}(2X+Z, -X+3Z)$.
+
 \textit{Soluzione Passo Passo:}
-Ricordiamo la bilinearità della covarianza:
-$\Cov(aX+bY, cU+dV) = ac \Cov(X,U) + ad \Cov(X,V) + bc \Cov(Y,U) + bd \Cov(Y,V)$.
-Nel nostro caso:
-$\Cov(2X+Z, -X+3Z) = \Cov(2X, -X) + \Cov(2X, 3Z) + \Cov(Z, -X) + \Cov(Z, 3Z)$
-$= -2 \Cov(X,X) + 6 \Cov(X,Z) - \Cov(Z,X) + 3 \Cov(Z,Z)$
-Ricordando che $\Cov(A,A) = \Var(A)$ e $\Cov(A,B) = \Cov(B,A)$:
-$= -2 \Var(X) + (6-1) \Cov(X,Z) + 3 \Var(Z)$
-$= -2 \Var(X) + 5 \Cov(X,Z) + 3 \Var(Z)$.
+
+\textbf{1. Ricordiamo la bilinearità della covarianza:}
+\[ \Cov(aX+bY, cU+dV) = ac \Cov(X,U) + ad \Cov(X,V) + bc \Cov(Y,U) + bd \Cov(Y,V) \]
+
+\textbf{2. Applichiamo la formula al nostro caso:}
+\begin{align*}
+    \Cov(2X+Z, -X+3Z) &= \Cov(2X, -X) + \Cov(2X, 3Z) + \Cov(Z, -X) + \Cov(Z, 3Z) \\
+    &= -2 \Cov(X,X) + 6 \Cov(X,Z) - \Cov(Z,X) + 3 \Cov(Z,Z)
+\end{align*}
+
+\textbf{3. Ricordiamo che:}
+\begin{itemize}
+    \item $\Cov(A,A) = \Var(A)$ 
+    \item $\Cov(A,B) = \Cov(B,A)$
+\end{itemize}
+
+\textbf{4. Quindi:}
+\begin{align*}
+    &= -2 \Var(X) + (6-1) \Cov(X,Z) + 3 \Var(Z) \\
+    &= -2 \Var(X) + 5 \Cov(X,Z) + 3 \Var(Z)
+\end{align*}
+
 Dati del problema:
 \begin{itemize}
     \item $\Var(X) = 2$ (calcolato/dato nel punto 1).
@@ -190,7 +204,6 @@ Dati del problema:
 \end{itemize}
 Sostituendo:
 $\Cov(2X+Z, -X+3Z) = -2(2) + 5(0) + 3(1) = -4 + 0 + 3 = -1$.
-Questo corrisponde alla soluzione.
 \end{example}
 
 \subsection{Distribuzione Uniforme Discreta \texorpdfstring{$X \sim \text{Unif}\{x_1, \dots, x_n\}$}{X ~ Unif}}
