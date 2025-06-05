@@ -98,6 +98,11 @@ Da questi assiomi derivano alcune proprietà importanti:
     \item Se $A \subseteq B$, allora $\Prob(A) \le \Prob(B)$.
     \item $0 \le \Prob(A) \le 1$ per ogni evento $A$.
     \item $\Prob(A^c) = 1 - \Prob(A)$.
+\begin{remark}[Utilità dell'Evento Complementare]\label{remark:complementare}
+La probabilità dell'evento complementare $A^c$ (cioè "l'evento A non si verifica") è data da $1 - \Prob(A)$. Questa relazione è estremamente utile in pratica. Spesso, calcolare direttamente la probabilità di un evento $A$ può essere complesso perché $A$ potrebbe verificarsi in molti modi diversi. In tali casi, potrebbe essere significativamente più semplice calcolare la probabilità che $A$ *non* si verifichi, cioè $\Prob(A^c)$, e poi ottenere $\Prob(A)$ per sottrazione.
+Ad esempio, se l'evento $A$ è "almeno una testa in 3 lanci di moneta", l'evento complementare $A^c$ è "nessuna testa in 3 lanci" (cioè tutte croci, CCC). È più facile calcolare $\Prob(A^c)$ e poi $\Prob(A) = 1 - \Prob(A^c)$.
+Questa strategia è usata nell'Esercizio 1, Punto 3, dove per calcolare la probabilità $P$ che "il gioco termina con lo scommettitore che non perde tutti i soldi", si calcola prima la probabilità $P^c$ che "lo scommettitore perda tutti i soldi".
+\end{remark}
     \item $\Prob(A \cup B) = \Prob(A) + \Prob(B) - \Prob(A \cap B)$ (principio di inclusione-esclusione per due eventi).
 \end{itemize}
 
@@ -467,7 +472,7 @@ I diagrammi ad albero sono uno strumento grafico estremamente utile per rapprese
 \paragraph{Come Usare un Diagramma ad Albero per Calcolare Probabilità}
 \begin{itemize}
     \item \textbf{Probabilità di una Sequenza (Percorso):} Per calcolare la probabilità di una specifica sequenza di esiti (un percorso completo dalla radice a una foglia), si moltiplicano le probabilità associate a tutti i rami lungo quel percorso. Questo è un'applicazione diretta della Regola della Catena (Corollario~\ref{cor:catena}).
-    \item \textbf{Probabilità di un Evento Composto:} Se un evento $E$ può verificarsi attraverso più sequenze (cioè, più percorsi portano a un risultato che soddisfa $E$), la probabilità di $E$ è la somma delle probabilità di tutti questi percorsi disgiunti. Questo è spesso una visualizzazione della Formula delle Probabilità Totali.
+    \item \textbf{Probabilità di un Evento Composto:} Se un evento $E$ può verificarsi attraverso più sequenze (cioè, più percorsi portano a un risultato che soddisfa $E$), la probabilità di $E$ è la somma delle probabilità di tutti questi percorsi disgiunti. Questo è spesso una visualizzazione della Formula delle Probabilità Totali (Teorema~\ref{theorem:formula_probabilita_totali}).
 \end{itemize}
 
 \begin{example}[Scelta di una moneta e lancio]
@@ -492,7 +497,7 @@ Dalla Figura~\ref{fig:albero_moneta_lancio}, per ottenere $\Prob(T)$, sommiamo l
 \end{itemize}
 Quindi:
 \[ \Prob(T) = \Prob(A \cap T) + \Prob(B \cap T) = \frac{1}{4} + \frac{1}{3} = \frac{3+4}{12} = \frac{7}{12} \]
-Questo è esattamente ciò che si otterrebbe applicando la Formula delle Probabilità Totali, con la partizione data dalla scelta della moneta $\{A, B\}$:
+Questo è esattamente ciò che si otterrebbe applicando la Formula delle Probabilità Totali (Teorema~\ref{theorem:formula_probabilita_totali}), con la partizione data dalla scelta della moneta $\{A, B\}$:
 \[ \Prob(T) = \Prob(T|A)\Prob(A) + \Prob(T|B)\Prob(B) = \left(\frac{1}{2} \cdot \frac{1}{2}\right) + \left(\frac{2}{3} \cdot \frac{1}{2}\right) = \frac{1}{4} + \frac{1}{3} = \frac{7}{12} \]
 \end{example}
 
@@ -515,7 +520,7 @@ Sommando queste probabilità:
 Notare che $\Prob(R_1) = 4/6 = 2/3$. Per l'Urna di Polya, la probabilità di estrarre un certo colore a una data estrazione (non condizionata alle precedenti) rimane costante.
 \end{example}
 
-I diagrammi ad albero diventano particolarmente potenti quando si affrontano problemi che altrimenti richiederebbero una complessa applicazione della Formula delle Probabilità Totali o del Teorema di Bayes, in quanto rendono esplicite tutte le sequenze e le relative probabilità.
+I diagrammi ad albero diventano particolarmente potenti quando si affrontano problemi che altrimenti richiederebbero una complessa applicazione della Formula delle Probabilità Totali (Teorema~\ref{theorem:formula_probabilita_totali}) o del Teorema di Bayes, in quanto rendono esplicite tutte le sequenze e le relative probabilità.
 
 \begin{example}[Esercizio 1, 12/01/2024 - Urna di Polya]
 \textit{Problema:} Urna con 6 palline (4 Rosse R, 2 Nere N). 3 estrazioni. Quando una pallina è estratta, viene reimbussolata con una nuova pallina dello stesso colore. Calcolare $\Prob(R_3)$, dove $R_3$ è "viene estratta una pallina rossa alla terza estrazione".
@@ -528,7 +533,7 @@ Usiamo la regola della catena: $\Prob(R_1 \cap N_2 \cap R_3) = \Prob(R_1) \Prob(
     \item $\Prob(R_3|R_1 \cap N_2)$: Se $R_1$ e $N_2$ si sono verificate, si è aggiunta prima una R, poi una N. Urna ora: 5R, 3N (tot 8). $\Prob(R_3|R_1 \cap N_2) = 5/8$.
 \end{itemize}
 Quindi, $\Prob(R_1 \cap N_2 \cap R_3) = \frac{4}{6} \cdot \frac{2}{7} \cdot \frac{5}{8}$.
-Per calcolare $\Prob(R_3)$ si devono considerare tutte le 8 possibili sequenze che portano a $R_3$ (RR$R_3$, RN$R_3$, NR$R_3$, NN$R_3$) e sommare le loro probabilità (lo vedremo meglio con la formula delle probabilità totali).
+Per calcolare $\Prob(R_3)$ si devono considerare tutte le 8 possibili sequenze che portano a $R_3$ (RR$R_3$, RN$R_3$, NR$R_3$, NN$R_3$) e sommare le loro probabilità (lo vedremo meglio con la formula delle probabilità totali (Teorema~\ref{theorem:formula_probabilita_totali})).
 \end{example}
 
 \subsection{Indipendenza tra Eventi}
@@ -583,7 +588,7 @@ Una famiglia di eventi $\{B_1, B_2, \dots, B_n\}$ costituisce una \textbf{partiz
 \end{enumerate}
 \end{definition}
 
-\begin{theorem}[Formula delle Probabilità Totali]
+\begin{theorem}[Formula delle Probabilità Totali]\label{theorem:formula_probabilita_totali}
 Sia $\{B_1, B_2, \dots, B_n\}$ una partizione di $\Omega$ tale che $\Prob(B_i) > 0$ per ogni $i$. Allora, per qualsiasi evento $A$:
 \[ \Prob(A) = \sum_{i=1}^n \Prob(A \cap B_i) = \sum_{i=1}^n \Prob(A|B_i) \Prob(B_i) \]
 \end{theorem}
@@ -635,6 +640,64 @@ Calcolare $\Prob(I_2)$, dove $I_2 = \text{"il gioco si interrompe dopo il second
 Questo esercizio specifico per $I_2$ era un po' un "trabocchetto" o un test di comprensione delle regole del gioco. Gli altri punti richiedono calcoli più standard.
 \end{example}
 
+\begin{example}[Esercizio 1, Punto 3, 08/09/2023]\label{example:esercizio_1_punto_3}
+\textit{Problema:} Calcolare $\Prob(P|D_B)$, dove $P = $"il gioco termina con lo scommettitore che non perde tutti i soldi".
+
+\textit{Soluzione Passo Passo:}
+L'evento $P$ è "il gioco termina con lo scommettitore che non perde tutti i soldi".
+È più facile calcolare $P^c = \text{"il giocatore perde tutti i soldi"}$ (cioè il suo capitale va a 0), e poi usare $\Prob(P|D_X) = 1 - \Prob(P^c|D_X)$.
+Il giocatore inizia con 1 euro ($S_0=1$) e si ferma se $S_k=0$ (rovina) o $S_k=4$ (vittoria), oppure dopo 5 lanci.
+
+\paragraph{Calcolo di $\Prob(P^c|D_B)$ (Moneta B: $p_B = \Prob(Testa) = 2/3$, $q_B = \Prob(Croce) = 1/3$)}
+Identifichiamo le sequenze di lanci che portano alla rovina ($S_k=0$) quando si usa la moneta B, senza che prima si sia raggiunta la vittoria ($S_k=4$) e entro al massimo 5 lanci.
+Il capitale iniziale è $S_0=1$.
+
+\begin{itemize}
+    \item \textbf{Rovina al 1° lancio:}
+    Esce Croce (C1). Capitale $S_1 = 1-1 = 0$.
+    Probabilità: $\Prob(C_1|D_B) = q_B = 1/3$.
+    Sequenza: C.
+
+    \item \textbf{Rovina al 3° lancio (non prima):}
+    Per arrivare al 3° lancio senza rovina né vittoria immediata, la sequenza deve essere T1 C2.
+    $S_0=1 \xrightarrow{T_1} S_1=2 \xrightarrow{C_2} S_2=1$. Ora, se esce C3, si va in rovina.
+    Sequenza: T1 C2 C3. Capitale $S_3=0$.
+    Probabilità: $\Prob(T_1 \cap C_2 \cap C_3 | D_B) = p_B \cdot q_B \cdot q_B = (2/3)(1/3)(1/3) = 2/27$.
+
+    \item \textbf{Rovina al 5° lancio (non prima):}
+    Ci sono due percorsi principali per arrivare al 5° lancio e andare in rovina, partendo da $S_0=1$ e senza aver vinto o perso prima:
+    \begin{enumerate}
+        \item $S_0=1 \xrightarrow{T_1} S_1=2 \xrightarrow{C_2} S_2=1 \xrightarrow{T_3} S_3=2 \xrightarrow{C_4} S_4=1$. Ora, se esce C5, si va in rovina.
+        Sequenza: T1 C2 T3 C4 C5. Capitale $S_5=0$.
+        Probabilità: $p_B \cdot q_B \cdot p_B \cdot q_B \cdot q_B = p_B^2 q_B^3 = (2/3)^2 (1/3)^3 = (4/9)(1/27) = 4/243$.
+
+        \item $S_0=1 \xrightarrow{T_1} S_1=2 \xrightarrow{T_2} S_2=3 \xrightarrow{C_3} S_3=2 \xrightarrow{C_4} S_4=1$. Ora, se esce C5, si va in rovina.
+        Sequenza: T1 T2 C3 C4 C5. Capitale $S_5=0$.
+        Probabilità: $p_B \cdot p_B \cdot q_B \cdot q_B \cdot q_B = p_B^2 q_B^3 = (2/3)^2 (1/3)^3 = 4/243$.
+    \end{enumerate}
+    Nota: Se una sequenza porta a $S_k=4$ (vittoria), come TTT ($1 \to 2 \to 3 \to 4$), il gioco si ferma e non contribuisce alla rovina. Ad esempio, la sequenza TTT C C non è una sequenza di rovina perché il gioco si ferma a TTT con 4 euro.
+\end{itemize}
+Le sequenze di rovina identificate sono mutuamente esclusive. Quindi, la probabilità totale di rovina con la moneta B è la somma delle loro probabilità:
+\[ \Prob(P^c|D_B) = \frac{1}{3} + \frac{2}{27} + \frac{4}{243} + \frac{4}{243} \]
+\[ \Prob(P^c|D_B) = \frac{81}{243} + \frac{18}{243} + \frac{4}{243} + \frac{4}{243} = \frac{81+18+4+4}{243} = \frac{107}{243} \]
+Questa è la probabilità che lo scommettitore perda tutti i soldi usando la moneta B.
+Di conseguenza, la probabilità richiesta dall'Esercizio 1, Punto 3, è:
+\[ \Prob(P|D_B) = 1 - \Prob(P^c|D_B) = 1 - \frac{107}{243} = \frac{243 - 107}{243} = \frac{136}{243} \]
+
+\paragraph{Calcolo di $\Prob(P^c|D_A)$ (Moneta A: $p_A = \Prob(Testa) = 1/2$, $q_A = \Prob(Croce) = 1/2$)}
+Seguendo la stessa logica, con $p_A=q_A=1/2$:
+\begin{itemize}
+    \item Rovina al 1° lancio (C1): $\Prob(C_1|D_A) = 1/2$.
+    \item Rovina al 3° lancio (T1 C2 C3): $\Prob(T_1 C_2 C_3|D_A) = (1/2)^3 = 1/8$.
+    \item Rovina al 5° lancio (T1 C2 T3 C4 C5): $\Prob(T_1 C_2 T_3 C_4 C_5|D_A) = (1/2)^5 = 1/32$.
+    \item Rovina al 5° lancio (T1 T2 C3 C4 C5): $\Prob(T_1 T_2 C_3 C_4 C_5|D_A) = (1/2)^5 = 1/32$.
+\end{itemize}
+\[ \Prob(P^c|D_A) = \frac{1}{2} + \frac{1}{8} + \frac{1}{32} + \frac{1}{32} = \frac{16}{32} + \frac{4}{32} + \frac{1}{32} + \frac{1}{32} = \frac{16+4+1+1}{32} = \frac{22}{32} = \frac{11}{16} \]
+Quindi:
+\[ \Prob(P|D_A) = 1 - \Prob(P^c|D_A) = 1 - \frac{11}{16} = \frac{5}{16} \]
+Questi sono i valori $\Prob(P|D_A)=5/16$ e $\Prob(P|D_B)=136/243$ che vengono usati nella soluzione dell'esame per il punto 4 (esempio~\ref{example:esercizio_1_punto_4}).
+\end{example}
+
 \begin{theorem}[Teorema di Bayes]
 Sia $\{B_1, B_2, \dots, B_n\}$ una partizione di $\Omega$ con $\Prob(B_i) > 0$ per ogni $i$. Sia $A$ un evento con $\Prob(A) > 0$. Allora, per ogni $k=1, \dots, n$:
 \[ \Prob(B_k|A) = \frac{\Prob(A|B_k) \Prob(B_k)}{\Prob(A)} = \frac{\Prob(A|B_k) \Prob(B_k)}{\sum_{i=1}^n \Prob(A|B_i) \Prob(B_i)} \]
@@ -643,9 +706,10 @@ Sia $\{B_1, B_2, \dots, B_n\}$ una partizione di $\Omega$ con $\Prob(B_i) > 0$ p
 $\Prob(B_k)$ è detta probabilità \textit{a priori} di $B_k$.
 $\Prob(B_k|A)$ è detta probabilità \textit{a posteriori} di $B_k$ (dopo aver osservato $A$).
 
-\begin{example}[Esercizio 1, Punto 4, 08/09/2023]
-\textit{Problema:} Determinare $\Prob(D_A|P)$, dove $P = \text{"il gioco termina con lo scommettitore che non perde tutti i soldi"}$.
-Ricordiamo $D_A = \text{"viene scelta la moneta A"}$.
+\begin{example}[Esercizio 1, Punto 4, 08/09/2023]\label{example:esercizio_1_punto_4}
+\textit{Problema:} Determinare $\Prob(D_A|P)$, dove $P = $"il gioco termina con lo scommettitore che non perde tutti i soldi".
+
+\noindent Ricordiamo $D_A = \text{"viene scelta la moneta A"}$.
 \textit{Soluzione Passo Passo:}
 \begin{enumerate}
     \item \textbf{Applicare il Teorema di Bayes:}
@@ -655,17 +719,14 @@ Ricordiamo $D_A = \text{"viene scelta la moneta A"}$.
     \[ \Prob(P) = \Prob(P|D_A)\Prob(D_A) + \Prob(P|D_B)\Prob(D_B) \]
     Quindi:
     \[ \Prob(D_A|P) = \frac{\Prob(P|D_A)\Prob(D_A)}{\Prob(P|D_A)\Prob(D_A) + \Prob(P|D_B)\Prob(D_B)} \]
-    \item \textbf{Utilizzare i valori forniti/calcolati nelle soluzioni dell'esame:}
+    \item \textbf{Utilizzare i valori calcolati precedentemente:}
     Sappiamo $\Prob(D_A) = 1/2$ e $\Prob(D_B) = 1/2$.
-    La soluzione dell'esame al punto 3 calcola (anche se con un errore di battitura $D_A$ al posto di $D_B$ nella formula di $P(P^c|D_B)$) e poi fornisce:
-    $\Prob(P|D_B) = 136/243$.
-    $\Prob(P|D_A) = 5/16$. (Questo è calcolato nel testo della soluzione del punto 4).
+    La soluzione dell'esame al punto 3 (esempio~\ref{example:esercizio_1_punto_3}) calcola $\Prob(P|D_B) = 136/243$ e $\Prob(P|D_A) = 5/16$.
     \item \textbf{Sostituire i valori:}
     \[ \Prob(D_A|P) = \frac{(5/16) \cdot (1/2)}{(5/16) \cdot (1/2) + (136/243) \cdot (1/2)} \]
     Si può semplificare il $1/2$:
     \[ \Prob(D_A|P) = \frac{5/16}{5/16 + 136/243} = \frac{5/16}{(5 \cdot 243 + 136 \cdot 16)/(16 \cdot 243)} = \frac{5/16}{(1215 + 2176)/3888} = \frac{5/16}{3391/3888} \]
     \[ = \frac{5}{16} \cdot \frac{3888}{3391} = \frac{5 \cdot 243}{3391} = \frac{1215}{3391} \]
-    Questo corrisponde al risultato fornito nella soluzione dell'esame.
 \end{enumerate}
 \textbf{Come si calcolano $\Prob(P|D_A)$ e $\Prob(P|D_B)$?}
 L'evento $P$ è "il gioco termina con lo scommettitore che non perde tutti i soldi". Questo significa che o il giocatore raggiunge i 4 euro, oppure arriva al 5° lancio senza essere andato in rovina e senza aver raggiunto i 4 euro, e termina con un capitale $>0$.
@@ -712,8 +773,5 @@ La chiave è tracciare attentamente l'albero delle decisioni e dei capitali, fer
 \end{example}
 
 Questo conclude il primo capitolo sui fondamenti. Dovrebbe darti una base solida. Il prossimo passo sarà introdurre le variabili aleatorie.
-
-% Continuo con la struttura LaTeX di base per i prossimi capitoli.
-% Il contenuto dettagliato verrà poi espanso con più esempi dagli esami.
 
 \end{document}
