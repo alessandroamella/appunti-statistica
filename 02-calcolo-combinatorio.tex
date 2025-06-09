@@ -11,346 +11,304 @@
 \tableofcontents
 \newpage
 
-\section{Introduzione ai Problemi di Conteggio}
-Molti problemi di probabilità, specialmente all'inizio, si riducono a "contare" quanti sono i modi in cui un evento può accadere rispetto a tutti i modi possibili. Questo è il cuore del calcolo combinatorio applicato alla probabilità.
+\section{Probabilità Condizionata}
 
-\begin{definition}[Spazio Campionario Finito e Probabilità Uniforme]
-Consideriamo un esperimento aleatorio il cui risultato può essere uno tra un numero finito di esiti possibili. L'insieme di tutti questi esiti si chiama \textbf{spazio campionario}, indicato con $\Omega = \{\omega_1, \omega_2, \dots, \omega_N\}$.
-Se tutti gli $N$ esiti sono \textbf{equiprobabili} (hanno la stessa probabilità di verificarsi), allora la probabilità di ogni singolo esito elementare $\{\omega_i\}$ è:
-$$ P(\{\omega_i\}) = \frac{1}{N} $$
+\subsection{Definizione e intuizione}
+
+Spesso, nel calcolo delle probabilità, ci troviamo a valutare la probabilità di un evento $A$ quando siamo già a conoscenza che un altro evento $B$ si è verificato. Questa nuova informazione (il fatto che $B$ sia accaduto) può cambiare la nostra valutazione della probabilità di $A$.
+
+\begin{definition}
+Siano $A$ e $B$ due eventi, con $\Pc(B) > 0$. La \textbf{probabilità condizionata} (o condizionale) di $A$ dato $B$ è definita come:
+\[ \Pcond{A}{B} = \frac{\Pc(A \capSet B)}{\Pc(B)} \]
 \end{definition}
 
-\begin{theorem}[Formula di Laplace]
-Se gli esiti di uno spazio campionario finito $\Omega$ sono equiprobabili, la probabilità di un evento $A$ (che è un sottoinsieme di $\Omega$) è data da:
-$$ P(A) = \frac{\text{numero di esiti favorevoli ad } A}{\text{numero di esiti possibili}} = \frac{|A|}{|\Omega|} $$
-dove $|A|$ indica la cardinalità di $A$ (cioè il numero di elementi in $A$) e $|\Omega|$ la cardinalità di $\Omega$.
+\textcolor{blue}{Intuizione:} Sapere che $B$ si è verificato restringe il nostro "universo" dei possibili esiti. Non siamo più interessati a tutto $\OmegaSet$, ma solo agli esiti contenuti in $B$. All'interno di questo nuovo universo ridotto ($B$), vogliamo vedere qual è la "porzione" occupata dagli esiti che sono anche in $A$. Questa porzione è $A \capSet B$. La formula normalizza questa misura dividendola per la probabilità del nuovo universo, $\Pc(B)$.
+
+\begin{example}[Dado a 6 facce, probabilità uniforme]
+Lanciamo un dado a 6 facce non truccato.
+Lo spazio campionario è $\OmegaSet = \{1, 2, 3, 4, 5, 6\}$. Ogni esito ha probabilità $1/6$.
+Sia $A = \text{"esce un numero maggiore o uguale a 3"} = \{3, 4, 5, 6\}$.
+Sia $B = \text{"esce un numero pari"} = \{2, 4, 6\}$.
+Vogliamo calcolare $\Pcond{A}{B}$, la probabilità che esca un numero $\ge 3$ sapendo che è uscito un numero pari.
+
+\begin{itemize}
+    \item L'evento $B$ ha probabilità $\Pc(B) = \Pc(\{2, 4, 6\}) = 3/6 = 1/2$.
+    \item L'intersezione $A \capSet B$ (esiti che sono sia $\ge 3$ sia pari) è $\{4, 6\}$.
+    \item La probabilità dell'intersezione è $\Pc(A \capSet B) = \Pc(\{4, 6\}) = 2/6 = 1/3$.
+\end{itemize}
+Applicando la definition:
+\[ \Pcond{A}{B} = \frac{\Pc(A \capSet B)}{\Pc(B)} = \frac{1/3}{1/2} = \frac{2}{3} \]
+\textcolor{blue}{Pensiamoci:} Se sappiamo che è uscito un numero pari, i soli esiti possibili sono $\{2, 4, 6\}$ (questo è il nostro nuovo spazio campionario "ristretto"). Di questi, quelli favorevoli ad $A$ (cioè $\ge 3$) sono $\{4, 6\}$. Quindi, 2 casi favorevoli su 3 possibili. Questo coincide con $2/3$.
+\end{example}
+
+\begin{example}[Dado truccato a 4 facce, probabilità non uniforme]
+Lanciamo un dado truccato a 4 facce, $\OmegaSet = \{1, 2, 3, 4\}$.
+Le probabilità dei singoli esiti sono:
+$\Pc(\{1\}) = 8/15$, $\Pc(\{2\}) = 4/15$, $\Pc(\{3\}) = 2/15$, $\Pc(\{4\}) = 1/15$.
+(Notare che la somma delle probabilità è $8/15+4/15+2/15+1/15 = 15/15 = 1$).
+Sia $A = \text{"esce un numero maggiore o uguale a 3"} = \{3, 4\}$.
+Sia $B = \text{"esce un numero pari"} = \{2, 4\}$.
+Vogliamo calcolare $\Pcond{A}{B}$.
+
+\begin{itemize}
+    \item La probabilità dell'evento $B$ è $\Pc(B) = \Pc(\{2\}) + \Pc(\{4\}) = 4/15 + 1/15 = 5/15 = 1/3$.
+    \item L'intersezione $A \capSet B$ (esiti $\ge 3$ e pari) è $\{4\}$.
+    \item La probabilità dell'intersezione è $\Pc(A \capSet B) = \Pc(\{4\}) = 1/15$.
+\end{itemize}
+Applicando la definition:
+\[ \Pcond{A}{B} = \frac{\Pc(A \capSet B)}{\Pc(B)} = \frac{1/15}{1/3} = \frac{1}{15} \cdot 3 = \frac{3}{15} = \frac{1}{5} \]
+\textcolor{blue}{Pensiamoci (approccio dei "veri" casi pesati con la loro probabilità):} Se sappiamo che è uscito un numero pari (evento $B$), i "veri" casi possibili sono 2 e 4. L'evento $A$ (numero $\ge 3$) si verifica solo se esce 4. Dobbiamo rapportare la probabilità del "vero" caso favorevole ($\Pc(\{4\})$) alla somma delle probabilità dei "veri" casi possibili ($\Pc(\{2\}) + \Pc(\{4\})$), che rappresenta la probabilità del nostro nuovo universo $\Pc(B)$:
+\[ \Pcond{A}{B} = \frac{\Pc(\{4\})}{\Pc(\{2\}) + \Pc(\{4\})} = \frac{1/15}{4/15 + 1/15} = \frac{1/15}{5/15} = \frac{1}{5} \]
+Questo conferma la formula generale. L'idea è che, anche se gli esiti originali non sono equiprobabili, una volta che ci si restringe allo spazio $B$, gli esiti in $B$ "ereditano" le loro probabilità originali, ma queste vengono "rinormalizzate" dividendole per $\Pc(B)$ in modo che la loro somma sia 1 nel nuovo contesto.
+\end{example}
+
+\begin{exercise}
+Considera l'esperimento del lancio di due dadi non truccati.
+Sia $S$ la somma dei punteggi.
+Sia $A = \text{"la somma dei punteggi è 7"}$.
+Sia $B = \text{"il primo dado ha dato come risultato 3"}$.
+Calcola $\Pcond{A}{B}$.
+\end{exercise}
+\textbf{Soluzione:}
+Lo spazio campionario $\OmegaSet$ è l'insieme delle coppie $(d_1, d_2)$ dove $d_1, d_2 \in \{1, \dots, 6\}$. Ci sono $6 \times 6 = 36$ esiti equiprobabili, ognuno con probabilità $1/36$.
+L'evento $B = \text{"il primo dado è 3"}$ è $\{(3,1), (3,2), (3,3), (3,4), (3,5), (3,6)\}$.
+Quindi, $\Pc(B) = 6/36 = 1/6$.
+L'evento $A = \text{"la somma è 7"}$ è $\{(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)\}$.
+L'evento $A \capSet B$ (somma 7 E primo dado 3) è l'esito $\{(3,4)\}$.
+Quindi, $\Pc(A \capSet B) = 1/36$.
+La probabilità condizionata è:
+\[ \Pcond{A}{B} = \frac{\Pc(A \capSet B)}{\Pc(B)} = \frac{1/36}{1/6} = \frac{1}{36} \cdot 6 = \frac{1}{6} \]
+\textcolor{blue}{Intuitivamente:} Se sappiamo che il primo dado è 3, affinché la somma sia 7, il secondo dado deve necessariamente dare 4. La probabilità che un dado non truccato dia 4 è $1/6$.
+
+\subsection{Proprietà della probabilità condizionata}
+Fissato un evento $B$ con $\Pc(B)>0$, la funzione $\Pcond{\cdot}{B}$ (che mappa un evento $A$ in $\Pcond{A}{B}$) è essa stessa una misura di probabilità. Ciò significa che soddisfa gli assiomi di Kolmogorov.
+
+\begin{theorem}
+Sia $B$ un evento tale che $\Pc(B)>0$. Valgono le seguenti proprietà:
+\begin{enumerate}[label=\Roman*)]
+    \item Per ciascun evento $A \subseteq \OmegaSet$, si ha $0 \le \Pcond{A}{B} \le 1$.
+    \item $\Pcond{\OmegaSet}{B} = 1$. (\textit{Sapendo $B$, la probabilità che accada "qualcosa" (l'evento certo) nello spazio ristretto $B$ è 1}).
+    \item Se $A_1, A_2, \dots, A_n, \dots$ è una successione di eventi a due a due disgiunti, allora
+    \[ \Pcond{\bigcup_{n=1}^\infty A_n}{B} = \sum_{n=1}^\infty \Pcond{A_n}{B} \quad (\sigma\text{-additività}) \]
+    Da queste proprietà fondamentali derivano altre utili conseguenze:
+    \item $\Pcond{\emptyset}{B} = 0$. (\textit{Sapendo $B$, la probabilità dell'evento impossibile è 0}).
+    \item Se $A_1, A_2$ sono disgiunti: $\Pcond{A_1 \cupSet A_2}{B} = \Pcond{A_1}{B} + \Pcond{A_2}{B}$ (additività finita).
+    \item $\Pcond{\compSet{A}}{B} = 1 - \Pcond{A}{B}$. (\textit{Probabilità del complementare, condizionata a $B$}).
+    \item Se $A_1 \subseteq A_2$, allora $\Pcond{A_1}{B} \le \Pcond{A_2}{B}$ (monotonia).
+\end{enumerate}
 \end{theorem}
+\textcolor{blue}{Dimostrazione (example per I):}
+Dato che $A \capSet B \subseteq B$, per la monotonia della probabilità $\Pc$ (non condizionata), si ha $\Pc(A \capSet B) \le \Pc(B)$.
+Poiché $\Pc(B)>0$ per ipotesi (altrimenti la probabilità condizionata non sarebbe definita), possiamo dividere entrambi i membri per $\Pc(B)$ senza cambiare il verso della disuguaglianza:
+\[ \frac{\Pc(A \capSet B)}{\Pc(B)} \le 1 \implies \Pcond{A}{B} \le 1 \]
+Inoltre, la probabilità di un evento è sempre non negativa, quindi $\Pc(A \capSet B) \ge 0$. Dividendo per $\Pc(B) > 0$:
+\[ \Pcond{A}{B} = \frac{\Pc(A \capSet B)}{\Pc(B)} \ge 0 \]
+Mettendo insieme le due disuguaglianze, $0 \le \Pcond{A}{B} \le 1$. Le altre proprietà si dimostrano in modo analogo, usando la definition di probabilità condizionata e le proprietà della misura di probabilità $\Pc$ non condizionata.
 
 \begin{remark}
-Capisci subito che il "gioco" sta nel calcolare correttamente $|A|$ e $|\Omega|$. È qui che entra in gioco il calcolo combinatorio!
+È importante ricordare che, in generale, $\Pcond{A}{B} \neq \Pcond{B}{A}$.
+Ad example, sia $A = \text{"una persona ha la febbre alta"}$ e $B = \text{"una persona ha l'influenza"}$.
+$\Pcond{A}{B}$ (probabilità di febbre alta dato che ha l'influenza) è generalmente alta.
+$\Pcond{B}{A}$ (probabilità di avere l'influenza dato che ha la febbre alta) potrebbe essere più bassa, perché la febbre alta può essere causata da molte altre malattie.
+La relazione tra $\Pcond{A}{B}$ e $\Pcond{B}{A}$ è descritta dalla Formula di Bayes, che tratteremo in seguito.
 \end{remark}
 
-\begin{example}[Lancio di un dado]
-Se lanciamo un dado a 6 facce non truccato:
+
+\section{Utilizzo della Probabilità Condizionata}
+
+\subsection{Regola della catena (o formula della probabilità composta)}
+La definition di probabilità condizionata, $\Pcond{A}{B} = \frac{\Pc(A \capSet B)}{\Pc(B)}$, può essere riscritta per calcolare la probabilità dell'intersezione di due eventi. Se $\Pc(B)>0$, moltiplicando entrambi i membri per $\Pc(B)$ otteniamo:
+\[ \Pc(A \capSet B) = \Pcond{A}{B} \Pc(B) \]
+Questa è nota come \textbf{regola della catena} o formula della probabilità composta, ed è estremamente utile, specialmente in esperimenti che avvengono in più stadi (esperimenti sequenziali).
+
+\begin{theorem}[Regola della catena per due eventi]
+Siano $A$ e $B$ due eventi.
 \begin{itemize}
-    \item $\Omega = \{1, 2, 3, 4, 5, 6\}$, quindi $|\Omega|=6$.
-    \item Ogni esito ha probabilità $1/6$.
-    \item Sia $A$ l'evento "esce un numero pari". Allora $A = \{2, 4, 6\}$, quindi $|A|=3$.
-    \item $P(A) = |A|/|\Omega| = 3/6 = 1/2$.
+    \item Se $\Pc(B) > 0$, allora: $\Pc(A \capSet B) = \Pcond{A}{B} \Pc(B)$.
+    \item Se $\Pc(A) > 0$, allora: $\Pc(A \capSet B) = \Pcond{B}{A} \Pc(A)$.
 \end{itemize}
-\end{example}
-
-\section{Strumenti di Base del Calcolo Combinatorio}
-
-\subsection{Fattoriale}
-\begin{definition}[Fattoriale]
-Per un numero intero non negativo $n$, il \textbf{fattoriale} di $n$, indicato con $n!$, è:
-\begin{itemize}
-    \item $n! = n \cdot (n-1) \cdot (n-2) \cdot \dots \cdot 2 \cdot 1$, se $n \ge 1$.
-    \item $0! = 1$ (per convenzione, molto utile nelle formule!).
-\end{itemize}
-\end{definition}
-\begin{example}
-$5! = 5 \cdot 4 \cdot 3 \cdot 2 \cdot 1 = 120$.
-$3! = 3 \cdot 2 \cdot 1 = 6$.
-\end{example}
-
-\subsection{Coefficiente Binomiale}
-\begin{definition}[Coefficiente Binomiale]
-Dati due interi non negativi $n$ e $k$, con $k \le n$, il \textbf{coefficiente binomiale} $\binom{n}{k}$ (si legge "n su k") è definito come:
-$$ \binom{n}{k} = \frac{n!}{k!(n-k)!} $$
-Esso rappresenta il numero di modi per scegliere $k$ oggetti da un insieme di $n$ oggetti distinti, senza tener conto dell'ordine.
-\end{definition}
-
-\begin{example}
-Quanti modi ci sono per scegliere 2 persone da un gruppo di 5?
-$$ \binom{5}{2} = \frac{5!}{2!(5-2)!} = \frac{5!}{2!3!} = \frac{120}{2 \cdot 6} = \frac{120}{12} = 10 $$
-\end{example}
-
-Proprietà utili del coefficiente binomiale:
-\begin{itemize}
-    \item $\binom{n}{0} = 1$ (c'è un solo modo per non scegliere niente)
-    \item $\binom{n}{n} = 1$ (c'è un solo modo per scegliere tutto)
-    \item $\binom{n}{1} = n$ (ci sono $n$ modi per scegliere un oggetto)
-    \item $\binom{n}{k} = \binom{n}{n-k}$ (scegliere $k$ oggetti è come escluderne $n-k$)
-\end{itemize}
-
-\begin{theorem}[Formula di Stifel o del Triangolo di Tartaglia]
-$$ \binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k} $$
-Per capire: per scegliere $k$ oggetti da $n$, o scegli un oggetto fissato $\bar{e}$ (e allora devi sceglierne altri $k-1$ dai rimanenti $n-1$), oppure non lo scegli (e allora devi sceglierne $k$ dai rimanenti $n-1$).
+Naturalmente, se $\Pc(A)>0$ e $\Pc(B)>0$, entrambe le forme sono valide e portano allo stesso risultato $\Pcond{A}{B} \Pc(B) = \Pcond{B}{A} \Pc(A)$.
 \end{theorem}
 
-\begin{theorem}[Teorema Binomiale di Newton]
-Per ogni $a, b \in \mathbb{R}$ e $n \in \mathbb{N}$:
-$$ (a+b)^n = \sum_{k=0}^{n} \binom{n}{k} a^k b^{n-k} $$
-Il coefficiente binomiale $\binom{n}{k}$ conta quante volte compare il termine $a^k b^{n-k}$ quando espandi $(a+b)(a+b)\dots(a+b)$ ($n$ volte). Per ottenere $a^k b^{n-k}$, devi scegliere $a$ da $k$ dei fattori e $b$ dai rimanenti $n-k$ fattori.
+Questa regola si può estendere a più di due eventi.
+\begin{theorem}[Regola della catena per tre eventi]
+Per tre eventi $A_1, A_2, A_3$, se $\Pc(A_1) > 0$ e $\Pc(A_1 \capSet A_2) > 0$ (condizioni che assicurano che le probabilità condizionate siano definite), allora:
+\[ \Pc(A_1 \capSet A_2 \capSet A_3) = \Pcond{A_3}{A_1 \capSet A_2} \Pcond{A_2}{A_1} \Pc(A_1) \]
 \end{theorem}
+\textcolor{blue}{Idea della dimostrazione (per tre eventi):}
+Partiamo da $\Pc(A_1 \capSet A_2 \capSet A_3)$. Possiamo vederla come $\Pc((A_1 \capSet A_2) \capSet A_3)$.
+Sia $C = A_1 \capSet A_2$. Allora $\Pc(C \capSet A_3) = \Pcond{A_3}{C} \Pc(C)$ (usando la regola per due eventi).
+Sostituendo $C$ con $A_1 \capSet A_2$, otteniamo $\Pcond{A_3}{A_1 \capSet A_2} \Pc(A_1 \capSet A_2)$.
+Ora applichiamo di nuovo la regola della catena per due eventi a $\Pc(A_1 \capSet A_2)$:
+$\Pc(A_1 \capSet A_2) = \Pcond{A_2}{A_1} \Pc(A_1)$.
+Sostituendo quest'ultima espressione nella precedente, otteniamo la formula desiderata:
+$\Pc(A_1 \capSet A_2 \capSet A_3) = \Pcond{A_3}{A_1 \capSet A_2} \Pcond{A_2}{A_1} \Pc(A_1)$.
+L'ordine in cui si "scompone" l'intersezione non cambia il risultato finale, purché le probabilità condizionate intermedie siano ben definite.
 
-\section{Metodo delle Scelte Successive}
-Questo è un principio fondamentale per contare.
-Se un'operazione complessa può essere scomposta in $k$ scelte successive, e la prima scelta può essere fatta in $n_1$ modi, la seconda in $n_2$ modi (indipendentemente dalla prima), ..., la $k$-esima in $n_k$ modi (indipendentemente dalle precedenti), allora il numero totale di modi per compiere l'intera operazione è $n_1 \cdot n_2 \cdot \dots \cdot n_k$.
+\begin{example}[Estrazioni da un'urna senza reimmissione]
+Un'urna contiene 3 palline bianche (B), 2 palline nere (N) e 1 pallina rossa (R). In totale ci sono 6 palline. Si eseguono tre estrazioni senza reimmissione.
+Qual è la probabilità di estrarre nell'ordine: una bianca, poi una rossa, poi una nera?
+Indichiamo con $B_1$ l'evento "prima estratta è bianca", $R_2$ l'evento "seconda estratta è rossa", e $N_3$ l'evento "terza estratta è nera". Vogliamo calcolare $\Pc(B_1 \capSet R_2 \capSet N_3)$.
 
-\begin{example}[Password]
-Quante password di 8 caratteri si possono formare usando le 26 lettere minuscole dell'alfabeto inglese e le 10 cifre numeriche (totale 36 simboli)?
-\begin{enumerate}
-    \item Se i caratteri possono ripetersi:
-    Per ogni posizione (8 scelte successive), ho 36 opzioni.
-    Numero totale = $36 \cdot 36 \cdot \dots \cdot 36$ (8 volte) = $36^8$.
-    \item Se i caratteri devono essere tutti distinti:
-    1° carattere: 36 opzioni
-    2° carattere: 35 opzioni (uno è già stato usato)
-    3° carattere: 34 opzioni
-    ...
-    8° carattere: $36-7 = 29$ opzioni
-    Numero totale = $36 \cdot 35 \cdot 34 \cdot 33 \cdot 32 \cdot 31 \cdot 30 \cdot 29$.
-\end{enumerate}
+Usiamo la regola della catena per tre eventi:
+\[ \Pc(B_1 \capSet R_2 \capSet N_3) = \Pcond{N_3}{B_1 \capSet R_2} \Pcond{R_2}{B_1} \Pc(B_1) \]
+Calcoliamo i termini uno per uno, tenendo traccia della composizione dell'urna:
+\begin{itemize}
+    \item $\Pc(B_1)$: All'inizio, l'urna ha (3B, 2N, 1R) - 6 palline. $\Pc(B_1) = 3/6 = 1/2$.
+    \item $\Pcond{R_2}{B_1}$: Se la prima pallina estratta è stata bianca ($B_1$ si è verificato), l'urna ora contiene (2B, 2N, 1R) - 5 palline. La probabilità di estrarre una rossa è $\Pcond{R_2}{B_1} = 1/5$.
+    \item $\Pcond{N_3}{B_1 \capSet R_2}$: Se la prima è stata bianca e la seconda rossa ($B_1 \capSet R_2$ si è verificato), l'urna ora contiene (2B, 2N, 0R) - 4 palline. La probabilità di estrarre una nera è $\Pcond{N_3}{B_1 \capSet R_2} = 2/4 = 1/2$.
+\end{itemize}
+Mettendo insieme i pezzi:
+\[ \Pc(B_1 \capSet R_2 \capSet N_3) = \left(\frac{1}{2}\right) \cdot \left(\frac{1}{5}\right) \cdot \left(\frac{2}{4}\right) = \frac{3}{6} \cdot \frac{1}{5} \cdot \frac{2}{4} = \frac{6}{120} = \frac{1}{20} \]
 \end{example}
+
+\subsection{Diagrammi ad albero}
+I diagrammi ad albero sono uno strumento visuale molto efficace per organizzare e calcolare probabilità in esperimenti che si svolgono in più fasi (sotto-esperimenti sequenziali). Sono particolarmente utili quando si applica la regola della catena.
+
+\textbf{Caratteristiche di un diagramma ad albero:}
+\begin{itemize}
+    \item \textbf{Nodi:} Ogni nodo rappresenta un possibile stato o un esito parziale dell'esperimento. Il nodo iniziale, chiamato \textbf{radice}, rappresenta l'evento certo $\OmegaSet$ (l'inizio dell'esperimento).
+    \item \textbf{Rami:} Ogni ramo che si diparte da un nodo rappresenta un possibile esito del sotto-esperimento che segue.
+    \item \textbf{Probabilità sui rami:}
+        \begin{itemize}
+            \item I rami che partono dalla radice (primo livello) sono etichettati con le probabilità \textit{non condizionate} degli esiti del primo sotto-esperimento (es. $\Pc(A_1)$, $\Pc(B_1)$).
+            \item I rami che partono da un nodo successivo (es. da un nodo che rappresenta l'evento $A_1$) sono etichettati con le probabilità \textit{condizionate} all'evento rappresentato da quel nodo di partenza (es. $\Pcond{A_2}{A_1}$, $\Pcond{B_2}{A_1}$).
+        \end{itemize}
+    \item \textbf{Probabilità di un cammino:} Un \textbf{cammino} è una sequenza di rami che va dalla radice a una \textbf{foglia} (un nodo terminale, che rappresenta un esito completo dell'esperimento sequenziale). La probabilità di un cammino si calcola moltiplicando le probabilità associate a tutti i rami che compongono quel cammino. Questo è esattamente l'applicazione della regola della catena. Ad example, per un cammino $R_1 \rightarrow E_2 \rightarrow V_3$, la probabilità è $\Pc(R_1) \cdot \Pcond{E_2}{R_1} \cdot \Pcond{V_3}{R_1 \capSet E_2}$.
+    \item \textbf{Somma delle probabilità dai nodi:} La somma delle probabilità sui rami che escono da un \textit{medesimo nodo} deve essere 1, a condizione che questi rami rappresentino una partizione degli esiti possibili a partire da quel nodo (cioè, coprano tutte le possibilità e siano mutuamente esclusivi).
+\end{itemize}
+
+\begin{example}[Diagramma ad albero per l'estrazione B-R-N]
+Riprendiamo l'urna con (3B, 2N, 1R) e le tre estrazioni senza reimmissione. Vogliamo $\Pc(B_1 \capSet R_2 \capSet N_3)$.
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[
+    level 1/.style={sibling distance=5cm, level distance=3.5cm},
+    level 2/.style={sibling distance=3.5cm, level distance=3.5cm},
+    level 3/.style={sibling distance=2.5cm, level distance=3.5cm},
+    edge from parent/.style={draw, -latex},
+    every node/.style={align=center}
+]
+\node {$\OmegaSet$}
+    child {node {$B_1$}
+        edge from parent node[left, midway] {$P(B_1)=\frac{3}{6}$}
+        child {node {$R_2$}
+            edge from parent node[left, midway] {$P(R_2|B_1)=\frac{1}{5}$}
+            child {node {$N_3$}
+                edge from parent node[left, midway] {$P(N_3|B_1 \cap R_2)=\frac{2}{4}$}
+                % Altri figli possibili da qui...
+            }
+            child {node {$B_3$}
+                 edge from parent node[right, midway] {$P(B_3|B_1 \cap R_2)=\frac{2}{4}$}
+            }
+        }
+        child {node {$N_2$} % Altro ramo da B1
+            edge from parent node[right, midway] {$P(N_2|B_1)=\frac{2}{5}$}
+            % ... e così via
+        }
+        % ... e così via per R1
+    }
+    child {node {$N_1$} % Altro ramo dalla radice
+        edge from parent node[midway, above] {$P(N_1)=\frac{2}{6}$}
+        % ...
+    }
+    child {node {$R_1$} % Altro ramo dalla radice
+        edge from parent node[right, midway] {$P(R_1)=\frac{1}{6}$}
+        % ...
+    };
+\end{tikzpicture}
+\caption{Diagramma ad albero parziale per l'estrazione $B_1 \capSet R_2 \capSet N_3$.}
+\label{fig:tree_brn}
+\end{figure}
+Il cammino che ci interessa è $\OmegaSet \rightarrow B_1 \rightarrow R_2 \rightarrow N_3$.
+La probabilità di questo cammino è:
+$\Pc(B_1) \cdot \Pcond{R_2}{B_1} \cdot \Pcond{N_3}{B_1 \capSet R_2} = \frac{3}{6} \cdot \frac{1}{5} \cdot \frac{2}{4} = \frac{1}{20}$.
+
+\textcolor{blue}{Importante:} Se un problema chiede la probabilità di un evento che può essere raggiunto attraverso più cammini disgiunti, si calcola la probabilità di ciascun cammino e poi si sommano queste probabilità. Ad example, se volessimo la probabilità di "estrarre una Nera alla terza estrazione" ($\Pc(N_3)$), dovremmo identificare tutti i cammini che terminano con $N_3$, calcolare la loro probabilità e sommarle. Questo è il principio dietro la Formula delle Probabilità Totali, che vedremo più avanti.
+\end{example}
+
+\subsection{Partizioni di \texorpdfstring{$\OmegaSet$}{Omega} (Schema di alternative)}
+Il concetto di partizione è fondamentale in probabilità, in particolare per la formula delle probabilità totali. Una partizione divide lo spazio campionario in pezzi che non si sovrappongono e che, messi insieme, ricompongono l'intero spazio.
+
+\begin{definition}
+Si dice che $n$ eventi (o sottoinsiemi) $H_1, H_2, \dots, H_n$ dello spazio campionario $\OmegaSet$ formano una \textbf{partizione} (detta anche \textbf{schema di alternative}) di $\OmegaSet$ se soddisfano due condizioni:
+\begin{enumerate}
+    \item Gli eventi $H_1, \dots, H_n$ sono a due a due \textbf{disgiunti} (o mutuamente esclusivi), cioè $H_i \capSet H_j = \emptyset$ per ogni coppia $i \neq j$. (Questo significa che non possono verificarsi contemporaneamente due eventi distinti della partizione).
+    \item L'unione degli eventi $H_1, \dots, H_n$ è l'intero spazio campionario $\OmegaSet$, cioè $\bigcup_{i=1}^n H_i = \OmegaSet$. (Questo significa che almeno uno degli eventi della partizione deve verificarsi).
+\end{enumerate}
+In breve: gli $H_i$ sono "pezzi" disgiunti che, insieme, ricoprono interamente $\OmegaSet$.
+Questa definition si estende anche a una famiglia numerabile di eventi $H_1, H_2, \dots$.
+\end{definition}
 
 \begin{remark}
-Quando usi questo metodo, assicurati che ogni sequenza di scelte identifichi \textbf{uno e un solo} elemento dell'insieme che vuoi contare, e che \textbf{tutti} gli elementi siano contati.
-A volte, l'ordine delle scelte può portare a contare più volte lo stesso elemento (vedi esempio del poker sulla doppia coppia).
+Se una partizione è costituita solamente da due eventi $H_1$ e $H_2$, allora $H_2$ deve essere necessariamente il complementare di $H_1$, cioè $H_2 = \compSet{H_1}$ (e viceversa, $H_1 = \compSet{H_2}$). Infatti, devono essere disgiunti ($H_1 \capSet \compSet{H_1} = \emptyset$) e la loro unione deve essere $\OmegaSet$ ($H_1 \cupSet \compSet{H_1} = \OmegaSet$).
 \end{remark}
 
-\begin{example}[Formare un comitato]
-Da un gruppo di 5 uomini e 7 donne, si vuole formare un comitato di 2 uomini e 3 donne. Quanti comitati possibili?
+\begin{example}[Scelta tra due urne e estrazione di una pallina]
+Consideriamo un esperimento in due fasi:
+\begin{enumerate}
+    \item Si lancia una moneta non truccata. Se esce Testa (T), si sceglie l'Urna 1 (U1). Se esce Croce (C), si sceglie l'Urna 2 (U2).
+    \item Si estrae una pallina dall'urna scelta.
+\end{enumerate}
+L'Urna 1 (U1) contiene 2 palline Rosse (R) e 1 Bianca (B). (Totale 3 palline)
+L'Urna 2 (U2) contiene 3 palline Rosse (R) e 2 Bianche (B). (Totale 5 palline)
+
+Qual è la probabilità che l'esito del lancio della moneta sia Testa E la pallina estratta sia Bianca?
+Definiamo gli eventi:
+$T = \text{"esce Testa" (e quindi si sceglie U1)}$. $\Pc(T) = 1/2$.
+$C = \text{"esce Croce" (e quindi si sceglie U2)}$. $\Pc(C) = 1/2$.
+Notare che $\{T, C\}$ forma una partizione degli esiti del lancio della moneta.
+$B_{est} = \text{"la pallina estratta è Bianca"}$.
+Vogliamo calcolare $\Pc(T \capSet B_{est})$.
+
+Usiamo la regola della catena: $\Pc(T \capSet B_{est}) = \Pcond{B_{est}}{T} \Pc(T)$.
 \begin{itemize}
-    \item Scelta degli uomini: $\binom{5}{2}$ modi.
-    \item Scelta delle donne: $\binom{7}{3}$ modi.
+    \item $\Pc(T) = 1/2$.
+    \item $\Pcond{B_{est}}{T}$: Questa è la probabilità di estrarre una Bianca, sapendo che è stata scelta l'Urna 1. Dall'Urna 1 (2R, 1B), la probabilità di estrarre Bianca è $1/3$. Quindi $\Pcond{B_{est}}{T} = 1/3$.
 \end{itemize}
-Numero totale di comitati = $\binom{5}{2} \cdot \binom{7}{3} = 10 \cdot \frac{7 \cdot 6 \cdot 5}{3 \cdot 2 \cdot 1} = 10 \cdot 35 = 350$.
+Dunque, $\Pc(T \capSet B_{est}) = (1/3) \cdot (1/2) = 1/6$.
+
+Questo tipo di problema, dove un evento (come l'estrazione di una pallina bianca) può avvenire attraverso diverse "strade" alternative (scelta di U1 o scelta di U2), è un classico example dove la Formula delle Probabilità Totali (che vedremo dopo) è molto utile per calcolare la probabilità complessiva di $B_{est}$.
 \end{example}
 
-\begin{example}[Ispirato da Esame 08 Settembre 2023, Esercizio 2]
-Una classe di 10 studenti (4 maschi e 6 femmine) viene divisa in due gruppi da 5 per due gite diverse (Firenze e Roma). Quanti modi ci sono per formare il gruppo che va a Roma?
-Questo equivale a scegliere 5 studenti su 10: $\binom{10}{5}$ modi.
-$$ \binom{10}{5} = \frac{10!}{5!5!} = \frac{10 \cdot 9 \cdot 8 \cdot 7 \cdot 6}{5 \cdot 4 \cdot 3 \cdot 2 \cdot 1} = 2 \cdot 9 \cdot 2 \cdot 7 = 252 $$
-Una volta scelto il gruppo per Roma, l'altro è automaticamente determinato.
+\begin{exercise}[Gioco con arresto, example semplificato]
+Un giocatore inizia con 1 euro. Lancia ripetutamente una moneta bilanciata ($\Pc(T) = \Pc(C) = 1/2$). Se esce Testa (T) vince 1 euro, se esce Croce (C) perde 1 euro. Il gioco si ferma se il giocatore arriva a 0 euro (rovina) o a 3 euro (vittoria).
+Qual è la probabilità che il gioco termini con una vittoria al secondo lancio?
 
-Qual è la probabilità che nel gruppo per Roma ci siano esattamente 2 maschi (e quindi 3 femmine)?
+\textbf{Soluzione:}
+Indichiamo con $S_k$ il capitale del giocatore dopo $k$ lanci. $S_0 = 1$.
+Il gioco si ferma se $S_k=0$ o $S_k=3$.
+Vogliamo "vittoria al secondo lancio". Questo significa che $S_0=1, S_1 \neq 0 \text{ e } S_1 \neq 3$, e $S_2=3$.
 \begin{itemize}
-    \item Scelta dei 2 maschi su 4: $\binom{4}{2}$ modi.
-    \item Scelta delle 3 femmine su 6: $\binom{6}{3}$ modi.
+    \item \textbf{Lancio 1:}
+        \begin{itemize}
+            \item Esce T (prob 1/2): $S_1 = 1+1 = 2$. Il gioco continua.
+            \item Esce C (prob 1/2): $S_1 = 1-1 = 0$. Il gioco si ferma (rovina). Questo cammino non porta a vittoria.
+        \end{itemize}
+    \item \textbf{Lancio 2 (solo se $S_1=2$):}
+        \begin{itemize}
+            \item Esce T (prob 1/2): $S_2 = 2+1 = 3$. Il gioco si ferma (vittoria).
+            \item Esce C (prob 1/2): $S_2 = 2-1 = 1$. Il gioco continua (ma noi siamo interessati a vittoria al secondo lancio).
+        \end{itemize}
 \end{itemize}
-Numero di gruppi per Roma con 2 maschi e 3 femmine = $\binom{4}{2} \cdot \binom{6}{3} = 6 \cdot \frac{6 \cdot 5 \cdot 4}{3 \cdot 2 \cdot 1} = 6 \cdot 20 = 120$.
-Probabilità = $\frac{120}{252} = \frac{10}{21}$.
-\end{example}
+L'unico cammino che porta a "vittoria al secondo lancio" è $T_1 \capSet T_2$ (Testa al primo, Testa al secondo).
+La probabilità di questo cammino è $\Pc(T_1 \capSet T_2) = \Pcond{T_2}{T_1} \Pc(T_1)$.
+Poiché i lanci sono indipendenti (lo anticiperemo qui, ma ha senso intuitivo), $\Pcond{T_2}{T_1} = \Pc(T_2) = 1/2$.
+Quindi, $\Pc(\text{vittoria al secondo lancio}) = \Pc(T_1) \cdot \Pc(T_2) = (1/2) \cdot (1/2) = 1/4$.
 
-\section{Disposizioni e Combinazioni}
-Formalizziamo alcuni concetti visti negli esempi. Sia $E$ un insieme con $|E|=n$ elementi distinti.
-
-\subsection{Disposizioni con Ripetizione ($DR_{n,k}$)}
-\begin{definition}
-Le \textbf{disposizioni con ripetizione} di $n$ oggetti presi a $k$ a $k$ ($DR_{n,k}$) sono tutte le sequenze \textbf{ordinate} di $k$ oggetti scelti da $n$, dove ogni oggetto può essere scelto più volte.
-$$ |DR_{n,k}| = n^k $$
-\end{definition}
-\begin{example}
-Lancio di un dado 3 volte. $n=6$ (facce del dado), $k=3$ (lanci).
-Gli esiti sono sequenze ordinate tipo (1,1,1), (1,2,3), (6,5,4), etc.
-Numero totale di esiti = $6^3 = 216$.
-Questo è lo stesso dell'esempio della password con ripetizione ($n=36, k=8$).
-\end{example}
-
-\begin{example}[Ispirato da Esame 22 Maggio 2024, Esercizio 1]
-Tre urne A, B, C sono inizialmente vuote. Vengono inserite 5 palline distinguibili, una dopo l'altra. Ogni pallina viene messa in un'urna scelta a caso.
-Per ogni pallina (5 scelte successive), ci sono 3 possibili urne.
-Lo spazio campionario $\Omega$ è l'insieme delle sequenze $(u_1, u_2, u_3, u_4, u_5)$ dove $u_i \in \{A,B,C\}$.
-$|\Omega| = |DR_{3,5}| = 3^5 = 243$.
-Qual è la probabilità che l'urna A rimanga vuota?
-Se A è vuota, ogni pallina deve andare in B o C (2 scelte per ogni pallina).
-Numero di modi = $2^5 = 32$.
-Probabilità = $32/243$.
-Qual è la probabilità che A e B rimangano vuote?
-Se A e B sono vuote, ogni pallina deve andare in C (1 scelta per ogni pallina).
-Numero di modi = $1^5 = 1$.
-Probabilità = $1/243$.
-\end{example}
-
-\subsection{Disposizioni Semplici (senza Ripetizione) ($D_{n,k}$)}
-\begin{definition}
-Le \textbf{disposizioni semplici} di $n$ oggetti presi a $k$ a $k$ ($D_{n,k}$, con $k \le n$) sono tutte le sequenze \textbf{ordinate} di $k$ oggetti \textbf{distinti} scelti da $n$.
-$$ |D_{n,k}| = n(n-1)\dots(n-k+1) = \frac{n!}{(n-k)!} $$
-\end{definition}
-\begin{example}
-In quanti modi 3 persone possono sedersi su 5 sedie numerate?
-$n=5$ (sedie), $k=3$ (persone). L'ordine conta (chi siede sulla sedia 1 è diverso da chi siede sulla sedia 2). Le persone sono distinte.
-$|D_{5,3}| = 5 \cdot 4 \cdot 3 = 60$.
-Questo è lo stesso dell'esempio della password senza ripetizione.
-\end{example}
-
-\begin{definition}[Permutazioni ($P_n$)]
-Le \textbf{permutazioni} di $n$ oggetti distinti sono tutte le sequenze ordinate possibili degli $n$ oggetti. Sono un caso particolare di disposizioni semplici con $k=n$.
-$$ |P_n| = |D_{n,n}| = n! $$
-\end{definition}
-\begin{example}
-In quanti modi si possono anagrammare le lettere della parola "CIAO"?
-Sono 4 lettere distinte. Numero di anagrammi = $4! = 24$.
-\end{example}
-
-\subsection{Combinazioni Semplici (senza Ripetizione) ($C_{n,k}$)}
-\begin{definition}
-Le \textbf{combinazioni semplici} di $n$ oggetti presi a $k$ a $k$ ($C_{n,k}$, con $k \le n$) sono tutti i sottoinsiemi di $k$ oggetti scelti da $n$, \textbf{senza tener conto dell'ordine} e \textbf{senza ripetizione}.
-$$ |C_{n,k}| = \binom{n}{k} = \frac{n!}{k!(n-k)!} $$
-\end{definition}
-\begin{example}
-Estraiamo 5 carte da un mazzo di 52. Quante mani possibili? L'ordine non conta.
-$|C_{52,5}| = \binom{52}{5}$.
-\end{example}
-\begin{remark}
-Relazione tra $D_{n,k}$ e $C_{n,k}$:
-Per formare una disposizione semplice $D_{n,k}$, possiamo:
-\begin{enumerate}
-    \item Scegliere $k$ oggetti distinti (una combinazione): $\binom{n}{k}$ modi.
-    \item Ordinare questi $k$ oggetti (una permutazione): $k!$ modi.
-\end{enumerate}
-Quindi, $|D_{n,k}| = \binom{n}{k} \cdot k!$. Da cui $\binom{n}{k} = \frac{|D_{n,k}|}{k!}$.
-\end{remark}
-
-\section{I Tre Esperimenti Aleatori di Riferimento (Estrazioni da un'urna)}
-Consideriamo un'urna con $n$ palline distinguibili. Estraiamo $k$ palline.
-
-\begin{enumerate}
-    \item \textbf{Estrazione con reimmissione (ordine conta, ripetizione ammessa):}
-    Dopo ogni estrazione, la pallina viene rimessa nell'urna.
-    Lo spazio campionario è $DR_{n,k}$. $|\Omega| = n^k$.
-    Tutti gli $n^k$ esiti sono equiprobabili.
-
-    \item \textbf{Estrazione senza reimmissione (ordine conta, ripetizione non ammessa):}
-    La pallina estratta non viene rimessa nell'urna ($k \le n$).
-    Lo spazio campionario è $D_{n,k}$. $|\Omega| = \frac{n!}{(n-k)!}$.
-    Tutti gli esiti sono equiprobabili.
-
-    \item \textbf{Estrazione simultanea (ordine non conta, ripetizione non ammessa):}
-    Le $k$ palline vengono estratte tutte insieme ($k \le n$).
-    Lo spazio campionario è $C_{n,k}$. $|\Omega| = \binom{n}{k}$.
-    Tutti gli esiti (i gruppi di $k$ palline) sono equiprobabili.
-\end{enumerate}
-
-\begin{center}
-\begin{tabular}{|l|c|c|}
-\hline
-\textbf{RIPETIZIONE} & \textbf{Senza ripetizione} & \textbf{Con ripetizione} \\
-\textbf{ORDINE} & & \\
-\hline
-\textbf{Si tiene conto dell'ordine} & Estrazione senza reimmissione & Estrazione con reimmissione \\
-& $\Omega = D_{n,k}$ & $\Omega = DR_{n,k}$ \\
-& $|\Omega| = \frac{n!}{(n-k)!}$ & $|\Omega| = n^k$ \\
-\hline
-\textbf{Non si tiene conto dell'ordine} & Estrazione simultanea & (Combinazioni con ripetizione*) \\
-& $\Omega = C_{n,k}$ & \\
-& $|\Omega| = \binom{n}{k}$ & \\
-\hline
-\end{tabular}
-\end{center}
-*Le combinazioni con ripetizione (casella vuota) non sono tipicamente usate come spazio campionario con probabilità uniforme perché gli eventi elementari non sarebbero equiprobabili se derivati da un processo di scelte equiprobabili. Si preferisce sempre usare $DR_{n,k}$ e poi raggruppare gli esiti se l'ordine non conta.*
-
-\begin{remark}[Importante per gli esercizi!]
-Quando un problema sembra riguardare estrazioni "senza ordine e con ripetizione" (es. lancio una moneta 3 volte e mi interessa solo quante Teste sono uscite, non l'ordine), per garantire l'equiprobabilità degli esiti fondamentali, è quasi sempre meglio usare lo spazio campionario delle \textbf{disposizioni con ripetizione ($DR_{n,k}$)} e poi contare quanti di questi esiti ordinati corrispondono all'evento "non ordinato" che ci interessa.
-\end{remark}
-
-\begin{example}[Lancio di 2 monete]
-Evento A = "esce una Testa e una Croce".
-Spazio $DR_{2,2}$: TT, TC, CT, CC. (N=4, equiprobabili).
-Evento A = \{TC, CT\}. $|A|=2$. $P(A)=2/4=1/2$.
-Se usassimo uno spazio "non ordinato" \{TT, TC, CC\}, e lo ritenessimo equiprobabile, avremmo $P(A)=1/3$, che è sbagliato se le monete sono eque!
-Perché [TC] raggruppa due esiti equiprobabili (TC e CT), mentre [TT] ne raggruppa uno solo (TT).
-\end{example}
-
-\section{Probabilità Binomiale: Un'applicazione Chiave}
-Questo è un modello importantissimo che deriva direttamente dall'estrazione con reimmissione.
-Consideriamo un'urna con $b$ palline bianche e $r$ palline rosse (totale $n=b+r$ palline).
-Effettuiamo $k$ estrazioni \textbf{con reimmissione}.
-Vogliamo calcolare la probabilità dell'evento $A_l$: "si estraggono esattamente $l$ palline bianche (e quindi $k-l$ palline rosse)", con $0 \le l \le k$.
-
-Probabilità di estrarre una bianca in una singola estrazione: $p = b/(b+r)$.
-Probabilità di estrarre una rossa in una singola estrazione: $1-p = r/(b+r)$.
-
-Lo spazio campionario $\Omega$ è $DR_{b+r, k}$, quindi $|\Omega| = (b+r)^k$.
-Per contare gli esiti favorevoli ad $A_l$:
-\begin{enumerate}
-    \item \textbf{Scegliere le posizioni} delle $l$ palline bianche nelle $k$ estrazioni: ci sono $\binom{k}{l}$ modi.
-    \item Per ognuna delle $l$ posizioni "bianche", ci sono $b$ scelte possibili (le $b$ palline bianche). Totale $b^l$ modi.
-    \item Per ognuna delle $k-l$ posizioni "rosse", ci sono $r$ scelte possibili. Totale $r^{k-l}$ modi.
-\end{enumerate}
-Quindi, $|A_l| = \binom{k}{l} b^l r^{k-l}$.
-La probabilità è:
-$$ P(A_l) = \frac{\binom{k}{l} b^l r^{k-l}}{(b+r)^k} = \binom{k}{l} \left(\frac{b}{b+r}\right)^l \left(\frac{r}{b+r}\right)^{k-l} $$
-Che si scrive comunemente come:
-$$ P(X=l) = \binom{k}{l} p^l (1-p)^{k-l} $$
-dove $X$ è la variabile aleatoria "numero di palline bianche estratte in $k$ prove". Si dice che $X$ segue una distribuzione Binomiale $B(k,p)$.
-
-\begin{example}[Ispirato da Esame 13 Settembre 2024, Esercizio 1c]
-Un'urna contiene 2 palline bianche e 8 nere (totale 10). Si estraggono 6 palline \textbf{con reimmissione}.
-Qual è la probabilità che almeno una delle 6 palline estratte sia bianca?
-Questo è un problema binomiale. $k=6$ (estrazioni).
-Probabilità di estrarre una bianca $p = 2/10 = 1/5$.
-Probabilità di estrarre una nera $1-p = 4/5$.
-L'evento "almeno una bianca" è il complementare di "nessuna bianca" (cioè "tutte nere").
-$P(\text{tutte 6 nere}) = P(X=0 \text{ bianche}) = \binom{6}{0} (1/5)^0 (4/5)^{6-0} = 1 \cdot 1 \cdot (4/5)^6 = (4/5)^6$.
-$P(\text{almeno una bianca}) = 1 - P(\text{tutte 6 nere}) = 1 - (4/5)^6$.
-$(4/5)^6 = 4096 / 15625 \approx 0.262$.
-$P(\text{almeno una bianca}) \approx 1 - 0.262 = 0.738$.
-\end{example}
-
-\begin{exercise}[Lancio di dadi]
-Si lanciano 5 dadi a 6 facce.
-\begin{enumerate}
-    \item Qual è la probabilità che non esca nessun 6?
-    \item Qual è la probabilità che esca esattamente un 6?
-    \item Qual è la probabilità che escano almeno due 6?
-\end{enumerate}
-(Suggerimento: ogni lancio è una prova. Successo = "esce un 6", $p=1/6$. Numero di prove $k=5$.)
+Un diagramma ad albero per questo sarebbe:
+\begin{itemize}
+    \item Radice ($S_0=1$)
+    \item Ramo $C_1$ (prob 1/2) $\rightarrow$ Nodo $S_1=0$ (Rovina, stop)
+    \item Ramo $T_1$ (prob 1/2) $\rightarrow$ Nodo $S_1=2$
+        \begin{itemize}
+            \item Dal nodo $S_1=2$, Ramo $C_2$ (prob 1/2) $\rightarrow$ Nodo $S_2=1$ (Continua)
+            \item Dal nodo $S_1=2$, Ramo $T_2$ (prob 1/2) $\rightarrow$ Nodo $S_2=3$ (Vittoria, stop) $\leftarrow$ Cammino desiderato
+        \end{itemize}
+\end{itemize}
+Probabilità del cammino $S_0=1 \rightarrow S_1=2 \rightarrow S_2=3$ è $(1/2) \cdot (1/2) = 1/4$.
 \end{exercise}
 
-\begin{exercise}[Bersaglio]
-Un arciere colpisce il centro del bersaglio con probabilità $p=0.7$. Tira 4 frecce.
-\begin{enumerate}
-    \item Qual è la probabilità che colpisca il centro esattamente 3 volte?
-    \item Qual è la probabilità che colpisca il centro almeno una volta?
-\end{enumerate}
-\end{exercise}
-
-\section{Esercizi Vari di Riepilogo (ispirati agli esami)}
-
-\begin{exercise}[Selezione di comitato con vincoli]
-Un club ha 10 membri: 6 uomini e 4 donne.
-\begin{enumerate}
-    \item Quanti comitati di 4 persone si possono formare? $\binom{10}{4}$
-    \item Quanti comitati di 4 persone si possono formare se il comitato deve avere esattamente 2 uomini e 2 donne? $\binom{6}{2}\binom{4}{2}$
-    \item Qual è la probabilità che un comitato di 4 persone scelto a caso abbia 2 uomini e 2 donne? $\frac{\binom{6}{2}\binom{4}{2}}{\binom{10}{4}}$
-    \item Se Marco e Anna sono due membri del club, qual è la probabilità che entrambi siano nel comitato di 4 persone?
-    (Suggerimento: se M e A sono nel comitato, devi scegliere altre 2 persone dagli 8 rimanenti. Casi favorevoli: $\binom{8}{2}$. Casi totali: $\binom{10}{4}$.)
-    \item Qual è la probabilità che né Marco né Anna siano nel comitato?
-    (Suggerimento: devi scegliere 4 persone dagli 8 rimanenti, escludendo M e A. Casi favorevoli: $\binom{8}{4}$.)
-    \item Qual è la probabilità che Marco sia nel comitato ma Anna no?
-    (Suggerimento: Marco è dentro. Devi scegliere altre 3 persone dai rimanenti 8 (escludendo Anna). Casi favorevoli: $\binom{8}{3}$.)
-\end{enumerate}
-\end{exercise}
-
-\begin{exercise}[Lancio di due dadi con condizione]
-Si lanciano due dadi regolari a sei facce, X e Y.
-Qual è la probabilità che Y sia un multiplo stretto di X (cioè Y = kX con $k \ge 2$)?
-(Suggerimento: Elenca tutte le 36 coppie (X,Y) possibili. Identifica quelle che soddisfano la condizione.
-X=1: Y=2,3,4,5,6 (5 casi)
-X=2: Y=4,6 (2 casi)
-X=3: Y=6 (1 caso)
-Totale 8 casi favorevoli. $P=8/36=2/9$.)
-Se Y è un multiplo stretto di X, qual è il valore più probabile assunto da X?
-(Abbiamo 5 casi con X=1, 2 casi con X=2, 1 caso con X=3. Quindi X=1 è il più probabile dato l'evento.)
-\end{exercise}
-
-\begin{exercise}[Palline in Urne Distinte]
-Ci sono 4 palline distinguibili e 3 urne distinguibili. Ogni pallina viene inserita in un'urna a caso.
-\begin{enumerate}
-    \item Qual è lo spazio campionario e la sua cardinalità? ($DR_{3,4} = 3^4=81$)
-    \item Qual è la probabilità che la prima urna (Urna 1) contenga esattamente 2 palline?
-    (Suggerimento:
-    1. Scegli 2 palline da mettere nell'Urna 1: $\binom{4}{2}$ modi.
-    2. Le rimanenti 2 palline devono andare nelle Urne 2 o 3 (2 scelte per ognuna): $2^2$ modi.
-    Casi favorevoli = $\binom{4}{2} \cdot 2^2 = 6 \cdot 4 = 24$. Probabilità = $24/81$.
-    )
-    \item Qual è la probabilità che tutte le palline finiscano nella stessa urna?
-    (Tutte in Urna 1 O tutte in Urna 2 O tutte in Urna 3. $1+1+1 = 3$ casi favorevoli. $P=3/81$.)
-\end{enumerate}
-\end{exercise}
 
 \end{document}
