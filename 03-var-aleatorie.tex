@@ -2,13 +2,17 @@
 
 % --- Titolo ---
 \title{Variabili Aleatorie}
-\author{Basato sulle prove d'esame}
+\author{Alessandro Amella}
 \date{\today}
 
 \begin{document}
 \maketitle
 \tableofcontents
 \newpage
+
+\chapter{Introduzione Generale alle Variabili Aleatorie}
+
+Iniziamo con una delle nozioni fondamentali: la variabile aleatoria (spesso abbreviata come v.a.). Per capirla bene, partiamo da un concetto che già dovremmo conoscere: l'evento.
 
 \section{Definizioni Fondamentali}
 
@@ -18,19 +22,24 @@ Lo spazio campionario $\Omega$ è l'insieme di tutti i possibili esiti di un esp
 
 Un \textbf{evento} $A$ è, informalmente, un'affermazione riguardante l'ipotetico risultato dell'esperimento aleatorio, di cui è possibile dire con certezza se è vera o falsa una volta noto l'esito. Matematicamente, un evento è un sottoinsieme dello spazio campionario $\Omega$, ovvero $A \subseteq \Omega$. Questo sottoinsieme contiene tutti gli esiti per cui l'affermazione è vera (i cosiddetti "casi favorevoli").
 
-\textit{Esempio:}
+\begin{example}
+\textbf{Esempio (Lancio di un dado):}
 Se l'esperimento è il lancio di un dado a 6 facce, $\Omega = \{1, 2, 3, 4, 5, 6\}$.
 L'evento $A = \text{"esce un numero pari"}$ corrisponde al sottoinsieme $A = \{2, 4, 6\}$.
+\end{example}
 
 \subsection{Variabili Aleatorie (v.a.)}
+\begin{definition}
 Una \textbf{variabile aleatoria} (o numero aleatorio, v.a.) è un'affermazione riguardante l'ipotetico risultato dell'esperimento aleatorio che identifica \textbf{uno e un solo numero reale} una volta noto l'esito dell'esperimento.
 Mentre per un evento ci chiediamo "è vero o falso?", per una variabile aleatoria ci chiediamo "quanto vale?".
 
 Matematicamente, una variabile aleatoria $X$ è una \textbf{funzione} definita sullo spazio campionario $\Omega$ che associa ad ogni esito $\omega \in \Omega$ un numero reale $X(\omega) \in \mathbb{R}$.
 \[ X: \Omega \to \mathbb{R} \]
 Useremo lettere maiuscole come $X, Y, Z$ per indicare le variabili aleatorie.
+\end{definition}
 
-\textit{Esempio 1: Lancio di due dadi}
+\begin{example}
+\textbf{Esempio (Lancio di due dadi):}
 Consideriamo il lancio di due dadi standard. Lo spazio campionario $\Omega$ è l'insieme di tutte le coppie ordinate $(d_1, d_2)$ dove $d_1, d_2 \in \{1, 2, 3, 4, 5, 6\}$. Ci sono $6 \times 6 = 36$ esiti possibili.
 Definiamo alcune variabili aleatorie:
 \begin{itemize}
@@ -44,6 +53,7 @@ Definiamo alcune variabili aleatorie:
     Se l'esito è $\omega = (d_1, d_2)$, allora $Z(\omega) = d_1$.
     Ad esempio, se esce $(2, 5)$, $Z(2,5) = 2$.
 \end{itemize}
+\end{example}
 
 \textbf{Variabili Aleatorie Costanti:}
 Una v.a. $X$ si dice costante se assume sempre lo stesso valore numerico $a$, qualunque sia l'esito $\omega$.
@@ -62,7 +72,8 @@ Se $X$ è una v.a. e $B$ è un sottoinsieme di numeri reali ($B \subseteq \mathb
 \[ E = \{\omega \in \Omega : X(\omega) \in B\} \]
 Questo evento si indica più brevemente con $\{X \in B\}$ o $(X \in B)$.
 
-\textit{Esempio (continuazione lancio due dadi, $X=$ somma):}
+\begin{example}
+\textbf{Esempio (Continuazione lancio due dadi, $X=$ somma):}
 \begin{itemize}
     \item Se $B = \{3\}$, l'evento $\{X \in \{3\}\}$ (scritto anche $\{X=3\}$) è "la somma è uguale a 3".
     Gli esiti favorevoli sono $\{(1,2), (2,1)\}$.
@@ -70,6 +81,7 @@ Questo evento si indica più brevemente con $\{X \in B\}$ o $(X \in B)$.
     Gli esiti favorevoli sono $\{(1,1), (1,2), (1,3), (1,4), (2,1), (2,2), (2,3), (3,1), (3,2), (4,1)\}$.
     \item Se $B = \{2, 4, 6, 8, 10, 12\}$, l'evento $\{X \in B\}$ è "la somma è un numero pari".
 \end{itemize}
+\end{example}
 
 Casi particolari di notazione per $B$ intervallo:
 \begin{itemize}
@@ -81,7 +93,8 @@ Casi particolari di notazione per $B$ intervallo:
 \end{itemize}
 Per semplicità, la probabilità di un evento generato da $X$, cioè $P(\{\omega \in \Omega: X(\omega) \in B\})$, si scrive $P(X \in B)$.
 
-\textit{Esercizio (Identità Fondamentale):}
+\begin{exercise}
+\textbf{Esercizio (Identità Fondamentale):}
 Mostrare che per qualsiasi v.a. $X$ e qualsiasi $x \in \mathbb{R}$:
 \[ P(X \le x) = P(X < x) + P(X = x) \]
 \textit{Soluzione:}
@@ -92,20 +105,26 @@ Cioè, $\{X \le x\} = \{X < x\} \cup \{X = x\}$.
 Poiché questi due eventi sono disgiunti (un numero non può essere contemporaneamente $<x$ e $=x$), per l'additività della probabilità:
 $P(X \le x) = P(\{X < x\} \cup \{X = x\}) = P(X < x) + P(X = x)$. $\square$
 Questa identità sarà molto utile quando parleremo di variabili aleatorie continue.
+\end{exercise}
 
 \subsection{Distribuzione (o Legge) di una Variabile Aleatoria}
+\begin{definition}
 La \textbf{distribuzione di probabilità} (o \textbf{legge}) di una variabile aleatoria $X$, indicata con $P_X$, descrive come la probabilità totale (che è 1) si "distribuisce" sui possibili valori che $X$ può assumere.
 Formalmente, $P_X$ è una funzione che assegna una probabilità ad ogni "sensato" sottoinsieme $B$ di numeri reali:
 \[ P_X(B) = P(X \in B) \]
 $P_X$ è quindi una misura di probabilità definita sui sottoinsiemi (Boreliani) di $\mathbb{R}$. Si scrive $X \sim P_X$ per dire che $X$ ha distribuzione $P_X$.
+\end{definition}
 
-\textit{Esempio 1: Variabile Aleatoria Costante}
+\begin{example}
+\textbf{Esempio (Variabile Aleatoria Costante):}
 Se $X(\omega) = a$ per ogni $\omega$ (cioè $X=a$ è una v.a. costante).
 Allora, per qualsiasi $B \subseteq \mathbb{R}$:
 \[ P_X(B) = P(X \in B) = \begin{cases} 1 & \text{se } a \in B \\ 0 & \text{se } a \notin B \end{cases} \]
 Questa distribuzione è chiamata \textbf{delta di Dirac} in $a$, e si indica con $\delta_a$. Quindi $X \sim \delta_a$.
+\end{example}
 
-\textit{Esempio 2: Variabile Aleatoria Indicatrice $1_A$}
+\begin{example}
+\textbf{Esempio (Variabile Aleatoria Indicatrice $1_A$):}
 Ricordiamo che $1_A$ vale 1 se $A$ si verifica (con probabilità $P(A)$) e 0 se $A$ non si verifica (con probabilità $P(A^c) = 1-P(A)$).
 Sia $X = 1_A$. Qual è la sua legge $P_X$?
 Consideriamo un $B \subseteq \mathbb{R}$:
@@ -118,15 +137,19 @@ Consideriamo un $B \subseteq \mathbb{R}$:
 Possiamo esprimere questa legge come una combinazione delle delta di Dirac:
 $P_X = P(A^c) \delta_0 + P(A) \delta_1$.
 Questa è la \textbf{distribuzione di Bernoulli} di parametro $p=P(A)$.
+\end{example}
 
 \section{Funzione di Ripartizione (CDF)}
 La legge $P_X$ è un oggetto un po' complesso (assegna probabilità a insiemi di reali). Spesso è più comodo lavorare con la \textbf{Funzione di Ripartizione} (Cumulative Distribution Function, CDF), indicata con $F_X(x)$.
+
+\begin{definition}
 La CDF $F_X(x)$ è definita come la probabilità che la variabile aleatoria $X$ assuma un valore minore o uguale a $x$:
 \[ F_X(x) = P(X \le x) = P_X((-\infty, x]), \quad \forall x \in \mathbb{R} \]
 Si può dimostrare che conoscere $F_X(x)$ per tutti gli $x$ è equivalente a conoscere la legge $P_X$. La CDF caratterizza completamente la distribuzione di una v.a. Si scrive $X \sim F_X$.
+\end{definition}
 
 \subsection{Proprietà della Funzione di Ripartizione}
-Una funzione $F(x): \mathbb{R} \to [0,1]$ è una CDF di una qualche variabile aleatoria se e solo se soddisfa le seguenti proprietà (Teorema 2.1 delle dispense):
+Una funzione $F(x): \mathbb{R} \to [0,1]$ è una CDF di una qualche variabile aleatoria se e solo se soddisfa le seguenti proprietà:
 \begin{enumerate}
     \item \textbf{Monotona non decrescente:} Se $x_1 < x_2$, allora $F(x_1) \le F(x_2)$.
     (Infatti, $\{X \le x_1\} \subseteq \{X \le x_2\}$, quindi $P(X \le x_1) \le P(X \le x_2)$).
@@ -138,7 +161,7 @@ Una funzione $F(x): \mathbb{R} \to [0,1]$ è una CDF di una qualche variabile al
 Vale anche il viceversa: se una funzione $G: \mathbb{R} \to [0,1]$ verifica queste 4 proprietà, allora esiste una v.a. $X$ tale che $F_X = G$.
 
 \subsection{Relazione tra CDF e probabilità di eventi}
-È importante notare (N.B. e Osservazione a pag. 12 delle dispense):
+È importante notare:
 \begin{itemize}
     \item Il limite destro è $F_X(x)$: $\lim_{y \to x^+} F_X(y) = F_X(x) = P(X \le x)$.
     \item Il limite sinistro esiste sempre ed è: $F_X(x^-) = \lim_{y \to x^-} F_X(y) = P(X < x)$.
@@ -147,7 +170,7 @@ Da questo e dall'identità $P(X \le x) = P(X < x) + P(X = x)$, segue che:
 \[ P(X = x) = F_X(x) - F_X(x^-) \]
 Questo significa che $F_X$ è continua in $x$ se e solo se $P(X=x)=0$. Se $P(X=x)>0$, allora $F_X$ ha un "salto" (discontinuità) in $x$ di ampiezza $P(X=x)$.
 
-Il Teorema 2.2 delle dispense fornisce le formule per calcolare la probabilità che $X$ cada in vari tipi di intervalli, usando $F_X(x)$ e $F_X(x^-)$:
+Le formule per calcolare la probabilità che $X$ cada in vari tipi di intervalli, usando $F_X(x)$ e $F_X(x^-)$:
 \begin{itemize}
     \item $P(X = x) = F_X(x) - F_X(x^-)$
     \item $P(x < X \le y) = F_X(y) - F_X(x)$
@@ -157,7 +180,8 @@ Il Teorema 2.2 delle dispense fornisce le formule per calcolare la probabilità 
 \end{itemize}
 Se $F_X$ è continua (cioè $P(X=x)=0$ per ogni $x$, come vedremo per le v.a. continue), allora $F_X(x^-) = F_X(x)$, e tutte queste formule si semplificano. Ad esempio, $P(x < X \le y) = P(x \le X \le y) = F_X(y) - F_X(x)$.
 
-\textit{Esempio: CDF di una v.a. costante $X=a$}
+\begin{example}
+\textbf{Esempio (CDF di una v.a. costante $X=a$):}
 $F_X(x) = P(X \le x)$.
 \begin{itemize}
     \item Se $x < a$: $P(X \le x) = P(a \le x) = 0$ (perché $a$ non è $\le x$).
@@ -166,8 +190,10 @@ $F_X(x) = P(X \le x)$.
 Quindi:
 \[ F_X(x) = \begin{cases} 0 & \text{se } x < a \\ 1 & \text{se } x \ge a \end{cases} \]
 Questa è una funzione a gradino, con un salto di ampiezza 1 in $x=a$. Infatti, $P(X=a) = F_X(a) - F_X(a^-) = 1 - 0 = 1$.
+\end{example}
 
-\textit{Esempio: CDF di una v.a. indicatrice $X=1_A$ (con $P(A)=p$)}
+\begin{example}
+\textbf{Esempio (CDF di una v.a. indicatrice $X=1_A$ con $P(A)=p$):}
 $X$ può valere 0 (con probabilità $1-p$) o 1 (con probabilità $p$).
 $F_X(x) = P(X \le x)$.
 \begin{itemize}
@@ -180,7 +206,480 @@ Quindi:
 Questa è una funzione a gradino con salti in $x=0$ (ampiezza $1-p$) e $x=1$ (ampiezza $p$).
 $P(X=0) = F_X(0) - F_X(0^-) = (1-p) - 0 = 1-p$.
 $P(X=1) = F_X(1) - F_X(1^-) = 1 - (1-p) = p$.
+\end{example}
 
-% Qui finirà questo capitolo. I prossimi capitoli tratteranno le v.a. discrete, continue, vettori, ecc.
+\chapter{Variabili Aleatorie Discrete}
+
+Una variabile aleatoria si dice \textbf{discreta} se può assumere un numero finito o un'infinità numerabile di valori. Prima di definire formalmente una v.a. discreta, introduciamo la \textit{densità discreta}.
+
+\section{Densit\`a Discreta (o Funzione di Massa di Probabilit\`a - PMF)}
+\begin{definition}
+Sia $X$ una variabile aleatoria. La funzione $p_X: \mathbb{R} \to [0,1]$ data da
+\[ p_X(x) = P(X=x), \quad \forall x \in \mathbb{R} \]
+si chiama \textbf{densità discreta} o \textbf{funzione di massa di probabilità} (PMF) di $X$.
+\end{definition}
+Chiaramente, $0 \le p_X(x) \le 1$ per ogni $x$. La PMF ci dice la probabilità che la v.a. $X$ assuma esattamente il valore $x$.
+
+\begin{definition}
+Una variabile aleatoria $X$ si dice \textbf{discreta} (in breve v.a.d.) se esiste un sottoinsieme $S_X \subset \mathbb{R}$, finito o al più infinito numerabile, tale che:
+\begin{enumerate}
+    \item $p_X(x_i) > 0$ per ogni $x_i \in S_X$ (minimalità di $S_X$).
+    \item $P(X \in S_X) = \sum_{x_i \in S_X} p_X(x_i) = 1$.
+\end{enumerate}
+L'insieme $S_X$ si chiama \textbf{supporto} di $X$.
+\end{definition}
+In pratica, una v.a. è discreta se tutta la sua "massa" di probabilità è concentrata su un insieme numerabile di punti. Per $x \notin S_X$, si ha $p_X(x) = 0$.
+
+\subsection{Tabella della Densit\`a Discreta}
+Se il supporto $S_X = \{x_1, x_2, \dots, x_n\}$ è finito, possiamo rappresentare la PMF con una tabella:
+\begin{center}
+\begin{tabular}{c|cccc}
+$X$ & $x_1$ & $x_2$ & $\cdots$ & $x_n$ \\
+\hline
+$p_X$ & $p_X(x_1)$ & $p_X(x_2)$ & $\cdots$ & $p_X(x_n)$ \\
+\end{tabular}
+\end{center}
+Ricorda che la somma di tutte le probabilità $p_X(x_i)$ deve fare 1.
+
+\begin{example}
+\textbf{Esercizio (Minimo tra due dadi):}
+Si lanciano due dadi equi. Sia $X = \text{"minimo tra i due risultati"}$. Mostrare che $X$ è discreta e determinare $p_X$.
+
+\textit{Soluzione:}
+Lo spazio campionario $\Omega = \{(d_1,d_2) : d_1,d_2 \in \{1,\dots,6\}\}$ ha 36 esiti equiprobabili (probabilità $1/36$ ciascuno).
+La v.a. $X(\omega_1, \omega_2) = \min(\omega_1, \omega_2)$.
+I possibili valori che $X$ può assumere sono $\{1, 2, 3, 4, 5, 6\}$. Questo sarà il nostro supporto $S_X$.
+Dobbiamo calcolare $p_X(x) = P(X=x)$ per $x \in S_X$.
+\begin{itemize}
+    \item $P(X=1)$: Gli esiti in cui il minimo è 1 sono:
+    $(1,1), (1,2), (1,3), (1,4), (1,5), (1,6)$
+    $(2,1), (3,1), (4,1), (5,1), (6,1)$.
+    Ci sono 11 esiti. Quindi $p_X(1) = 11/36$.
+    \item $P(X=2)$: Esiti in cui il minimo è 2 (escludendo quelli già contati per $X=1$):
+    $(2,2), (2,3), (2,4), (2,5), (2,6)$
+    $(3,2), (4,2), (5,2), (6,2)$.
+    Ci sono 9 esiti. Quindi $p_X(2) = 9/36$.
+    \item $P(X=3)$: Esiti: $(3,3), (3,4), (3,5), (3,6), (4,3), (5,3), (6,3)$.
+    Ci sono 7 esiti. Quindi $p_X(3) = 7/36$.
+    \item $P(X=4)$: Esiti: $(4,4), (4,5), (4,6), (5,4), (6,4)$.
+    Ci sono 5 esiti. Quindi $p_X(4) = 5/36$.
+    \item $P(X=5)$: Esiti: $(5,5), (5,6), (6,5)$.
+    Ci sono 3 esiti. Quindi $p_X(5) = 3/36$.
+    \item $P(X=6)$: Esiti: $(6,6)$.
+    C'è 1 esito. Quindi $p_X(6) = 1/36$.
+\end{itemize}
+Per $x \notin \{1,2,3,4,5,6\}$, $p_X(x)=0$.
+Verifichiamo che $\sum p_X(x_i) = (11+9+7+5+3+1)/36 = 36/36 = 1$.
+Quindi $X$ è una v.a.d. con $S_X = \{1,2,3,4,5,6\}$ e la PMF data sopra.
+La tabella della densità discreta è:
+\begin{center}
+\begin{tabular}{c|cccccc}
+$X$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ \\
+\hline
+$p_X$ & $11/36$ & $9/36$ & $7/36$ & $5/36$ & $3/36$ & $1/36$ \\
+\end{tabular}
+\end{center}
+\end{example}
+
+\textbf{V.a. Costanti come v.a.d.:}
+Una v.a. costante $X=a$ è una v.a.d. con supporto $S_X=\{a\}$ e $p_X(a)=1$.
+\begin{center}
+\begin{tabular}{c|c}
+$X$ & $a$ \\
+\hline
+$p_X$ & $1$ \\
+\end{tabular}
+\end{center}
+
+\textbf{V.a. Indicatrici come v.a.d.:}
+Una v.a. indicatrice $X=1_A$ (con $P(A)=p$) è una v.a.d. con supporto $S_X=\{0,1\}$.
+$p_X(0) = P(X=0) = P(A^c) = 1-p$.
+$p_X(1) = P(X=1) = P(A) = p$.
+\begin{center}
+\begin{tabular}{c|cc}
+$X$ & $0$ & $1$ \\
+\hline
+$p_X$ & $1-p$ & $p$ \\
+\end{tabular}
+\end{center}
+Questa è la PMF della distribuzione di Bernoulli di parametro $p$.
+
+\section{Caratterizzazione delle Variabili Aleatorie Discrete}
+Le seguenti affermazioni sono equivalenti per una variabile aleatoria $X$:
+\begin{enumerate}
+    \item $X$ è una \textbf{variabile aleatoria discreta} (con densità discreta $p_X$ e supporto $S_X = \{x_1, x_2, \dots\}$).
+    \item La sua funzione di ripartizione $F_X$ è una \textbf{funzione costante a tratti} (o "a gradini"). $F_X$ è costante tranne nei punti $x_i \in S_X$, in cui $F_X$ "salta" verso l'alto. L'ampiezza del salto in $x_i$ è esattamente $p_X(x_i)$.
+    \[ F_X(x_i) - F_X(x_i^-) = p_X(x_i) \]
+    Quindi, la CDF $F_X(x)$ per una v.a.d. è data da:
+    \[ F_X(x) = P(X \le x) = \sum_{x_j \in S_X, x_j \le x} p_X(x_j) \]
+    \item La sua distribuzione $P_X$ è \textbf{concentrata nei punti $x_i \in S_X$}. Questo significa che per qualsiasi $B \subseteq \mathbb{R}$:
+    \[ P_X(B) = P(X \in B) = \sum_{x_j \in S_X, x_j \in B} p_X(x_j) \]
+    Se $B$ non contiene punti del supporto, $P(X \in B) = 0$.
+    Possiamo anche scrivere $P_X = \sum_{x_i \in S_X} p_X(x_i) \delta_{x_i}$, dove $\delta_{x_i}$ è la delta di Dirac in $x_i$.
+\end{enumerate}
+
+\begin{example}
+\textbf{Esercizio (Dalla CDF alla PMF):}
+Sia $G: \mathbb{R} \to [0,1]$ una funzione data da:
+\[ G(x) = \begin{cases} 0 & x < 0 \\ 1/2 & 0 \le x < 1 \\ 2/3 & 1 \le x < 2 \\ 11/12 & 2 \le x < 3 \\ 1 & x \ge 3 \end{cases} \]
+(a) Mostrare che $G$ è una funzione di ripartizione.
+(b) Se $X$ è una v.a. con $F_X=G$, mostrare che $X$ è discreta. Determinare supporto e PMF di $X$.
+(c) Calcolare $P(X > 1/2)$, $P(2 < X \le 4)$, $P(1 < X < 2)$, $P(X < 3)$.
+
+\textit{Soluzione:}
+(a) Per mostrare che $G$ è una CDF, dobbiamo verificare le 4 proprietà:
+    \begin{enumerate}
+        \item \textit{Monotona non decrescente:} Osservando i valori, $0 \le 1/2 \le 2/3 \le 11/12 \le 1$. La funzione è costante a tratti e i salti sono sempre verso l'alto. Verificata.
+        \item \textit{Continua a destra:} Essendo costante a tratti, i limiti destri coincidono con il valore della funzione nei punti. Verificata.
+        \item $\lim_{x \to -\infty} G(x) = 0$. Verificata.
+        \item $\lim_{x \to +\infty} G(x) = 1$. Verificata.
+    \end{enumerate}
+    Quindi $G$ è una CDF. Sia $X$ una v.a. tale che $F_X=G$.
+
+(b) Poiché $F_X$ è costante a tratti, $X$ è una variabile aleatoria discreta. I punti di salto (dove la funzione cambia valore) sono $0, 1, 2, 3$. Questi costituiscono il supporto $S_X$.
+L'ampiezza di ogni salto è $p_X(x_i) = F_X(x_i) - F_X(x_i^-)$.
+    \begin{itemize}
+        \item $p_X(0) = F_X(0) - F_X(0^-) = 1/2 - 0 = 1/2$.
+        \item $p_X(1) = F_X(1) - F_X(1^-) = 2/3 - 1/2 = 4/6 - 3/6 = 1/6$.
+        \item $p_X(2) = F_X(2) - F_X(2^-) = 11/12 - 2/3 = 11/12 - 8/12 = 3/12 = 1/4$.
+        \item $p_X(3) = F_X(3) - F_X(3^-) = 1 - 11/12 = 1/12$.
+    \end{itemize}
+    Verifichiamo che la somma delle probabilità sia 1: $1/2 + 1/6 + 1/4 + 1/12 = (6+2+3+1)/12 = 12/12 = 1$.
+    Il supporto è $S_X = \{0, 1, 2, 3\}$. La PMF è:
+    \begin{center}
+    \begin{tabular}{c|cccc}
+    $X$ & $0$ & $1$ & $2$ & $3$ \\
+    \hline
+    $p_X$ & $1/2$ & $1/6$ & $1/4$ & $1/12$ \\
+    \end{tabular}
+    \end{center}
+
+(c) Usiamo le formule che legano probabilità e CDF, o la PMF.
+    \begin{itemize}
+        \item $P(X > 1/2) = 1 - P(X \le 1/2) = 1 - F_X(1/2)$. Poiché $0 \le 1/2 < 1$, $F_X(1/2) = 1/2$.
+        Quindi $P(X > 1/2) = 1 - 1/2 = 1/2$.
+        \textit{Alternativamente con PMF:} $P(X > 1/2) = p_X(1) + p_X(2) + p_X(3) = 1/6 + 1/4 + 1/12 = (2+3+1)/12 = 6/12 = 1/2$.
+        
+        \item $P(2 < X \le 4) = F_X(4) - F_X(2)$.
+        $F_X(4) = 1$ (poiché $4 \ge 3$). $F_X(2) = 11/12$.
+        Quindi $P(2 < X \le 4) = 1 - 11/12 = 1/12$.
+        \textit{Alternativamente con PMF:} L'unico valore $x_i \in S_X$ tale che $2 < x_i \le 4$ è $x_i=3$.
+        Quindi $P(2 < X \le 4) = p_X(3) = 1/12$.
+
+        \item $P(1 < X < 2) = F_X(2^-) - F_X(1)$.
+        $F_X(2^-) = \lim_{x \to 2^-} F_X(x) = 2/3$. $F_X(1) = 2/3$.
+        Quindi $P(1 < X < 2) = 2/3 - 2/3 = 0$.
+        \textit{Alternativamente con PMF:} Non ci sono valori $x_i \in S_X$ tali che $1 < x_i < 2$. Quindi la probabilità è 0.
+        
+        \item $P(X < 3) = F_X(3^-)$.
+        $F_X(3^-) = \lim_{x \to 3^-} F_X(x) = 11/12$.
+        Quindi $P(X < 3) = 11/12$.
+        \textit{Alternativamente con PMF:} $P(X < 3) = p_X(0) + p_X(1) + p_X(2) = 1/2 + 1/6 + 1/4 = (6+2+3)/12 = 11/12$.
+    \end{itemize}
+\end{example}
+
+\section{Media (o Valore Atteso) di una v.a.d.}
+\begin{definition}
+Sia $X$ una variabile aleatoria discreta con supporto $S_X = \{x_1, x_2, \dots\}$ e PMF $p_X$. La \textbf{media} (o \textbf{valore atteso}) di $X$, indicata con $E[X]$ (o $\mu$ o $\mu_X$), è data da:
+\[ E[X] = \sum_{x_i \in S_X} x_i p_X(x_i) \]
+Il valore atteso è una media pesata dei valori che $X$ può assumere, dove i pesi sono le rispettive probabilità.
+(Nota: La sommatoria deve convergere assolutamente se $S_X$ è infinito).
+\end{definition}
+
+\begin{example}
+\textbf{Esercizio (Media di v.a. costante e indicatrice):}
+\begin{enumerate}
+    \item Sia $a \in \mathbb{R}$ una costante. Mostrare che $E[a] = a$.
+    \item Sia $A$ un evento. Mostrare che $E[1_A] = P(A)$.
+\end{enumerate}
+\textit{Soluzione:}
+\begin{enumerate}
+    \item La v.a. costante $X=a$ ha supporto $S_a=\{a\}$ e $p_a(a)=1$.
+    Quindi $E[a] = a \cdot p_a(a) = a \cdot 1 = a$.
+    \item La v.a. indicatrice $X=1_A$ ha supporto $S_{1_A}=\{0,1\}$, con $p_{1_A}(0)=P(A^c)$ e $p_{1_A}(1)=P(A)$.
+    Quindi $E[1_A] = 0 \cdot p_{1_A}(0) + 1 \cdot p_{1_A}(1) = 0 \cdot P(A^c) + 1 \cdot P(A) = P(A)$.
+\end{enumerate}
+\end{example}
+
+\subsection{Valore Atteso di una Funzione di una v.a.d. (Teorema Fondamentale)}
+Spesso vogliamo calcolare il valore atteso di una nuova variabile aleatoria $Y$ che è funzione di $X$, cioè $Y=h(X)$. Potremmo prima trovare la PMF di $Y$ e poi usare la definizione, ma c'è un modo più diretto:
+
+\begin{theorem}[Valore atteso di una funzione di v.a.d.]
+Sia $X$ una v.a.d. con PMF $p_X$ e supporto $S_X$. Sia $h: \mathbb{R} \to \mathbb{R}$ una funzione. Allora, la variabile aleatoria $Y=h(X)$ ha valore atteso:
+\[ E[Y] = E[h(X)] = \sum_{x_i \in S_X} h(x_i) p_X(x_i) \]
+(supponendo che la somma converga assolutamente).
+\end{theorem}
+In pratica, non serve trovare la PMF di $Y=h(X)$; basta applicare la funzione $h$ ai valori $x_i$ del supporto di $X$ e ponderarli con le probabilità $p_X(x_i)$.
+
+\begin{example}
+\textbf{Esempio (Media del quadrato di un dado):}
+Sia $X$ il risultato del lancio di un dado equo. $S_X=\{1,2,3,4,5,6\}$ e $p_X(x)=1/6$ per $x \in S_X$.
+Calcoliamo $E[X^2]$. Qui $h(x)=x^2$.
+\[ E[X^2] = \sum_{i=1}^6 i^2 p_X(i) = \sum_{i=1}^6 i^2 \frac{1}{6} = \frac{1}{6} (1^2+2^2+3^2+4^2+5^2+6^2) \]
+\[ = \frac{1}{6} (1+4+9+16+25+36) = \frac{1}{6} (91) = \frac{91}{6} \approx 15.167 \]
+\end{example}
+
+\subsection{Linearità del Valore Atteso}
+Una proprietà importantissima del valore atteso è la sua linearità.
+\begin{theorem}[Linearità del valore atteso]
+Sia $X$ una v.a.d. Siano $a, b \in \mathbb{R}$ costanti. Allora:
+\[ E[aX + b] = aE[X] + b \]
+Più in generale, se $h(X)$ e $g(X)$ sono due funzioni di $X$:
+\[ E[a h(X) + b g(X)] = a E[h(X)] + b E[g(X)] \]
+\end{theorem}
+\textit{Dimostrazione (per $E[aX+b]$):}
+Usiamo il teorema del valore atteso di una funzione con $k(x) = ax+b$.
+\[ E[aX+b] = \sum_{x_i \in S_X} (ax_i+b) p_X(x_i) = \sum_{x_i \in S_X} (ax_i p_X(x_i) + b p_X(x_i)) \]
+\[ = a \sum_{x_i \in S_X} x_i p_X(x_i) + b \sum_{x_i \in S_X} p_X(x_i) \]
+Poiché $\sum x_i p_X(x_i) = E[X]$ e $\sum p_X(x_i) = 1$, otteniamo:
+\[ E[aX+b] = aE[X] + b \cdot 1 = aE[X] + b. \quad \square \]
+
+\section{Varianza di una v.a.d.}
+La media ci dà un'idea del "centro" della distribuzione. La varianza ci dice quanto i valori della v.a. tendono a disperdersi attorno alla media.
+
+\begin{definition}
+Sia $X$ una v.a.d. con media $E[X]=\mu$. La \textbf{varianza} di $X$, indicata con $Var(X)$ (o $\sigma^2$ o $\sigma_X^2$), è definita come:
+\[ Var(X) = E[(X - E[X])^2] = E[(X-\mu)^2] \]
+Usando il teorema del valore atteso di una funzione (con $h(x)=(x-\mu)^2$):
+\[ Var(X) = \sum_{x_i \in S_X} (x_i - \mu)^2 p_X(x_i) \]
+La radice quadrata della varianza, $\sigma_X = \sqrt{Var(X)}$, si chiama \textbf{deviazione standard} (o scarto quadratico medio). Ha il vantaggio di essere espressa nella stessa unità di misura di $X$.
+\end{definition}
+
+Una formula alternativa (e spesso più comoda) per calcolare la varianza è:
+\begin{theorem}[Formula alternativa per la varianza]
+Sia $X$ una v.a.d. Allora:
+\[ Var(X) = E[X^2] - (E[X])^2 \]
+\end{theorem}
+\textit{Dimostrazione:}
+Sia $\mu = E[X]$.
+$Var(X) = E[(X-\mu)^2] = E[X^2 - 2\mu X + \mu^2]$.
+Per la linearità dell'attesa:
+$Var(X) = E[X^2] - E[2\mu X] + E[\mu^2]$.
+Poiché $2\mu$ e $\mu^2$ sono costanti:
+$Var(X) = E[X^2] - 2\mu E[X] + \mu^2$.
+Sostituendo $E[X]=\mu$:
+$Var(X) = E[X^2] - 2\mu \cdot \mu + \mu^2 = E[X^2] - 2\mu^2 + \mu^2 = E[X^2] - \mu^2 = E[X^2] - (E[X])^2$. $\square$
+
+\subsection{Proprietà della Varianza}
+Sia $X$ una v.a.d. e $a, b \in \mathbb{R}$ costanti.
+\begin{enumerate}
+    \item \textbf{Non negatività:} $Var(X) \ge 0$.
+    La varianza è una somma di termini $(x_i-\mu)^2 p_X(x_i)$, dove $(x_i-\mu)^2 \ge 0$ e $p_X(x_i) \ge 0$.
+    \item \textbf{Varianza di una costante:} $Var(b) = 0$.
+    Infatti, $E[b]=b$, quindi $Var(b) = E[(b-b)^2] = E[0] = 0$.
+    Viceversa, se $Var(X)=0$, allora $X$ deve essere una v.a. costante (uguale a $E[X]$).
+    Perché se $Var(X) = \sum (x_i - E[X])^2 p_X(x_i) = 0$, e $p_X(x_i)>0$, allora ogni $(x_i - E[X])^2$ deve essere 0. Quindi $x_i = E[X]$ per tutti gli $x_i$ nel supporto. Dunque $S_X=\{E[X]\}$.
+    \item \textbf{Effetto di trasformazioni lineari:} $Var(aX + b) = a^2 Var(X)$.
+    \textit{Dimostrazione:}
+    Sia $Y = aX+b$. $E[Y] = aE[X]+b$.
+    $Var(Y) = E[(Y - E[Y])^2] = E[((aX+b) - (aE[X]+b))^2]$
+    $= E[(aX - aE[X])^2] = E[a^2(X - E[X])^2]$
+    Poiché $a^2$ è una costante, $Var(Y) = a^2 E[(X - E[X])^2] = a^2 Var(X)$. $\square$
+    Nota che la costante additiva $b$ non influenza la varianza (trasla solo la distribuzione, non la sua dispersione).
+\end{enumerate}
+
+\begin{example}
+\textbf{Esempio (Varianza del lancio di un dado):}
+Sia $X$ il risultato del lancio di un dado equo. $E[X] = 3.5$.
+Abbiamo calcolato $E[X^2] = 91/6$.
+$Var(X) = E[X^2] - (E[X])^2 = \frac{91}{6} - (3.5)^2 = \frac{91}{6} - (\frac{7}{2})^2 = \frac{91}{6} - \frac{49}{4}$
+$= \frac{182 - 147}{12} = \frac{35}{12} \approx 2.9167$.
+La deviazione standard è $\sigma_X = \sqrt{35/12} \approx 1.708$.
+\end{example}
+
+\section{Distribuzioni Discrete Notevoli}
+
+\subsection{Distribuzione Uniforme Discreta}
+Una v.a. $X$ ha una \textbf{distribuzione uniforme discreta} su un insieme finito $S_X = \{x_1, x_2, \dots, x_n\}$ se ogni valore $x_i$ ha la stessa probabilità di verificarsi.
+\[ p_X(x_i) = \frac{1}{n}, \quad \text{per } x_i \in S_X \]
+e $p_X(x)=0$ altrimenti. Si scrive $X \sim Unif(\{x_1, \dots, x_n\})$.
+\textbf{Media:} $E[X] = \sum_{i=1}^n x_i \frac{1}{n} = \frac{1}{n} \sum_{i=1}^n x_i$ (la media aritmetica dei valori).
+\textbf{Varianza:} $Var(X) = \frac{1}{n} \sum_{i=1}^n (x_i - E[X])^2$.
+
+\begin{example}
+\textbf{Esempio (Lancio di un dado):}
+$X$ = risultato del lancio di un dado equo.
+$S_X = \{1, 2, 3, 4, 5, 6\}$. $p_X(x) = 1/6$ per $x \in S_X$. $X \sim Unif(\{1, \dots, 6\})$.
+$E[X] = (1+2+3+4+5+6)/6 = 21/6 = 3.5$.
+$Var(X) = 35/12$ (calcolata prima).
+\end{example}
+
+\subsection{Distribuzione di Bernoulli}
+L'abbiamo già vista: $X \sim B(p)$ o $X \sim Bernoulli(p)$.
+$S_X = \{0, 1\}$.
+PMF: $p_X(0) = 1-p$, $p_X(1) = p$.
+(dove $p$ è la probabilità di "successo", cioè $X=1$).
+\textbf{Media:} $E[X] = 0 \cdot (1-p) + 1 \cdot p = p$.
+(Questo conferma $E[1_A]=P(A)$ se $P(A)=p$).
+\textbf{Varianza:}
+$E[X^2] = 0^2 \cdot (1-p) + 1^2 \cdot p = p$.
+$Var(X) = E[X^2] - (E[X])^2 = p - p^2 = p(1-p)$.
+Spesso $1-p$ è indicato con $q$, quindi $Var(X)=pq$.
+
+\subsection{Distribuzione Binomiale}
+Consideriamo $n$ prove (esperimenti) indipendenti, ognuna delle quali può avere solo due esiti: "successo" (con probabilità $p$) o "insuccesso" (con probabilità $1-p$). Questi sono chiamati "esperimenti di Bernoulli".
+Sia $X$ il numero di successi in queste $n$ prove. Allora $X$ ha una \textbf{distribuzione binomiale} di parametri $n$ e $p$. Si scrive $X \sim B(n,p)$ o $X \sim Bin(n,p)$.
+Il supporto di $X$ è $S_X = \{0, 1, 2, \dots, n\}$.
+La PMF è data da:
+\[ p_X(k) = P(X=k) = \binom{n}{k} p^k (1-p)^{n-k}, \quad \text{per } k=0, 1, \dots, n \]
+dove $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ è il coefficiente binomiale, che conta il numero di modi in cui si possono avere $k$ successi in $n$ prove.
+Si noti che $\sum_{k=0}^n \binom{n}{k} p^k (1-p)^{n-k} = (p + (1-p))^n = 1^n = 1$ (dallo sviluppo del binomio di Newton).
+
+Se $X_i$ è una v.a. di Bernoulli per l'i-esima prova ($X_i=1$ se successo, $X_i=0$ se insuccesso), e le $X_i$ sono indipendenti e tutte con parametro $p$, allora $X = X_1 + X_2 + \dots + X_n$.
+
+\textbf{Media:} $E[X] = np$.
+\textit{Dimostrazione (usando $X=\sum X_i$):} $E[X] = E[\sum X_i] = \sum E[X_i]$ per linearità.
+Poiché $E[X_i]=p$ per ogni $i$, $E[X] = \sum_{i=1}^n p = np$.
+
+\textbf{Varianza:} $Var(X) = np(1-p)$.
+\textit{Dimostrazione (usando $X=\sum X_i$ e indipendenza):} Se le $X_i$ sono indipendenti, $Var(X) = Var(\sum X_i) = \sum Var(X_i)$.
+Poiché $Var(X_i)=p(1-p)$ per ogni $i$, $Var(X) = \sum_{i=1}^n p(1-p) = np(1-p)$.
+(La proprietà $Var(\sum X_i) = \sum Var(X_i)$ per v.a. indipendenti la vedremo meglio con i vettori aleatori, ma è un risultato standard).
+
+\begin{example}
+\textbf{Esempio (Numero di teste in $n$ lanci di moneta):}
+Si lancia una moneta $n=3$ volte. La moneta è truccata e dà Testa (T) con $p=2/3$. Sia $X$ il numero di Teste.
+$X \sim B(3, 2/3)$.
+$S_X = \{0,1,2,3\}$.
+$p_X(0) = P(X=0) = \binom{3}{0} (2/3)^0 (1/3)^3 = 1 \cdot 1 \cdot (1/27) = 1/27$.
+$p_X(1) = P(X=1) = \binom{3}{1} (2/3)^1 (1/3)^2 = 3 \cdot (2/3) \cdot (1/9) = 6/27$.
+$p_X(2) = P(X=2) = \binom{3}{2} (2/3)^2 (1/3)^1 = 3 \cdot (4/9) \cdot (1/3) = 12/27$.
+$p_X(3) = P(X=3) = \binom{3}{3} (2/3)^3 (1/3)^0 = 1 \cdot (8/27) \cdot 1 = 8/27$.
+Somma: $(1+6+12+8)/27 = 27/27 = 1$.
+Media: $E[X] = np = 3 \cdot (2/3) = 2$.
+Varianza: $Var(X) = np(1-p) = 3 \cdot (2/3) \cdot (1/3) = 2/3$.
+\end{example}
+
+\subsection{Distribuzione di Poisson}
+La distribuzione di Poisson è spesso usata per modellare il numero di volte che un evento accade in un intervallo di tempo o spazio fissato, quando questi eventi accadono con una frequenza media nota e indipendentemente dal tempo trascorso dall'ultimo evento.
+Si dice che $X$ ha una \textbf{distribuzione di Poisson} di parametro $\lambda > 0$ (lambda, che rappresenta la frequenza media) se $X \sim Poisson(\lambda)$.
+Il supporto è $S_X = \{0, 1, 2, \dots\}$ (infinito numerabile).
+La PMF è:
+\[ p_X(k) = P(X=k) = e^{-\lambda} \frac{\lambda^k}{k!}, \quad \text{per } k=0, 1, 2, \dots \]
+Ricordiamo lo sviluppo in serie di Taylor per $e^\lambda = \sum_{k=0}^\infty \frac{\lambda^k}{k!}$.
+Quindi $\sum_{k=0}^\infty p_X(k) = e^{-\lambda} \sum_{k=0}^\infty \frac{\lambda^k}{k!} = e^{-\lambda} e^\lambda = 1$.
+
+La Poisson è un caso limite della binomiale: se $n$ è molto grande e $p$ è molto piccolo, tale che $np \approx \lambda$ (costante), allora $B(n,p)$ è ben approssimata da $Poisson(\lambda=np)$.
+\textbf{Media:} $E[X] = \lambda$.
+\textbf{Varianza:} $Var(X) = \lambda$.
+È notevole che per la Poisson media e varianza coincidano.
+
+\textit{Dimostrazione (Media):}
+$E[X] = \sum_{k=0}^\infty k \cdot e^{-\lambda} \frac{\lambda^k}{k!} = e^{-\lambda} \sum_{k=1}^\infty k \frac{\lambda^k}{k!}$ (il termine per $k=0$ è nullo).
+$= e^{-\lambda} \sum_{k=1}^\infty \frac{\lambda^k}{(k-1)!} = e^{-\lambda} \lambda \sum_{k=1}^\infty \frac{\lambda^{k-1}}{(k-1)!}$.
+Ponendo $h=k-1$, la somma diventa $\sum_{h=0}^\infty \frac{\lambda^h}{h!} = e^\lambda$.
+Quindi $E[X] = e^{-\lambda} \lambda e^\lambda = \lambda$.
+
+\textit{Dimostrazione (Varianza):}
+Calcoliamo $E[X(X-1)]$.
+$E[X(X-1)] = \sum_{k=0}^\infty k(k-1) e^{-\lambda} \frac{\lambda^k}{k!} = e^{-\lambda} \sum_{k=2}^\infty k(k-1) \frac{\lambda^k}{k!}$ (termini per $k=0,1$ nulli).
+$= e^{-\lambda} \sum_{k=2}^\infty \frac{\lambda^k}{(k-2)!} = e^{-\lambda} \lambda^2 \sum_{k=2}^\infty \frac{\lambda^{k-2}}{(k-2)!}$.
+Ponendo $h=k-2$, la somma è $e^\lambda$.
+Quindi $E[X(X-1)] = e^{-\lambda} \lambda^2 e^\lambda = \lambda^2$.
+Sappiamo che $E[X^2] = E[X(X-1)] + E[X] = \lambda^2 + \lambda$.
+Allora $Var(X) = E[X^2] - (E[X])^2 = (\lambda^2+\lambda) - \lambda^2 = \lambda$. $\square$
+
+\begin{example}
+\textbf{Esempio (Errori di battitura):}
+Un libro di 500 pagine contiene 500 errori di battitura distribuiti casualmente. Qual è la probabilità che una data pagina contenga esattamente 2 errori?
+Assumiamo che il numero di errori per pagina segua una distribuzione di Poisson.
+La frequenza media di errori per pagina è $\lambda = 500 \text{ errori} / 500 \text{ pagine} = 1 \text{ errore/pagina}$.
+Sia $X$ il numero di errori in una pagina. $X \sim Poisson(1)$.
+$P(X=2) = e^{-1} \frac{1^2}{2!} = \frac{1}{2e} \approx 0.1839$.
+\end{example}
+
+
+\section{Il Problema del Giornalaio (Esempio di Applicazione)}
+Questo è un classico problema di gestione delle scorte che illustra come si usano le v.a. discrete per prendere decisioni.
+
+\textit{Scenario:}
+Un giornalaio vende quotidiani.
+\begin{itemize}
+    \item Prezzo di vendita: €1.50 / copia.
+    \item Costo per il giornalaio: €1.25 / copia (quindi guadagno di €0.25 / copia venduta).
+    \item Le copie invendute a fine giornata non possono essere rese e sono una perdita secca di €1.25 (costo d'acquisto).
+    \item Se la richiesta supera le copie disponibili, c'è un mancato guadagno di €0.25 per ogni copia non venduta per esaurimento scorte.
+\end{itemize}
+\textbf{Domanda:} Quante copie conviene al giornalaio avere in edicola ogni giorno per massimizzare il guadagno atteso?
+
+\textit{Approccio:}
+\begin{enumerate}
+    \item \textbf{Stimare la domanda:} Il giornalaio osserva la richiesta per un periodo (es. 50 giorni) e costruisce una distribuzione di probabilità empirica per la domanda $D$ (numero di copie richieste al giorno).
+    Supponiamo che i dati raccolti siano i seguenti:
+    \begin{center}
+    \begin{tabular}{ccc}
+    \toprule
+    $n^o$ copie richieste ($d$) & $n^o$ giorni & Freq. Relativa (PMF stimata $p_D(d)$) \\
+    \midrule
+    0 & 1 & $1/50 = 0.02$ \\
+    1 & 1 & $1/50 = 0.02$ \\
+    2 & 3 & $3/50 = 0.06$ \\
+    3 & 6 & $6/50 = 0.12$ \\
+    4 & 10 & $10/50 = 0.20$ \\
+    5 & 11 & $11/50 = 0.22$ \\
+    6 & 9 & $9/50 = 0.18$ \\
+    7 & 3 & $3/50 = 0.06$ \\
+    8 & 3 & $3/50 = 0.06$ \\
+    9 & 2 & $2/50 = 0.04$ \\
+    10 & 1 & $1/50 = 0.02$ \\
+    \midrule
+    Totale & 50 & 1.00 \\
+    \bottomrule
+    \end{tabular}
+    \end{center}
+    Chiamiamo $X$ la v.a. "numero di copie richieste" con la PMF $p_X(d)$ appena stimata. Il supporto è $S_X=\{0, 1, \dots, 10\}$.
+
+    \item \textbf{Definire il guadagno:} Sia $k$ il numero di copie che il giornalaio decide di acquistare.
+    Sia $Y_k$ la v.a. "guadagno giornaliero se si acquistano $k$ copie".
+    Il guadagno dipende dalla domanda $X$ e da $k$:
+    \begin{itemize}
+        \item Se la domanda $X \le k$ (copie richieste $\le$ copie disponibili):
+        Il giornalaio vende $X$ copie e $k-X$ copie restano invendute.
+        Guadagno = $X \cdot (0.25) - (k-X) \cdot (1.25)$.
+        \item Se la domanda $X > k$ (copie richieste $>$ copie disponibili):
+        Il giornalaio vende tutte le $k$ copie.
+        Guadagno = $k \cdot (0.25)$.
+    \end{itemize}
+    Possiamo scrivere $Y_k = \min(X, k) \cdot (0.25) - \max(0, k-X) \cdot (1.25)$.
+
+    \item \textbf{Calcolare il guadagno atteso $E[Y_k]$:} Per ogni possibile scelta di $k$ (da 0 a 10, per esempio), calcoliamo $E[Y_k]$ usando la PMF di $X$:
+    \[ E[Y_k] = \sum_{d \in S_X} (\text{guadagno se acquistate } k \text{ e richieste } d) \cdot p_X(d) \]
+    
+    \textit{Esempio: Calcolo di $E[Y_3]$ (se acquista $k=3$ copie)}
+    Valori possibili di $Y_3$ a seconda della domanda $X=d$:
+    \begin{itemize}
+        \item Se $X=0$: $Y_3 = 0 \cdot 0.25 - (3-0) \cdot 1.25 = -3.75$
+        \item Se $X=1$: $Y_3 = 1 \cdot 0.25 - (3-1) \cdot 1.25 = 0.25 - 2.50 = -2.25$
+        \item Se $X=2$: $Y_3 = 2 \cdot 0.25 - (3-2) \cdot 1.25 = 0.50 - 1.25 = -0.75$
+        \item Se $X \ge 3$ (cioè $X=3, 4, \dots, 10$): $Y_3 = 3 \cdot 0.25 = 0.75$
+    \end{itemize}
+    $E[Y_3] = (-3.75)p_X(0) + (-2.25)p_X(1) + (-0.75)p_X(2) + (0.75)P(X \ge 3)$.
+    $P(X \ge 3) = p_X(3)+\dots+p_X(10) = 1 - (p_X(0)+p_X(1)+p_X(2))$
+    $= 1 - (0.02+0.02+0.06) = 1 - 0.10 = 0.90$.
+    (Oppure $(6+10+11+9+3+3+2+1)/50 = 45/50 = 0.90$).
+    $E[Y_3] = (-3.75)(0.02) + (-2.25)(0.02) + (-0.75)(0.06) + (0.75)(0.90)$
+    $= -0.075 - 0.045 - 0.045 + 0.675 = -0.165 + 0.675 = 0.51$.
+    Quindi, se acquista 3 copie, il guadagno atteso è €0.51.
+
+    \item \textbf{Scegliere $k$ che massimizza $E[Y_k]$:}
+    Ripetendo il calcolo per diversi valori di $k$:
+    \begin{center}
+    \begin{tabular}{cc}
+    \toprule
+    $k$ (copie acquistate) & $E[Y_k]$ (guadagno atteso) \\
+    \midrule
+    0 & 0 \\ % se non compra nulla, non guadagna nulla
+    1 & 0.22 \\
+    2 & 0.41 \\
+    \textbf{3} & \textbf{0.51} \\ % Massimo
+    4 & 0.43 \\
+    5 & 0.05 \\
+    6 & -0.66 \\
+    ... & ... \\ % i guadagni attesi diventano negativi
+    \bottomrule
+    \end{tabular}
+    \end{center}
+    Il valore massimo di $E[Y_k]$ si ottiene per $k=3$. Quindi, al giornalaio conviene acquistare 3 copie al giorno.
+\end{enumerate}
 
 \end{document}
