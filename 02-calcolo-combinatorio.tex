@@ -1,4 +1,4 @@
-\input{preambolo_comune}
+\input{preambolo_comune.tex}
 
 % --- Titolo ---
 \title{Calcolo Combinatorio}
@@ -22,11 +22,13 @@ Siano $A$ e $B$ due eventi, con $\Pc(B) > 0$. La \textbf{probabilità condiziona
 \[ \Pcond{A}{B} = \frac{\Pc(A \capSet B)}{\Pc(B)} \]
 \end{definition}
 
-\textcolor{blue}{Intuizione:} Sapere che $B$ si è verificato restringe il nostro "universo" dei possibili esiti. Non siamo più interessati a tutto $\OmegaSet$, ma solo agli esiti contenuti in $B$. All'interno di questo nuovo universo ridotto ($B$), vogliamo vedere qual è la "porzione" occupata dagli esiti che sono anche in $A$. Questa porzione è $A \capSet B$. La formula normalizza questa misura dividendola per la probabilità del nuovo universo, $\Pc(B)$.
+\begin{remark}[Intuizione sulla probabilità condizionata]
+Sapere che $B$ si è verificato restringe il nostro "universo" dei possibili esiti. Non siamo più interessati a tutto $\OmegaSet$, ma solo agli esiti contenuti in $B$. All'interno di questo nuovo universo ridotto ($B$), vogliamo vedere qual è la "porzione" occupata dagli esiti che sono anche in $A$. Questa porzione è $A \capSet B$. La formula normalizza questa misura dividendola per la probabilità del nuovo universo, $\Pc(B)$, in modo che la somma delle probabilità degli esiti in $B$ (considerati nel nuovo contesto) sia 1.
+\end{remark}
 
 \begin{example}[Dado a 6 facce, probabilità uniforme]
 Lanciamo un dado a 6 facce non truccato.
-Lo spazio campionario è $\OmegaSet = \{1, 2, 3, 4, 5, 6\}$. Ogni esito ha probabilità $1/6$.
+Lo spazio campionario è $\OmegaSet = \{1, 2, 3, 4, 5, 6\}$. Ogni esito ha probabilità $1/6$ (casi equiprobabili).
 Sia $A = \text{"esce un numero maggiore o uguale a 3"} = \{3, 4, 5, 6\}$.
 Sia $B = \text{"esce un numero pari"} = \{2, 4, 6\}$.
 Vogliamo calcolare $\Pcond{A}{B}$, la probabilità che esca un numero $\ge 3$ sapendo che è uscito un numero pari.
@@ -36,16 +38,17 @@ Vogliamo calcolare $\Pcond{A}{B}$, la probabilità che esca un numero $\ge 3$ sa
     \item L'intersezione $A \capSet B$ (esiti che sono sia $\ge 3$ sia pari) è $\{4, 6\}$.
     \item La probabilità dell'intersezione è $\Pc(A \capSet B) = \Pc(\{4, 6\}) = 2/6 = 1/3$.
 \end{itemize}
-Applicando la definition:
+Applicando la definizione:
 \[ \Pcond{A}{B} = \frac{\Pc(A \capSet B)}{\Pc(B)} = \frac{1/3}{1/2} = \frac{2}{3} \]
-\textcolor{blue}{Pensiamoci:} Se sappiamo che è uscito un numero pari, i soli esiti possibili sono $\{2, 4, 6\}$ (questo è il nostro nuovo spazio campionario "ristretto"). Di questi, quelli favorevoli ad $A$ (cioè $\ge 3$) sono $\{4, 6\}$. Quindi, 2 casi favorevoli su 3 possibili. Questo coincide con $2/3$.
+\begin{remark}[Verifica intuitiva]
+Se sappiamo che è uscito un numero pari, i soli esiti possibili sono $\{2, 4, 6\}$ (questo è il nostro nuovo spazio campionario "ristretto", che ha 3 elementi). Di questi, quelli favorevoli ad $A$ (cioè $\ge 3$) sono $\{4, 6\}$ (2 elementi). Poiché, nel contesto ristretto di $B$, gli esiti $2, 4, 6$ sono ancora equiprobabili tra loro, la probabilità condizionata è $2/3$.
+\end{remark}
 \end{example}
 
 \begin{example}[Dado truccato a 4 facce, probabilità non uniforme]
 Lanciamo un dado truccato a 4 facce, $\OmegaSet = \{1, 2, 3, 4\}$.
 Le probabilità dei singoli esiti sono:
 $\Pc(\{1\}) = 8/15$, $\Pc(\{2\}) = 4/15$, $\Pc(\{3\}) = 2/15$, $\Pc(\{4\}) = 1/15$.
-(Notare che la somma delle probabilità è $8/15+4/15+2/15+1/15 = 15/15 = 1$).
 Sia $A = \text{"esce un numero maggiore o uguale a 3"} = \{3, 4\}$.
 Sia $B = \text{"esce un numero pari"} = \{2, 4\}$.
 Vogliamo calcolare $\Pcond{A}{B}$.
@@ -55,30 +58,34 @@ Vogliamo calcolare $\Pcond{A}{B}$.
     \item L'intersezione $A \capSet B$ (esiti $\ge 3$ e pari) è $\{4\}$.
     \item La probabilità dell'intersezione è $\Pc(A \capSet B) = \Pc(\{4\}) = 1/15$.
 \end{itemize}
-Applicando la definition:
-\[ \Pcond{A}{B} = \frac{\Pc(A \capSet B)}{\Pc(B)} = \frac{1/15}{1/3} = \frac{1}{15} \cdot 3 = \frac{3}{15} = \frac{1}{5} \]
-\textcolor{blue}{Pensiamoci (approccio dei "veri" casi pesati con la loro probabilità):} Se sappiamo che è uscito un numero pari (evento $B$), i "veri" casi possibili sono 2 e 4. L'evento $A$ (numero $\ge 3$) si verifica solo se esce 4. Dobbiamo rapportare la probabilità del "vero" caso favorevole ($\Pc(\{4\})$) alla somma delle probabilità dei "veri" casi possibili ($\Pc(\{2\}) + \Pc(\{4\})$), che rappresenta la probabilità del nostro nuovo universo $\Pc(B)$:
+Applicando la definizione:
+\[ \Pcond{A}{B} = \frac{\Pc(A \capSet B)}{\Pc(B)} = \frac{1/15}{1/3} = \frac{1}{5} \]
+\begin{remark}[Approccio dei "veri" casi pesati]
+Se sappiamo che è uscito un numero pari (evento $B$), i "veri" casi possibili sono 2 e 4. L'evento $A$ (numero $\ge 3$) si verifica solo se esce 4. Dobbiamo rapportare la probabilità del "vero" caso favorevole ($\Pc(\{4\})$) alla somma delle probabilità dei "veri" casi possibili ($\Pc(\{2\}) + \Pc(\{4\})$), che rappresenta la probabilità del nostro nuovo universo $\Pc(B)$:
 \[ \Pcond{A}{B} = \frac{\Pc(\{4\})}{\Pc(\{2\}) + \Pc(\{4\})} = \frac{1/15}{4/15 + 1/15} = \frac{1/15}{5/15} = \frac{1}{5} \]
-Questo conferma la formula generale. L'idea è che, anche se gli esiti originali non sono equiprobabili, una volta che ci si restringe allo spazio $B$, gli esiti in $B$ "ereditano" le loro probabilità originali, ma queste vengono "rinormalizzate" dividendole per $\Pc(B)$ in modo che la loro somma sia 1 nel nuovo contesto.
+Questo conferma la formula generale. L'idea è che, anche se gli esiti originali non sono equiprobabili, una volta che ci si restringe allo spazio $B$, gli esiti in $B$ "ereditano" le loro probabilità originali, ma queste vengono "rinormalizzate" dividendo per $\Pc(B)$ in modo che la loro somma sia 1 nel nuovo contesto.
+\end{remark}
 \end{example}
 
 \begin{exercise}
 Considera l'esperimento del lancio di due dadi non truccati.
-Sia $S$ la somma dei punteggi.
 Sia $A = \text{"la somma dei punteggi è 7"}$.
 Sia $B = \text{"il primo dado ha dato come risultato 3"}$.
 Calcola $\Pcond{A}{B}$.
 \end{exercise}
-\textbf{Soluzione:}
-Lo spazio campionario $\OmegaSet$ è l'insieme delle coppie $(d_1, d_2)$ dove $d_1, d_2 \in \{1, \dots, 6\}$. Ci sono $6 \times 6 = 36$ esiti equiprobabili, ognuno con probabilità $1/36$.
-L'evento $B = \text{"il primo dado è 3"}$ è $\{(3,1), (3,2), (3,3), (3,4), (3,5), (3,6)\}$.
-Quindi, $\Pc(B) = 6/36 = 1/6$.
-L'evento $A = \text{"la somma è 7"}$ è $\{(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)\}$.
-L'evento $A \capSet B$ (somma 7 E primo dado 3) è l'esito $\{(3,4)\}$.
+\begin{proof}[Soluzione]
+Lo spazio campionario $\OmegaSet$ è l'insieme delle coppie ordinate $(d_1, d_2)$ dove $d_1, d_2 \in \{1, \dots, 6\}$ rappresentano l'esito del primo e del secondo dado, rispettivamente. Ci sono $6 \times 6 = 36$ esiti equiprobabili, ognuno con probabilità $1/36$. (Qui usiamo il principio fondamentale del calcolo combinatorio per le scelte indipendenti, o prodotto cartesiano degli insiemi degli esiti).
+L'evento $B = \text{"il primo dado è 3"}$ è l'insieme di coppie $\{(3,1), (3,2), (3,3), (3,4), (3,5), (3,6)\}$.
+Quindi, $\Pc(B) = |B|/|\OmegaSet| = 6/36 = 1/6$.
+L'evento $A = \text{"la somma è 7"}$ è l'insieme di coppie $\{(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)\}$.
+L'evento $A \capSet B$ (somma 7 E primo dado 3) è l'esito (la coppia) $\{(3,4)\}$.
 Quindi, $\Pc(A \capSet B) = 1/36$.
 La probabilità condizionata è:
 \[ \Pcond{A}{B} = \frac{\Pc(A \capSet B)}{\Pc(B)} = \frac{1/36}{1/6} = \frac{1}{36} \cdot 6 = \frac{1}{6} \]
-\textcolor{blue}{Intuitivamente:} Se sappiamo che il primo dado è 3, affinché la somma sia 7, il secondo dado deve necessariamente dare 4. La probabilità che un dado non truccato dia 4 è $1/6$.
+\begin{remark}[Verifica intuitiva]
+Se sappiamo che il primo dado è 3, affinché la somma sia 7, il secondo dado deve necessariamente dare 4. La probabilità che un dado non truccato (il secondo dado) dia 4 è $1/6$.
+\end{remark}
+\end{proof}
 
 \subsection{Proprietà della probabilità condizionata}
 Fissato un evento $B$ con $\Pc(B)>0$, la funzione $\Pcond{\cdot}{B}$ (che mappa un evento $A$ in $\Pcond{A}{B}$) è essa stessa una misura di probabilità. Ciò significa che soddisfa gli assiomi di Kolmogorov.
@@ -87,27 +94,28 @@ Fissato un evento $B$ con $\Pc(B)>0$, la funzione $\Pcond{\cdot}{B}$ (che mappa 
 Sia $B$ un evento tale che $\Pc(B)>0$. Valgono le seguenti proprietà:
 \begin{enumerate}[label=\Roman*)]
     \item Per ciascun evento $A \subseteq \OmegaSet$, si ha $0 \le \Pcond{A}{B} \le 1$.
-    \item $\Pcond{\OmegaSet}{B} = 1$. (\textit{Sapendo $B$, la probabilità che accada "qualcosa" (l'evento certo) nello spazio ristretto $B$ è 1}).
+    \item $\Pcond{\OmegaSet}{B} = 1$.
     \item Se $A_1, A_2, \dots, A_n, \dots$ è una successione di eventi a due a due disgiunti, allora
     \[ \Pcond{\bigcup_{n=1}^\infty A_n}{B} = \sum_{n=1}^\infty \Pcond{A_n}{B} \quad (\sigma\text{-additività}) \]
     Da queste proprietà fondamentali derivano altre utili conseguenze:
-    \item $\Pcond{\emptyset}{B} = 0$. (\textit{Sapendo $B$, la probabilità dell'evento impossibile è 0}).
+    \item $\Pcond{\emptyset}{B} = 0$.
     \item Se $A_1, A_2$ sono disgiunti: $\Pcond{A_1 \cupSet A_2}{B} = \Pcond{A_1}{B} + \Pcond{A_2}{B}$ (additività finita).
-    \item $\Pcond{\compSet{A}}{B} = 1 - \Pcond{A}{B}$. (\textit{Probabilità del complementare, condizionata a $B$}).
+    \item $\Pcond{\compSet{A}}{B} = 1 - \Pcond{A}{B}$.
     \item Se $A_1 \subseteq A_2$, allora $\Pcond{A_1}{B} \le \Pcond{A_2}{B}$ (monotonia).
 \end{enumerate}
 \end{theorem}
-\textcolor{blue}{Dimostrazione (example per I):}
+\begin{proof}[Dimostrazione (esempio per I)]
 Dato che $A \capSet B \subseteq B$, per la monotonia della probabilità $\Pc$ (non condizionata), si ha $\Pc(A \capSet B) \le \Pc(B)$.
-Poiché $\Pc(B)>0$ per ipotesi (altrimenti la probabilità condizionata non sarebbe definita), possiamo dividere entrambi i membri per $\Pc(B)$ senza cambiare il verso della disuguaglianza:
+Poiché $\Pc(B)>0$ per ipotesi, possiamo dividere entrambi i membri per $\Pc(B)$ senza cambiare il verso della disuguaglianza:
 \[ \frac{\Pc(A \capSet B)}{\Pc(B)} \le 1 \implies \Pcond{A}{B} \le 1 \]
 Inoltre, la probabilità di un evento è sempre non negativa, quindi $\Pc(A \capSet B) \ge 0$. Dividendo per $\Pc(B) > 0$:
 \[ \Pcond{A}{B} = \frac{\Pc(A \capSet B)}{\Pc(B)} \ge 0 \]
-Mettendo insieme le due disuguaglianze, $0 \le \Pcond{A}{B} \le 1$. Le altre proprietà si dimostrano in modo analogo, usando la definition di probabilità condizionata e le proprietà della misura di probabilità $\Pc$ non condizionata.
+Mettendo insieme le due disuguaglianze, $0 \le \Pcond{A}{B} \le 1$. Le altre proprietà si dimostrano in modo analogo, usando la definizione di probabilità condizionata e le proprietà della misura di probabilità $\Pc$ non condizionata.
+\end{proof}
 
 \begin{remark}
 È importante ricordare che, in generale, $\Pcond{A}{B} \neq \Pcond{B}{A}$.
-Ad example, sia $A = \text{"una persona ha la febbre alta"}$ e $B = \text{"una persona ha l'influenza"}$.
+Ad esempio, sia $A = \text{"una persona ha la febbre alta"}$ e $B = \text{"una persona ha l'influenza"}$.
 $\Pcond{A}{B}$ (probabilità di febbre alta dato che ha l'influenza) è generalmente alta.
 $\Pcond{B}{A}$ (probabilità di avere l'influenza dato che ha la febbre alta) potrebbe essere più bassa, perché la febbre alta può essere causata da molte altre malattie.
 La relazione tra $\Pcond{A}{B}$ e $\Pcond{B}{A}$ è descritta dalla Formula di Bayes, che tratteremo in seguito.
@@ -117,7 +125,7 @@ La relazione tra $\Pcond{A}{B}$ e $\Pcond{B}{A}$ è descritta dalla Formula di B
 \section{Utilizzo della Probabilità Condizionata}
 
 \subsection{Regola della catena (o formula della probabilità composta)}
-La definition di probabilità condizionata, $\Pcond{A}{B} = \frac{\Pc(A \capSet B)}{\Pc(B)}$, può essere riscritta per calcolare la probabilità dell'intersezione di due eventi. Se $\Pc(B)>0$, moltiplicando entrambi i membri per $\Pc(B)$ otteniamo:
+La definizione di probabilità condizionata, $\Pcond{A}{B} = \frac{\Pc(A \capSet B)}{\Pc(B)}$, può essere riscritta per calcolare la probabilità dell'intersezione di due eventi. Se $\Pc(B)>0$, moltiplicando entrambi i membri per $\Pc(B)$ otteniamo:
 \[ \Pc(A \capSet B) = \Pcond{A}{B} \Pc(B) \]
 Questa è nota come \textbf{regola della catena} o formula della probabilità composta, ed è estremamente utile, specialmente in esperimenti che avvengono in più stadi (esperimenti sequenziali).
 
@@ -127,7 +135,6 @@ Siano $A$ e $B$ due eventi.
     \item Se $\Pc(B) > 0$, allora: $\Pc(A \capSet B) = \Pcond{A}{B} \Pc(B)$.
     \item Se $\Pc(A) > 0$, allora: $\Pc(A \capSet B) = \Pcond{B}{A} \Pc(A)$.
 \end{itemize}
-Naturalmente, se $\Pc(A)>0$ e $\Pc(B)>0$, entrambe le forme sono valide e portano allo stesso risultato $\Pcond{A}{B} \Pc(B) = \Pcond{B}{A} \Pc(A)$.
 \end{theorem}
 
 Questa regola si può estendere a più di due eventi.
@@ -135,7 +142,7 @@ Questa regola si può estendere a più di due eventi.
 Per tre eventi $A_1, A_2, A_3$, se $\Pc(A_1) > 0$ e $\Pc(A_1 \capSet A_2) > 0$ (condizioni che assicurano che le probabilità condizionate siano definite), allora:
 \[ \Pc(A_1 \capSet A_2 \capSet A_3) = \Pcond{A_3}{A_1 \capSet A_2} \Pcond{A_2}{A_1} \Pc(A_1) \]
 \end{theorem}
-\textcolor{blue}{Idea della dimostrazione (per tre eventi):}
+\begin{proof}[Idea della dimostrazione (per tre eventi)]
 Partiamo da $\Pc(A_1 \capSet A_2 \capSet A_3)$. Possiamo vederla come $\Pc((A_1 \capSet A_2) \capSet A_3)$.
 Sia $C = A_1 \capSet A_2$. Allora $\Pc(C \capSet A_3) = \Pcond{A_3}{C} \Pc(C)$ (usando la regola per due eventi).
 Sostituendo $C$ con $A_1 \capSet A_2$, otteniamo $\Pcond{A_3}{A_1 \capSet A_2} \Pc(A_1 \capSet A_2)$.
@@ -143,172 +150,159 @@ Ora applichiamo di nuovo la regola della catena per due eventi a $\Pc(A_1 \capSe
 $\Pc(A_1 \capSet A_2) = \Pcond{A_2}{A_1} \Pc(A_1)$.
 Sostituendo quest'ultima espressione nella precedente, otteniamo la formula desiderata:
 $\Pc(A_1 \capSet A_2 \capSet A_3) = \Pcond{A_3}{A_1 \capSet A_2} \Pcond{A_2}{A_1} \Pc(A_1)$.
-L'ordine in cui si "scompone" l'intersezione non cambia il risultato finale, purché le probabilità condizionate intermedie siano ben definite.
+\end{proof}
 
 \begin{example}[Estrazioni da un'urna senza reimmissione]
-Un'urna contiene 3 palline bianche (B), 2 palline nere (N) e 1 pallina rossa (R). In totale ci sono 6 palline. Si eseguono tre estrazioni senza reimmissione.
+Un'urna contiene 3 palline bianche (B), 2 palline nere (N) e 1 pallina rossa (R). In totale ci sono 6 palline. Si eseguono tre estrazioni \textbf{senza reimmissione} (ciò significa che la composizione dell'urna cambia dopo ogni estrazione).
 Qual è la probabilità di estrarre nell'ordine: una bianca, poi una rossa, poi una nera?
 Indichiamo con $B_1$ l'evento "prima estratta è bianca", $R_2$ l'evento "seconda estratta è rossa", e $N_3$ l'evento "terza estratta è nera". Vogliamo calcolare $\Pc(B_1 \capSet R_2 \capSet N_3)$.
 
-Usiamo la regola della catena per tre eventi:
+Usiamo la regola della catena:
 \[ \Pc(B_1 \capSet R_2 \capSet N_3) = \Pcond{N_3}{B_1 \capSet R_2} \Pcond{R_2}{B_1} \Pc(B_1) \]
 Calcoliamo i termini uno per uno, tenendo traccia della composizione dell'urna:
 \begin{itemize}
-    \item $\Pc(B_1)$: All'inizio, l'urna ha (3B, 2N, 1R) - 6 palline. $\Pc(B_1) = 3/6 = 1/2$.
-    \item $\Pcond{R_2}{B_1}$: Se la prima pallina estratta è stata bianca ($B_1$ si è verificato), l'urna ora contiene (2B, 2N, 1R) - 5 palline. La probabilità di estrarre una rossa è $\Pcond{R_2}{B_1} = 1/5$.
-    \item $\Pcond{N_3}{B_1 \capSet R_2}$: Se la prima è stata bianca e la seconda rossa ($B_1 \capSet R_2$ si è verificato), l'urna ora contiene (2B, 2N, 0R) - 4 palline. La probabilità di estrarre una nera è $\Pcond{N_3}{B_1 \capSet R_2} = 2/4 = 1/2$.
+    \item $\Pc(B_1)$: All'inizio, l'urna ha (3B, 2N, 1R) - 6 palline totali. $\Pc(B_1) = \frac{\text{numero di Bianche}}{\text{totale palline}} = 3/6 = 1/2$.
+    \item $\Pcond{R_2}{B_1}$: Se la prima pallina estratta è stata bianca ($B_1$ si è verificato), l'urna ora contiene (2B, 2N, 1R) - 5 palline totali. La probabilità di estrarre una rossa è $\Pcond{R_2}{B_1} = 1/5$.
+    \item $\Pcond{N_3}{B_1 \capSet R_2}$: Se la prima è stata bianca e la seconda rossa ($B_1 \capSet R_2$ si è verificato), l'urna ora contiene (2B, 2N, 0R) - 4 palline totali. La probabilità di estrarre una nera è $\Pcond{N_3}{B_1 \capSet R_2} = 2/4 = 1/2$.
 \end{itemize}
 Mettendo insieme i pezzi:
-\[ \Pc(B_1 \capSet R_2 \capSet N_3) = \left(\frac{1}{2}\right) \cdot \left(\frac{1}{5}\right) \cdot \left(\frac{2}{4}\right) = \frac{3}{6} \cdot \frac{1}{5} \cdot \frac{2}{4} = \frac{6}{120} = \frac{1}{20} \]
+\[ \Pc(B_1 \capSet R_2 \capSet N_3) = \left(\frac{3}{6}\right) \cdot \left(\frac{1}{5}\right) \cdot \left(\frac{2}{4}\right) = \frac{6}{120} = \frac{1}{20} \]
 \end{example}
 
 \subsection{Diagrammi ad albero}
-I diagrammi ad albero sono uno strumento visuale molto efficace per organizzare e calcolare probabilità in esperimenti che si svolgono in più fasi (sotto-esperimenti sequenziali). Sono particolarmente utili quando si applica la regola della catena.
+I diagrammi ad albero sono uno strumento visuale molto efficace per organizzare e calcolare probabilità in esperimenti che si svolgono in più fasi.
 
 \textbf{Caratteristiche di un diagramma ad albero:}
 \begin{itemize}
-    \item \textbf{Nodi:} Ogni nodo rappresenta un possibile stato o un esito parziale dell'esperimento. Il nodo iniziale, chiamato \textbf{radice}, rappresenta l'evento certo $\OmegaSet$ (l'inizio dell'esperimento).
-    \item \textbf{Rami:} Ogni ramo che si diparte da un nodo rappresenta un possibile esito del sotto-esperimento che segue.
-    \item \textbf{Probabilità sui rami:}
+    \item \textbf{Nodi:} Rappresentano gli stati o gli esiti parziali. La \textbf{radice} è $\OmegaSet$.
+    \item \textbf{Rami:} Rappresentano i possibili esiti del sotto-esperimento successivo.
+    \textbf{Probabilità sui rami:}
         \begin{itemize}
-            \item I rami che partono dalla radice (primo livello) sono etichettati con le probabilità \textit{non condizionate} degli esiti del primo sotto-esperimento (es. $\Pc(A_1)$, $\Pc(B_1)$).
-            \item I rami che partono da un nodo successivo (es. da un nodo che rappresenta l'evento $A_1$) sono etichettati con le probabilità \textit{condizionate} all'evento rappresentato da quel nodo di partenza (es. $\Pcond{A_2}{A_1}$, $\Pcond{B_2}{A_1}$).
+            \item Dal primo livello (dalla radice): probabilità \textit{non condizionate}.
+            \item Dai livelli successivi: probabilità \textit{condizionate} agli eventi del cammino percorso fino a quel nodo.
         \end{itemize}
-    \item \textbf{Probabilità di un cammino:} Un \textbf{cammino} è una sequenza di rami che va dalla radice a una \textbf{foglia} (un nodo terminale, che rappresenta un esito completo dell'esperimento sequenziale). La probabilità di un cammino si calcola moltiplicando le probabilità associate a tutti i rami che compongono quel cammino. Questo è esattamente l'applicazione della regola della catena. Ad example, per un cammino $R_1 \rightarrow E_2 \rightarrow V_3$, la probabilità è $\Pc(R_1) \cdot \Pcond{E_2}{R_1} \cdot \Pcond{V_3}{R_1 \capSet E_2}$.
-    \item \textbf{Somma delle probabilità dai nodi:} La somma delle probabilità sui rami che escono da un \textit{medesimo nodo} deve essere 1, a condizione che questi rami rappresentino una partizione degli esiti possibili a partire da quel nodo (cioè, coprano tutte le possibilità e siano mutuamente esclusivi).
+    \item \textbf{Probabilità di un cammino:} Si ottiene moltiplicando le probabilità sui rami del cammino (applicazione della regola della catena).
+    \item \textbf{Somma delle probabilità dai nodi:} Deve fare 1 per i rami che partono da un medesimo nodo e rappresentano una partizione.
 \end{itemize}
 
 \begin{example}[Diagramma ad albero per l'estrazione B-R-N]
-Riprendiamo l'urna con (3B, 2N, 1R) e le tre estrazioni senza reimmissione. Vogliamo $\Pc(B_1 \capSet R_2 \capSet N_3)$.
+Urna: (3B, 2N, 1R). Tre estrazioni senza reimmissione. Calcolare $\Pc(B_1 \capSet R_2 \capSet N_3)$.
 
 \begin{figure}[h!]
 \centering
 \begin{tikzpicture}[
-    level 1/.style={sibling distance=5cm, level distance=3.5cm},
-    level 2/.style={sibling distance=3.5cm, level distance=3.5cm},
-    level 3/.style={sibling distance=2.5cm, level distance=3.5cm},
-    edge from parent/.style={draw, -latex},
-    every node/.style={align=center}
+    level distance=3cm,
+    sibling distance=2cm,
+    every node/.style={font=\small},
+    state/.style={rectangle, draw, minimum width=1.8cm, minimum height=0.8cm},
+    event/.style={midway, above, font=\scriptsize},
+    prob/.style={midway, below, font=\scriptsize},
+    path/.style={thick, -stealth},
+    other/.style={gray, thin, -stealth}
 ]
-\node {$\OmegaSet$}
-    child {node {$B_1$}
-        edge from parent node[left, midway] {$P(B_1)=\frac{3}{6}$}
-        child {node {$R_2$}
-            edge from parent node[left, midway] {$P(R_2|B_1)=\frac{1}{5}$}
-            child {node {$N_3$}
-                edge from parent node[left, midway] {$P(N_3|B_1 \cap R_2)=\frac{2}{4}$}
-                % Altri figli possibili da qui...
-            }
-            child {node {$B_3$}
-                 edge from parent node[right, midway] {$P(B_3|B_1 \cap R_2)=\frac{2}{4}$}
-            }
-        }
-        child {node {$N_2$} % Altro ramo da B1
-            edge from parent node[right, midway] {$P(N_2|B_1)=\frac{2}{5}$}
-            % ... e così via
-        }
-        % ... e così via per R1
-    }
-    child {node {$N_1$} % Altro ramo dalla radice
-        edge from parent node[midway, above] {$P(N_1)=\frac{2}{6}$}
-        % ...
-    }
-    child {node {$R_1$} % Altro ramo dalla radice
-        edge from parent node[right, midway] {$P(R_1)=\frac{1}{6}$}
-        % ...
-    };
+
+% Nodo radice
+\node[state] (root) {3B, 2N, 1R};
+
+% Primo livello
+\node[state, right=of root] (B1) {2B, 2N, 1R};
+\draw[path] (root) -- (B1) node[event] {$B_1$} node[prob] {$3/6$};
+
+\node[state, below=of B1] (N1) {3B, 1N, 1R};
+\draw[other] (root) -- (N1) node[event] {$N_1$} node[prob] {$2/6$};
+
+\node[state, below=of N1] (R1) {3B, 2N};
+\draw[other] (root) -- (R1) node[event] {$R_1$} node[prob] {$1/6$};
+
+% Secondo livello
+\node[state, right=of B1] (R2) {2B, 2N};
+\draw[path] (B1) -- (R2) node[event] {$R_2$} node[prob] {$1/5$};
+
+\node[state, above=of R2] (B2) {1B, 2N, 1R};
+\draw[other] (B1) -- (B2) node[event] {$B_2$} node[prob] {$2/5$};
+
+\node[state, below=of R2] (N2) {2B, 1N, 1R};
+\draw[other] (B1) -- (N2) node[event] {$N_2$} node[prob] {$2/5$};
+
+% Terzo livello
+\node[state, right=of R2] (N3) {2B, 1N};
+\draw[path] (R2) -- (N3) node[event] {$N_3$} node[prob] {$2/4$};
+
+\node[state, above=of N3] (B3) {1B, 2N};
+\draw[other] (R2) -- (B3) node[event] {$B_3$} node[prob] {$2/4$};
+
+% Probabilità finale
+\node[right=of N3, text width=3cm] (prob) {
+    $P(B_1 \capSet R_2 \capSet N_3)$
+    $= \frac{3}{6} \cdot \frac{1}{5} \cdot \frac{2}{4}$
+    $= \frac{1}{20}$
+};
+\draw[path, dashed] (N3) -- (prob);
+
 \end{tikzpicture}
-\caption{Diagramma ad albero parziale per l'estrazione $B_1 \capSet R_2 \capSet N_3$.}
-\label{fig:tree_brn}
+\caption{Diagramma ad albero per le estrazioni da un'urna senza reimmissione. Il cammino $B_1 \capSet R_2 \capSet N_3$ è evidenziato.}
+\label{fig:tree_extraction_fixed}
 \end{figure}
-Il cammino che ci interessa è $\OmegaSet \rightarrow B_1 \rightarrow R_2 \rightarrow N_3$.
+
+Il cammino che ci interessa è $\OmegaSet_0 \rightarrow B_1 \rightarrow R_2 \rightarrow N_3$.
 La probabilità di questo cammino è:
 $\Pc(B_1) \cdot \Pcond{R_2}{B_1} \cdot \Pcond{N_3}{B_1 \capSet R_2} = \frac{3}{6} \cdot \frac{1}{5} \cdot \frac{2}{4} = \frac{1}{20}$.
-
-\textcolor{blue}{Importante:} Se un problema chiede la probabilità di un evento che può essere raggiunto attraverso più cammini disgiunti, si calcola la probabilità di ciascun cammino e poi si sommano queste probabilità. Ad example, se volessimo la probabilità di "estrarre una Nera alla terza estrazione" ($\Pc(N_3)$), dovremmo identificare tutti i cammini che terminano con $N_3$, calcolare la loro probabilità e sommarle. Questo è il principio dietro la Formula delle Probabilità Totali, che vedremo più avanti.
 \end{example}
 
 \subsection{Partizioni di \texorpdfstring{$\OmegaSet$}{Omega} (Schema di alternative)}
-Il concetto di partizione è fondamentale in probabilità, in particolare per la formula delle probabilità totali. Una partizione divide lo spazio campionario in pezzi che non si sovrappongono e che, messi insieme, ricompongono l'intero spazio.
+Una partizione divide lo spazio campionario in "fette" disgiunte la cui unione è l'intero spazio.
 
 \begin{definition}
-Si dice che $n$ eventi (o sottoinsiemi) $H_1, H_2, \dots, H_n$ dello spazio campionario $\OmegaSet$ formano una \textbf{partizione} (detta anche \textbf{schema di alternative}) di $\OmegaSet$ se soddisfano due condizioni:
+Una famiglia di eventi $H_1, H_2, \dots, H_n$ (o una famiglia numerabile $H_1, H_2, \dots$) forma una \textbf{partizione} di $\OmegaSet$ se:
 \begin{enumerate}
-    \item Gli eventi $H_1, \dots, H_n$ sono a due a due \textbf{disgiunti} (o mutuamente esclusivi), cioè $H_i \capSet H_j = \emptyset$ per ogni coppia $i \neq j$. (Questo significa che non possono verificarsi contemporaneamente due eventi distinti della partizione).
-    \item L'unione degli eventi $H_1, \dots, H_n$ è l'intero spazio campionario $\OmegaSet$, cioè $\bigcup_{i=1}^n H_i = \OmegaSet$. (Questo significa che almeno uno degli eventi della partizione deve verificarsi).
+    \item Gli eventi sono a due a due \textbf{disgiunti}: $H_i \capSet H_j = \emptyset$ per $i \neq j$.
+    \item La loro \textbf{unione} è $\OmegaSet$: $\bigcup_{i} H_i = \OmegaSet$.
 \end{enumerate}
-In breve: gli $H_i$ sono "pezzi" disgiunti che, insieme, ricoprono interamente $\OmegaSet$.
-Questa definition si estende anche a una famiglia numerabile di eventi $H_1, H_2, \dots$.
 \end{definition}
 
 \begin{remark}
-Se una partizione è costituita solamente da due eventi $H_1$ e $H_2$, allora $H_2$ deve essere necessariamente il complementare di $H_1$, cioè $H_2 = \compSet{H_1}$ (e viceversa, $H_1 = \compSet{H_2}$). Infatti, devono essere disgiunti ($H_1 \capSet \compSet{H_1} = \emptyset$) e la loro unione deve essere $\OmegaSet$ ($H_1 \cupSet \compSet{H_1} = \OmegaSet$).
+Se $\{H_1, H_2\}$ è una partizione, allora $H_2 = \compSet{H_1}$.
 \end{remark}
 
 \begin{example}[Scelta tra due urne e estrazione di una pallina]
-Consideriamo un esperimento in due fasi:
-\begin{enumerate}
-    \item Si lancia una moneta non truccata. Se esce Testa (T), si sceglie l'Urna 1 (U1). Se esce Croce (C), si sceglie l'Urna 2 (U2).
-    \item Si estrae una pallina dall'urna scelta.
-\end{enumerate}
-L'Urna 1 (U1) contiene 2 palline Rosse (R) e 1 Bianca (B). (Totale 3 palline)
-L'Urna 2 (U2) contiene 3 palline Rosse (R) e 2 Bianche (B). (Totale 5 palline)
-
-Qual è la probabilità che l'esito del lancio della moneta sia Testa E la pallina estratta sia Bianca?
-Definiamo gli eventi:
-$T = \text{"esce Testa" (e quindi si sceglie U1)}$. $\Pc(T) = 1/2$.
-$C = \text{"esce Croce" (e quindi si sceglie U2)}$. $\Pc(C) = 1/2$.
-Notare che $\{T, C\}$ forma una partizione degli esiti del lancio della moneta.
-$B_{est} = \text{"la pallina estratta è Bianca"}$.
-Vogliamo calcolare $\Pc(T \capSet B_{est})$.
-
-Usiamo la regola della catena: $\Pc(T \capSet B_{est}) = \Pcond{B_{est}}{T} \Pc(T)$.
 \begin{itemize}
-    \item $\Pc(T) = 1/2$.
-    \item $\Pcond{B_{est}}{T}$: Questa è la probabilità di estrarre una Bianca, sapendo che è stata scelta l'Urna 1. Dall'Urna 1 (2R, 1B), la probabilità di estrarre Bianca è $1/3$. Quindi $\Pcond{B_{est}}{T} = 1/3$.
+    \item Fase 1: Lancio di una moneta non truccata. Testa (T) $\implies$ Urna 1 (U1). Croce (C) $\implies$ Urna 2 (U2).
+    \item Fase 2: Estrazione di una pallina dall'urna scelta.
 \end{itemize}
-Dunque, $\Pc(T \capSet B_{est}) = (1/3) \cdot (1/2) = 1/6$.
+U1: 2 Rosse (R), 1 Bianca (B). (Totale 3)
+U2: 3 Rosse (R), 2 Bianche (B). (Totale 5)
 
-Questo tipo di problema, dove un evento (come l'estrazione di una pallina bianca) può avvenire attraverso diverse "strade" alternative (scelta di U1 o scelta di U2), è un classico example dove la Formula delle Probabilità Totali (che vedremo dopo) è molto utile per calcolare la probabilità complessiva di $B_{est}$.
+Qual è la probabilità che esca Testa E la pallina estratta sia Bianca?
+Eventi: $T = \text{"esce Testa"}$, $C = \text{"esce Croce"}$. $\{T,C\}$ è una partizione. $\Pc(T)=\Pc(C)=1/2$.
+$B_{est} = \text{"estratta è Bianca"}$.
+Vogliamo $\Pc(T \capSet B_{est})$.
+Usiamo la regola della catena: $\Pc(T \capSet B_{est}) = \Pcond{B_{est}}{T} \Pc(T)$.
+$\Pcond{B_{est}}{T}$ è la probabilità di estrarre Bianca da U1, che è $1/3$.
+$\Pc(T \capSet B_{est}) = (1/3) \cdot (1/2) = 1/6$.
 \end{example}
 
-\begin{exercise}[Gioco con arresto, example semplificato]
-Un giocatore inizia con 1 euro. Lancia ripetutamente una moneta bilanciata ($\Pc(T) = \Pc(C) = 1/2$). Se esce Testa (T) vince 1 euro, se esce Croce (C) perde 1 euro. Il gioco si ferma se il giocatore arriva a 0 euro (rovina) o a 3 euro (vittoria).
-Qual è la probabilità che il gioco termini con una vittoria al secondo lancio?
-
-\textbf{Soluzione:}
-Indichiamo con $S_k$ il capitale del giocatore dopo $k$ lanci. $S_0 = 1$.
-Il gioco si ferma se $S_k=0$ o $S_k=3$.
-Vogliamo "vittoria al secondo lancio". Questo significa che $S_0=1, S_1 \neq 0 \text{ e } S_1 \neq 3$, e $S_2=3$.
-\begin{itemize}
-    \item \textbf{Lancio 1:}
-        \begin{itemize}
-            \item Esce T (prob 1/2): $S_1 = 1+1 = 2$. Il gioco continua.
-            \item Esce C (prob 1/2): $S_1 = 1-1 = 0$. Il gioco si ferma (rovina). Questo cammino non porta a vittoria.
-        \end{itemize}
-    \item \textbf{Lancio 2 (solo se $S_1=2$):}
-        \begin{itemize}
-            \item Esce T (prob 1/2): $S_2 = 2+1 = 3$. Il gioco si ferma (vittoria).
-            \item Esce C (prob 1/2): $S_2 = 2-1 = 1$. Il gioco continua (ma noi siamo interessati a vittoria al secondo lancio).
-        \end{itemize}
-\end{itemize}
-L'unico cammino che porta a "vittoria al secondo lancio" è $T_1 \capSet T_2$ (Testa al primo, Testa al secondo).
-La probabilità di questo cammino è $\Pc(T_1 \capSet T_2) = \Pcond{T_2}{T_1} \Pc(T_1)$.
-Poiché i lanci sono indipendenti (lo anticiperemo qui, ma ha senso intuitivo), $\Pcond{T_2}{T_1} = \Pc(T_2) = 1/2$.
-Quindi, $\Pc(\text{vittoria al secondo lancio}) = \Pc(T_1) \cdot \Pc(T_2) = (1/2) \cdot (1/2) = 1/4$.
-
-Un diagramma ad albero per questo sarebbe:
-\begin{itemize}
-    \item Radice ($S_0=1$)
-    \item Ramo $C_1$ (prob 1/2) $\rightarrow$ Nodo $S_1=0$ (Rovina, stop)
-    \item Ramo $T_1$ (prob 1/2) $\rightarrow$ Nodo $S_1=2$
-        \begin{itemize}
-            \item Dal nodo $S_1=2$, Ramo $C_2$ (prob 1/2) $\rightarrow$ Nodo $S_2=1$ (Continua)
-            \item Dal nodo $S_1=2$, Ramo $T_2$ (prob 1/2) $\rightarrow$ Nodo $S_2=3$ (Vittoria, stop) $\leftarrow$ Cammino desiderato
-        \end{itemize}
-\end{itemize}
-Probabilità del cammino $S_0=1 \rightarrow S_1=2 \rightarrow S_2=3$ è $(1/2) \cdot (1/2) = 1/4$.
+\begin{exercise}[Gioco con arresto, esempio semplificato]
+Un giocatore inizia con 1 euro. Lancia una moneta bilanciata. T $\implies$ +1 euro, C $\implies$ -1 euro. Si ferma a 0 euro (rovina) o 3 euro (vittoria).
+Probabilità di vittoria al secondo lancio?
 \end{exercise}
 
+\begin{proof}[Soluzione]
+$S_k$ = capitale dopo $k$ lanci. $S_0 = 1$.
+Vittoria al secondo lancio: $S_0=1 \rightarrow S_1 \in \{1,2\} \rightarrow S_2=3$.
+\begin{itemize}
+    \item Lancio 1:
+        \begin{itemize}
+            \item T (prob 1/2): $S_1 = 2$. Gioco continua.
+            \item C (prob 1/2): $S_1 = 0$. Gioco fermo (rovina).
+        \end{itemize}
+    \item Lancio 2 (solo se $S_1=2$):
+        \begin{itemize}
+            \item T (prob 1/2): $S_2 = 3$. Gioco fermo (vittoria).
+        \end{itemize}
+\end{itemize}
+Il cammino per "vittoria al secondo lancio" è $T_1 \capSet T_2$.
+$\Pc(T_1 \capSet T_2) = \Pcond{T_2}{T_1} \Pc(T_1)$. Assumendo lanci indipendenti (concetto che vedremo meglio, ma qui intuitivo), $\Pcond{T_2}{T_1} = \Pc(T_2) = 1/2$.
+$\Pc(\text{vittoria al secondo lancio}) = (1/2) \cdot (1/2) = 1/4$.
+\end{proof}
 
 \end{document}
