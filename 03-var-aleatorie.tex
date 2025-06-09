@@ -10,13 +10,13 @@
 \tableofcontents
 \newpage
 
-\chapter{Introduzione Generale alle Variabili Aleatorie}
+\section{Introduzione Generale alle Variabili Aleatorie}
 
 Iniziamo con una delle nozioni fondamentali: la variabile aleatoria (spesso abbreviata come v.a.). Per capirla bene, partiamo da un concetto che già dovremmo conoscere: l'evento.
 
-\section{Definizioni Fondamentali}
+\subsection{Definizioni Fondamentali}
 
-\subsection{Richiamo: Eventi}
+\subsubsection{Richiamo: Eventi}
 Ricordi cos'è un esperimento aleatorio? È un qualsiasi processo il cui esito non è noto con certezza prima che venga eseguito (es. lancio di un dado, estrazione di una carta).
 Lo spazio campionario $\Omega$ è l'insieme di tutti i possibili esiti di un esperimento aleatorio.
 
@@ -28,7 +28,7 @@ Se l'esperimento è il lancio di un dado a 6 facce, $\Omega = \{1, 2, 3, 4, 5, 6
 L'evento $A = \text{"esce un numero pari"}$ corrisponde al sottoinsieme $A = \{2, 4, 6\}$.
 \end{example}
 
-\subsection{Variabili Aleatorie (v.a.)}
+\subsubsection{Variabili Aleatorie (v.a.)}
 \begin{definition}
 Una \textbf{variabile aleatoria} (o numero aleatorio, v.a.) è un'affermazione riguardante l'ipotetico risultato dell'esperimento aleatorio che identifica \textbf{uno e un solo numero reale} una volta noto l'esito dell'esperimento.
 Mentre per un evento ci chiediamo "è vero o falso?", per una variabile aleatoria ci chiediamo "quanto vale?".
@@ -65,9 +65,9 @@ Dato un evento $A \subseteq \Omega$, possiamo definire una v.a. $X$ (spesso indi
 \[ X = 1_A(\omega) = \begin{cases} 1 & \text{se } \omega \in A \text{ (cioè A si verifica)} \\ 0 & \text{se } \omega \notin A \text{ (cioè A non si verifica)} \end{cases} \]
 Questa v.a. è molto importante perché collega direttamente eventi e variabili aleatorie. Conoscere il valore di $1_A$ significa sapere se $A$ si è verificato o no. In un certo senso, la nozione di v.a. generalizza quella di evento.
 
-\section{Eventi Associati e Legge di una Variabile Aleatoria}
+\subsection{Eventi Associati e Legge di una Variabile Aleatoria}
 
-\subsection{Eventi Associati ad una Variabile Aleatoria}
+\subsubsection{Eventi Associati ad una Variabile Aleatoria}
 Se $X$ è una v.a. e $B$ è un sottoinsieme di numeri reali ($B \subseteq \mathbb{R}$), possiamo definire un evento $E$ associato ad $X$ e $B$ come l'insieme di tutti gli esiti $\omega \in \Omega$ per cui il valore assunto da $X$, cioè $X(\omega)$, appartiene a $B$.
 \[ E = \{\omega \in \Omega : X(\omega) \in B\} \]
 Questo evento si indica più brevemente con $\{X \in B\}$ o $(X \in B)$.
@@ -107,7 +107,7 @@ $P(X \le x) = P(\{X < x\} \cup \{X = x\}) = P(X < x) + P(X = x)$. $\square$
 Questa identità sarà molto utile quando parleremo di variabili aleatorie continue.
 \end{exercise}
 
-\subsection{Distribuzione (o Legge) di una Variabile Aleatoria}
+\subsubsection{Distribuzione (o Legge) di una Variabile Aleatoria}
 \begin{definition}
 La \textbf{distribuzione di probabilità} (o \textbf{legge}) di una variabile aleatoria $X$, indicata con $P_X$, descrive come la probabilità totale (che è 1) si "distribuisce" sui possibili valori che $X$ può assumere.
 Formalmente, $P_X$ è una funzione che assegna una probabilità ad ogni "sensato" sottoinsieme $B$ di numeri reali:
@@ -139,7 +139,7 @@ $P_X = P(A^c) \delta_0 + P(A) \delta_1$.
 Questa è la \textbf{distribuzione di Bernoulli} di parametro $p=P(A)$.
 \end{example}
 
-\section{Funzione di Ripartizione (CDF)}
+\subsection{Funzione di Ripartizione (CDF)}
 La legge $P_X$ è un oggetto un po' complesso (assegna probabilità a insiemi di reali). Spesso è più comodo lavorare con la \textbf{Funzione di Ripartizione} (Cumulative Distribution Function, CDF), indicata con $F_X(x)$.
 
 \begin{definition}
@@ -148,7 +148,7 @@ La CDF $F_X(x)$ è definita come la probabilità che la variabile aleatoria $X$ 
 Si può dimostrare che conoscere $F_X(x)$ per tutti gli $x$ è equivalente a conoscere la legge $P_X$. La CDF caratterizza completamente la distribuzione di una v.a. Si scrive $X \sim F_X$.
 \end{definition}
 
-\subsection{Proprietà della Funzione di Ripartizione}
+\subsubsection{Proprietà della Funzione di Ripartizione}
 Una funzione $F(x): \mathbb{R} \to [0,1]$ è una CDF di una qualche variabile aleatoria se e solo se soddisfa le seguenti proprietà:
 \begin{enumerate}
     \item \textbf{Monotona non decrescente:} Se $x_1 < x_2$, allora $F(x_1) \le F(x_2)$.
@@ -160,7 +160,7 @@ Una funzione $F(x): \mathbb{R} \to [0,1]$ è una CDF di una qualche variabile al
 \end{enumerate}
 Vale anche il viceversa: se una funzione $G: \mathbb{R} \to [0,1]$ verifica queste 4 proprietà, allora esiste una v.a. $X$ tale che $F_X = G$.
 
-\subsection{Relazione tra CDF e probabilità di eventi}
+\subsubsection{Relazione tra CDF e probabilità di eventi}
 È importante notare:
 \begin{itemize}
     \item Il limite destro è $F_X(x)$: $\lim_{y \to x^+} F_X(y) = F_X(x) = P(X \le x)$.
@@ -208,11 +208,11 @@ $P(X=0) = F_X(0) - F_X(0^-) = (1-p) - 0 = 1-p$.
 $P(X=1) = F_X(1) - F_X(1^-) = 1 - (1-p) = p$.
 \end{example}
 
-\chapter{Variabili Aleatorie Discrete}
+\section{Variabili Aleatorie Discrete}
 
 Una variabile aleatoria si dice \textbf{discreta} se può assumere un numero finito o un'infinità numerabile di valori. Prima di definire formalmente una v.a. discreta, introduciamo la \textit{densità discreta}.
 
-\section{Densit\`a Discreta (o Funzione di Massa di Probabilit\`a - PMF)}
+\subsection{Densit\`a Discreta (o Funzione di Massa di Probabilit\`a - PMF)}
 \begin{definition}
 Sia $X$ una variabile aleatoria. La funzione $p_X: \mathbb{R} \to [0,1]$ data da
 \[ p_X(x) = P(X=x), \quad \forall x \in \mathbb{R} \]
@@ -230,7 +230,7 @@ L'insieme $S_X$ si chiama \textbf{supporto} di $X$.
 \end{definition}
 In pratica, una v.a. è discreta se tutta la sua "massa" di probabilità è concentrata su un insieme numerabile di punti. Per $x \notin S_X$, si ha $p_X(x) = 0$.
 
-\subsection{Tabella della Densit\`a Discreta}
+\subsubsection{Tabella della Densit\`a Discreta}
 Se il supporto $S_X = \{x_1, x_2, \dots, x_n\}$ è finito, possiamo rappresentare la PMF con una tabella:
 \begin{center}
 \begin{tabular}{c|cccc}
@@ -304,7 +304,7 @@ $p_X$ & $1-p$ & $p$ \\
 \end{center}
 Questa è la PMF della distribuzione di Bernoulli di parametro $p$.
 
-\section{Caratterizzazione delle Variabili Aleatorie Discrete}
+\subsection{Caratterizzazione delle Variabili Aleatorie Discrete}
 Le seguenti affermazioni sono equivalenti per una variabile aleatoria $X$:
 \begin{enumerate}
     \item $X$ è una \textbf{variabile aleatoria discreta} (con densità discreta $p_X$ e supporto $S_X = \{x_1, x_2, \dots\}$).
@@ -378,7 +378,7 @@ L'ampiezza di ogni salto è $p_X(x_i) = F_X(x_i) - F_X(x_i^-)$.
     \end{itemize}
 \end{example}
 
-\section{Media (o Valore Atteso) di una v.a.d.}
+\subsection{Media (o Valore Atteso) di una v.a.d.}
 \begin{definition}
 Sia $X$ una variabile aleatoria discreta con supporto $S_X = \{x_1, x_2, \dots\}$ e PMF $p_X$. La \textbf{media} (o \textbf{valore atteso}) di $X$, indicata con $E[X]$ (o $\mu$ o $\mu_X$), è data da:
 \[ E[X] = \sum_{x_i \in S_X} x_i p_X(x_i) \]
@@ -401,7 +401,7 @@ Il valore atteso è una media pesata dei valori che $X$ può assumere, dove i pe
 \end{enumerate}
 \end{example}
 
-\subsection{Valore Atteso di una Funzione di una v.a.d. (Teorema Fondamentale)}
+\subsubsection{Valore Atteso di una Funzione di una v.a.d. (Teorema Fondamentale)}
 Spesso vogliamo calcolare il valore atteso di una nuova variabile aleatoria $Y$ che è funzione di $X$, cioè $Y=h(X)$. Potremmo prima trovare la PMF di $Y$ e poi usare la definizione, ma c'è un modo più diretto:
 
 \begin{theorem}[Valore atteso di una funzione di v.a.d.]
@@ -419,7 +419,7 @@ Calcoliamo $E[X^2]$. Qui $h(x)=x^2$.
 \[ = \frac{1}{6} (1+4+9+16+25+36) = \frac{1}{6} (91) = \frac{91}{6} \approx 15.167 \]
 \end{example}
 
-\subsection{Linearità del Valore Atteso}
+\subsubsection{Linearità del Valore Atteso}
 Una proprietà importantissima del valore atteso è la sua linearità.
 \begin{theorem}[Linearità del valore atteso]
 Sia $X$ una v.a.d. Siano $a, b \in \mathbb{R}$ costanti. Allora:
@@ -434,7 +434,7 @@ Usiamo il teorema del valore atteso di una funzione con $k(x) = ax+b$.
 Poiché $\sum x_i p_X(x_i) = E[X]$ e $\sum p_X(x_i) = 1$, otteniamo:
 \[ E[aX+b] = aE[X] + b \cdot 1 = aE[X] + b. \quad \square \]
 
-\section{Varianza di una v.a.d.}
+\subsection{Varianza di una v.a.d.}
 La media ci dà un'idea del "centro" della distribuzione. La varianza ci dice quanto i valori della v.a. tendono a disperdersi attorno alla media.
 
 \begin{definition}
@@ -460,7 +460,7 @@ $Var(X) = E[X^2] - 2\mu E[X] + \mu^2$.
 Sostituendo $E[X]=\mu$:
 $Var(X) = E[X^2] - 2\mu \cdot \mu + \mu^2 = E[X^2] - 2\mu^2 + \mu^2 = E[X^2] - \mu^2 = E[X^2] - (E[X])^2$. $\square$
 
-\subsection{Proprietà della Varianza}
+\subsubsection{Proprietà della Varianza}
 Sia $X$ una v.a.d. e $a, b \in \mathbb{R}$ costanti.
 \begin{enumerate}
     \item \textbf{Non negatività:} $Var(X) \ge 0$.
@@ -487,9 +487,9 @@ $= \frac{182 - 147}{12} = \frac{35}{12} \approx 2.9167$.
 La deviazione standard è $\sigma_X = \sqrt{35/12} \approx 1.708$.
 \end{example}
 
-\section{Distribuzioni Discrete Notevoli}
+\subsection{Distribuzioni Discrete Notevoli}
 
-\subsection{Distribuzione Uniforme Discreta}
+\subsubsection{Distribuzione Uniforme Discreta}
 Una v.a. $X$ ha una \textbf{distribuzione uniforme discreta} su un insieme finito $S_X = \{x_1, x_2, \dots, x_n\}$ se ogni valore $x_i$ ha la stessa probabilità di verificarsi.
 \[ p_X(x_i) = \frac{1}{n}, \quad \text{per } x_i \in S_X \]
 e $p_X(x)=0$ altrimenti. Si scrive $X \sim Unif(\{x_1, \dots, x_n\})$.
@@ -504,7 +504,7 @@ $E[X] = (1+2+3+4+5+6)/6 = 21/6 = 3.5$.
 $Var(X) = 35/12$ (calcolata prima).
 \end{example}
 
-\subsection{Distribuzione di Bernoulli}
+\subsubsection{Distribuzione di Bernoulli}
 L'abbiamo già vista: $X \sim B(p)$ o $X \sim Bernoulli(p)$.
 $S_X = \{0, 1\}$.
 PMF: $p_X(0) = 1-p$, $p_X(1) = p$.
@@ -516,7 +516,7 @@ $E[X^2] = 0^2 \cdot (1-p) + 1^2 \cdot p = p$.
 $Var(X) = E[X^2] - (E[X])^2 = p - p^2 = p(1-p)$.
 Spesso $1-p$ è indicato con $q$, quindi $Var(X)=pq$.
 
-\subsection{Distribuzione Binomiale}
+\subsubsection{Distribuzione Binomiale}
 Consideriamo $n$ prove (esperimenti) indipendenti, ognuna delle quali può avere solo due esiti: "successo" (con probabilità $p$) o "insuccesso" (con probabilità $1-p$). Questi sono chiamati "esperimenti di Bernoulli".
 Sia $X$ il numero di successi in queste $n$ prove. Allora $X$ ha una \textbf{distribuzione binomiale} di parametri $n$ e $p$. Si scrive $X \sim B(n,p)$ o $X \sim Bin(n,p)$.
 Il supporto di $X$ è $S_X = \{0, 1, 2, \dots, n\}$.
@@ -550,7 +550,7 @@ Media: $E[X] = np = 3 \cdot (2/3) = 2$.
 Varianza: $Var(X) = np(1-p) = 3 \cdot (2/3) \cdot (1/3) = 2/3$.
 \end{example}
 
-\subsection{Distribuzione di Poisson}
+\subsubsection{Distribuzione di Poisson}
 La distribuzione di Poisson è spesso usata per modellare il numero di volte che un evento accade in un intervallo di tempo o spazio fissato, quando questi eventi accadono con una frequenza media nota e indipendentemente dal tempo trascorso dall'ultimo evento.
 Si dice che $X$ ha una \textbf{distribuzione di Poisson} di parametro $\lambda > 0$ (lambda, che rappresenta la frequenza media) se $X \sim Poisson(\lambda)$.
 Il supporto è $S_X = \{0, 1, 2, \dots\}$ (infinito numerabile).
@@ -589,7 +589,7 @@ $P(X=2) = e^{-1} \frac{1^2}{2!} = \frac{1}{2e} \approx 0.1839$.
 \end{example}
 
 
-\section{Il Problema del Giornalaio (Esempio di Applicazione)}
+\subsection{Il Problema del Giornalaio (Esempio di Applicazione)}
 Questo è un classico problema di gestione delle scorte che illustra come si usano le v.a. discrete per prendere decisioni.
 
 \textit{Scenario:}
