@@ -1,0 +1,396 @@
+\input{preambolo_comune}
+
+% --- Titolo ---
+\title{Catene di Markov a Tempo Discreto}
+\author{Basato sulle prove d'esame}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+% TikZ settings for Markov chains
+\usetikzlibrary{arrows}
+\tikzset{
+    state/.style={
+        draw,
+        circle,
+        minimum size=1cm
+    }
+}
+
+\newpage
+
+\section{Introduzione ai Processi Stocastici}
+Immagina di voler descrivere qualcosa che cambia nel tempo in modo casuale, tipo il numero che esce lanciando un dado ripetutamente, o la temperatura di un componente elettronico.
+Un \textbf{processo stocastico} (o processo aleatorio/casuale) è proprio questo: una famiglia di variabili aleatorie $\{X_t\}$ indicizzate da un parametro $t$, che di solito rappresenta il tempo.
+
+\begin{itemize}
+    \item Se il tempo $t$ può assumere solo valori discreti (es. $t=0, 1, 2, \dots, n, \dots$, come il numero di un lancio), parliamo di \textbf{processo stocastico a tempo discreto}. Lo indichiamo con $(X_n)_n$ o $(X_n)_{n \in \mathbb{N}}$.
+    \item Se il tempo $t$ può assumere qualsiasi valore in un intervallo continuo (es. $t \ge 0$, come il tempo che scorre), parliamo di \textbf{processo stocastico a tempo continuo}. Lo indichiamo con $(X_t)_t$ o $(X_t)_{t \ge 0}$.
+\end{itemize}
+In questi appunti, ci concentreremo \textbf{solo su processi stocastici a tempo discreto}, e in particolare su un tipo speciale chiamato Catene di Markov. Inoltre, le variabili aleatorie $X_n$ che considereremo saranno \textbf{discrete} e con un numero \textbf{finito} di valori possibili.
+
+\begin{example}[Urna con reimbussolamento]
+Un'urna contiene 90 palline numerate da 1 a 90. Si estrae una pallina, si registra il numero e la si reintroduce. Si ripete.
+Se $X_n$ = "numero estratto all'$n$-esima estrazione", allora $(X_n)_{n \in \mathbb{N}}$ è un processo stocastico a tempo discreto. In questo caso, le $X_n$ sono indipendenti e identicamente distribuite (i.i.d.).
+\end{example}
+
+Le catene di Markov sono un passo oltre le successioni i.i.d., perché permettono una forma di dipendenza tra le variabili.
+
+\section{Catene di Markov a Tempo Discreto}
+
+\begin{definition}[Catena di Markov a Tempo Discreto]
+Una successione di variabili aleatorie $(X_n)_{n \in \mathbb{N}}$ è una \textbf{Catena di Markov} (a tempo discreto) se soddisfa due proprietà:
+\begin{enumerate}
+    \item \textbf{Spazio degli stati discreto:} Le $X_n$ sono variabili aleatorie discrete e assumono valori in uno stesso insieme $\mathcal{S}$, detto \textbf{spazio degli stati}. Questo insieme $\mathcal{S}$ è discreto (finito o numerabile). Noi ci concentreremo su $\mathcal{S}$ \textbf{finito}.
+    Esempio: $\mathcal{S} = \{0, 1, 2\}$ o $\mathcal{S} = \{\text{sole}, \text{pioggia}\}$.
+    \item \textbf{Proprietà di Markov (o assenza di memoria):} Il futuro dipende dal passato solo attraverso il presente. Formalmente, per ogni $n \ge 1$ e per ogni possibile sequenza di stati $i_0, i_1, \dots, i_{n-1}, i, j \in \mathcal{S}$:
+    \begin{equation}
+        P(X_{n+1}=j | X_n=i, X_{n-1}=i_{n-1}, \dots, X_0=i_0) = P(X_{n+1}=j | X_n=i)
+    \end{equation}
+    Questo deve valere a patto che $P(X_n=i, X_{n-1}=i_{n-1}, \dots, X_0=i_0) > 0$.
+    In parole povere: se so in che stato sono ora ($X_n=i$), sapere come ci sono arrivato (gli stati $X_{n-1}, \dots, X_0$) non mi dà nessuna informazione in più per predire dove andrò al prossimo passo ($X_{n+1}$).
+\end{enumerate}
+\end{definition}
+
+\begin{remark}
+La proprietà di Markov si può sintetizzare come:
+\begin{center}
+    $P(\text{"futuro"} | \text{"presente e passato"}) = P(\text{"futuro"} | \text{"presente"})$
+\end{center}
+\end{remark}
+
+La quantità $P(X_{n+1}=j | X_n=i)$ è chiamata \textbf{probabilità di transizione} (in un passo) dallo stato $i$ allo stato $j$ all'istante $n$.
+
+\subsection{Catene di Markov Omogenee e a Stati Finiti}
+Noi tratteremo quasi esclusivamente catene di Markov con due ulteriori semplificazioni:
+\begin{definition}
+Sia $(X_n)_n$ una catena di Markov.
+\begin{itemize}
+    \item È \textbf{omogenea (nel tempo)} se la probabilità di transizione $P(X_{n+1}=j | X_n=i)$ non dipende da $n$. In tal caso, la scriviamo semplicemente come $p_{ij}$ (o talvolta $\pi_{ij}$):
+    \begin{equation}
+        p_{ij} = P(X_{n+1}=j | X_n=i) \quad \text{per ogni } n
+    \end{equation}
+    Questa $p_{ij}$ è la probabilità di passare dallo stato $i$ allo stato $j$ in un passo, indipendentemente da quando avviene questo passo.
+    \item È \textbf{a stati finiti} se lo spazio degli stati $\mathcal{S}$ è un insieme finito. Se $\mathcal{S}$ ha $N$ elementi, spesso li etichettiamo come $\{1, 2, \dots, N\}$ o $\{0, 1, \dots, N-1\}$.
+\end{itemize}
+D'ora in poi, quando diremo "Catena di Markov" (CM), intenderemo una catena di Markov omogenea e a stati finiti, salvo diversa indicazione.
+\end{definition}
+
+\subsection{Matrice di Transizione}
+Per una CM omogenea con $N$ stati, possiamo raccogliere tutte le probabilità di transizione $p_{ij}$ in una matrice.
+
+\begin{definition}[Matrice di Transizione]
+Sia $(X_n)_n$ una CM omogenea con spazio degli stati finito $\mathcal{S}=\{s_1, s_2, \dots, s_N\}$. La \textbf{matrice di transizione} $P$ (o $\Pi$) è una matrice $N \times N$ il cui elemento $(i,j)$ (riga $i$, colonna $j$) è la probabilità $p_{s_i s_j}$ di passare dallo stato $s_i$ allo stato $s_j$ in un passo.
+\begin{equation}
+    P = \begin{pmatrix}
+        p_{s_1 s_1} & p_{s_1 s_2} & \dots & p_{s_1 s_N} \\
+        p_{s_2 s_1} & p_{s_2 s_2} & \dots & p_{s_2 s_N} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        p_{s_N s_1} & p_{s_N s_2} & \dots & p_{s_N s_N}
+    \end{pmatrix}
+\end{equation}
+Se gli stati sono etichettati $1, \dots, N$, allora l'elemento $(i,j)$ è $p_{ij}$.
+\end{definition}
+
+\begin{theorem}[Proprietà della Matrice di Transizione $P$]
+Una matrice $P$ è una valida matrice di transizione per una CM se e solo se:
+\begin{enumerate}
+    \item $0 \le p_{ij} \le 1$ per ogni $i, j \in \mathcal{S}$ (sono probabilità).
+    \item La somma degli elementi su ogni riga è 1:
+    \begin{equation}
+        \sum_{j \in \mathcal{S}} p_{ij} = 1 \quad \text{per ogni } i \in \mathcal{S}
+    \end{equation}
+    (partendo da $i$, devo per forza finire in uno degli stati di $\mathcal{S}$).
+\end{enumerate}
+Una tale matrice è detta anche \textbf{matrice stocastica}.
+\end{theorem}
+\textit{Dimostrazione della proprietà 2:}
+Fissiamo uno stato $i$. Se la catena si trova in $X_n=i$, al tempo $n+1$ dovrà trovarsi in uno stato $j \in \mathcal{S}$. Gli eventi $\{X_{n+1}=j | X_n=i\}$ per $j \in \mathcal{S}$ sono disgiunti e la loro unione è l'evento certo (dato $X_n=i$). Quindi, $\sum_{j \in \mathcal{S}} P(X_{n+1}=j | X_n=i) = P(\cup_{j \in \mathcal{S}} \{X_{n+1}=j\} | X_n=i) = 1$.
+
+\subsection{Rappresentazione Grafica}
+Una CM può essere visualizzata come un \textbf{grafo orientato}:
+\begin{itemize}
+    \item Ogni stato $i \in \mathcal{S}$ è un \textbf{nodo} del grafo.
+    \item Se $p_{ij} > 0$, si disegna una \textbf{freccia} (arco orientato) dal nodo $i$ al nodo $j$, etichettata con il valore $p_{ij}$.
+    \item Se $p_{ij} = 0$, di solito non si disegna la freccia.
+\end{itemize}
+La successione $(X_n)_n$ può essere vista come una \textit{passeggiata aleatoria} (random walk) su questo grafo.
+
+\begin{example}[Modello del tempo atmosferico semplice]
+Supponiamo che il tempo di domani dipenda solo dal tempo di oggi. Stati $\mathcal{S} = \{S=\text{Sole}, P=\text{Pioggia}\}$.
+Matrice di transizione:
+\begin{equation*}
+P = \begin{pmatrix}
+p_{SS} & p_{SP} \\
+p_{PS} & p_{PP}
+\end{pmatrix} =
+\begin{pmatrix}
+0.8 & 0.2 \\ % Riga S: Se oggi Sole, domani Sole con P=0.8, Pioggia con P=0.2
+0.4 & 0.6  % Riga P: Se oggi Pioggia, domani Sole con P=0.4, Pioggia con P=0.6
+\end{pmatrix}
+\end{equation*}
+Notare che le righe sommano a 1 ($0.8+0.2=1$, $0.4+0.6=1$).
+Grafo:
+\begin{center}
+\begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=3cm,semithick]
+    \node[state] (S) {Sole};
+    \node[state] (P) [right of=S] {Pioggia};
+    \path (S) edge [loop above] node {0.8} (S)
+              edge node {0.2} (P);
+    \path (P) edge [loop above] node {0.6} (P)
+              edge [bend right] node[above] {0.4} (S);
+\end{tikzpicture}
+\end{center}
+\end{example}
+
+\begin{example}[Esercizio tipo Ing. Rossi - Pranzo (Esame 19 Giugno 2024, Es 4)]
+L'Ing. Rossi pranza al self-service (stato 0), in trattoria (stato 1) o al bar (stato 2).
+Regole:
+\begin{itemize}
+    \item Non va mai due giorni consecutivi in trattoria. (Se oggi 1, domani non 1, quindi $p_{11}=0$)
+    \item Quando pranza al bar (2), il giorno dopo va sempre in trattoria (1). ($p_{21}=1$, $p_{20}=0, p_{22}=0$)
+    \item Negli altri casi, sceglie a caso tra le opzioni disponibili (rispettando le regole).
+\end{itemize}
+Costruiamo la matrice $P = (p_{ij})$ per $\mathcal{S}=\{0,1,2\}$:
+\begin{itemize}
+    \item \textbf{Riga 0 (oggi Self-Service):} Domani può andare in 0, 1, 2. Nessuna restrizione. Sceglie a caso tra 3 opzioni: $p_{00}=1/3, p_{01}=1/3, p_{02}=1/3$.
+    \item \textbf{Riga 1 (oggi Trattoria):} Domani NON può andare in 1 ($p_{11}=0$). Può andare in 0 o 2. Sceglie a caso tra 2 opzioni: $p_{10}=1/2, p_{12}=1/2$.
+    \item \textbf{Riga 2 (oggi Bar):} Domani DEVE andare in 1. $p_{21}=1, p_{20}=0, p_{22}=0$.
+\end{itemize}
+Quindi la matrice di transizione è:
+\begin{equation*}
+P = \begin{pmatrix}
+1/3 & 1/3 & 1/3 \\
+1/2 & 0 & 1/2 \\
+0 & 1 & 0
+\end{pmatrix}
+\end{equation*}
+Verifica: tutte le righe sommano a 1.
+\end{example}
+
+\section{Probabilità di Transizione in Più Passi}
+Abbiamo $p_{ij}$ che è la probabilità di andare da $i$ a $j$ in UN passo. Cosa succede se vogliamo sapere la probabilità di andare da $i$ a $j$ in $m$ passi?
+
+\begin{definition}[Probabilità di transizione in $m$ passi]
+Sia $(X_n)_n$ una CM omogenea. Per $m \ge 0$, la \textbf{probabilità di transizione dallo stato $i$ allo stato $j$ in $m$ passi} è:
+\begin{equation}
+    p_{ij}^{(m)} = P(X_{n+m}=j | X_n=i)
+\end{equation}
+(Notare che non dipende da $n$ grazie all'omogeneità).
+\end{definition}
+
+\begin{proposition}
+Per una CM omogenea:
+\begin{itemize}
+    \item Per $m=0$: $p_{ij}^{(0)} = P(X_n=j | X_n=i)$. Questo è 1 se $i=j$ e 0 se $i \neq j$.
+    Quindi, la matrice $P^{(0)}$ delle $p_{ij}^{(0)}$ è la \textbf{matrice identità} $I$.
+    \item Per $m=1$: $p_{ij}^{(1)} = P(X_{n+1}=j | X_n=i) = p_{ij}$.
+    Quindi, la matrice $P^{(1)}$ è la \textbf{matrice di transizione} $P$.
+\end{itemize}
+\end{proposition}
+
+Come calcolare $p_{ij}^{(m)}$ per $m > 1$?
+
+\begin{theorem}[Chapman-Kolmogorov generalizzata per matrici]
+Sia $P$ la matrice di transizione di una CM omogenea a stati finiti. La matrice $P^{(m)}$ delle probabilità di transizione in $m$ passi è data dalla $m$-esima potenza della matrice $P$:
+\begin{equation}
+    P^{(m)} = P^m = P \cdot P \cdot \dots \cdot P \quad (m \text{ volte})
+\end{equation}
+In termini di elementi: $p_{ij}^{(m)}$ è l'elemento $(i,j)$ della matrice $P^m$.
+\end{theorem}
+Vediamo perché per $m=2$:
+$p_{ij}^{(2)} = P(X_{n+2}=j | X_n=i)$.
+Per arrivare da $i$ a $j$ in 2 passi, devo passare per uno stato intermedio $k \in \mathcal{S}$ al primo passo.
+\begin{align*}
+p_{ij}^{(2)} &= P(X_{n+2}=j | X_n=i) \\
+           &= \sum_{k \in \mathcal{S}} P(X_{n+2}=j, X_{n+1}=k | X_n=i) \\
+           &= \sum_{k \in \mathcal{S}} P(X_{n+2}=j | X_{n+1}=k, X_n=i) \cdot P(X_{n+1}=k | X_n=i) \\
+           &= \sum_{k \in \mathcal{S}} P(X_{n+2}=j | X_{n+1}=k) \cdot P(X_{n+1}=k | X_n=i) \quad \text{(Prop. di Markov)}\\
+           &= \sum_{k \in \mathcal{S}} p_{kj} \cdot p_{ik} = \sum_{k \in \mathcal{S}} p_{ik} p_{kj}
+\end{align*}
+L'ultima espressione è proprio l'elemento $(i,j)$ del prodotto di matrici $P \cdot P = P^2$.
+Questo si generalizza per $m$ passi: $p_{ij}^{(m+l)} = \sum_{k \in \mathcal{S}} p_{ik}^{(m)} p_{kj}^{(l)}$, che porta a $P^{(m+l)} = P^{(m)} P^{(l)}$, e quindi $P^{(m)}=P^m$.
+
+\begin{example}[Ing. Rossi, $m=2$ passi]
+Torniamo all'esempio dell'Ing. Rossi con $P = \begin{pmatrix} 1/3 & 1/3 & 1/3 \\ 1/2 & 0 & 1/2 \\ 0 & 1 & 0 \end{pmatrix}$.
+Qual è la probabilità che, se oggi è al self-service (stato 0), tra due giorni sia di nuovo al self-service (stato 0)? Cioè $p_{00}^{(2)}$.
+Calcoliamo $P^2$:
+\begin{align*}
+P^2 = P \cdot P &= \begin{pmatrix} 1/3 & 1/3 & 1/3 \\ 1/2 & 0 & 1/2 \\ 0 & 1 & 0 \end{pmatrix}
+\begin{pmatrix} 1/3 & 1/3 & 1/3 \\ 1/2 & 0 & 1/2 \\ 0 & 1 & 0 \end{pmatrix} \\
+&= \begin{pmatrix}
+(1/3)(1/3)+(1/3)(1/2)+(1/3)(0) & \dots & \dots \\
+\dots & \dots & \dots \\
+\dots & \dots & \dots
+\end{pmatrix} \\
+&= \begin{pmatrix}
+1/9+1/6+0 & (1/3)(1/3)+(1/3)(0)+(1/3)(1) & (1/3)(1/3)+(1/3)(1/2)+(1/3)(0) \\
+(1/2)(1/3)+0+(1/2)(0) & (1/2)(1/3)+0+(1/2)(1) & (1/2)(1/3)+0+0 \\
+0+(1)(1/2)+0 & 0+0+0 & 0+(1)(1/2)+0
+\end{pmatrix} \\
+&= \begin{pmatrix}
+5/18 & 4/9 & 5/18 \\
+1/6 & 2/3 & 1/6 \\
+1/2 & 0 & 1/2
+\end{pmatrix}
+\end{align*}
+Quindi $p_{00}^{(2)} = 5/18$. Ad esempio, $p_{01}^{(2)}=4/9$ è la probabilità che partendo da self-service (0), dopo due giorni sia in trattoria (1).
+L'esercizio originale (19 Giugno 2024, Es 4c) chiedeva: "Sapendo che oggi l'Ing. Rossi è andato al self-service (stato 0), qual è la probabilità che vada al bar (stato 2) dopodomani?". Questa è $p_{02}^{(2)} = 5/18$.
+\end{example}
+
+\subsection{Calcolo Diretto di $p_{ij}^{(m)}$ dal Grafo}
+Invece di calcolare potenze di matrici (che può essere noioso), si può usare il grafo:
+$p_{ij}^{(m)}$ è la somma delle probabilità di \textbf{tutti i possibili cammini di lunghezza $m$} che vanno dal nodo $i$ al nodo $j$.
+La probabilità di un cammino specifico $i \to k_1 \to k_2 \to \dots \to k_{m-1} \to j$ è il prodotto delle probabilità di transizione lungo gli archi: $p_{ik_1} \cdot p_{k_1k_2} \cdot \dots \cdot p_{k_{m-1}j}$.
+
+\begin{example}[Esempio Meteo, 2 passi]
+$P = \begin{pmatrix} 0.8 & 0.2 \\ 0.4 & 0.6 \end{pmatrix}$.
+Calcoliamo $p_{SS}^{(2)}$ (da Sole a Sole in 2 giorni).
+Possibili cammini di lunghezza 2 da S a S:
+\begin{enumerate}
+    \item $S \xrightarrow{0.8} S \xrightarrow{0.8} S$: probabilità $0.8 \times 0.8 = 0.64$
+    \item $S \xrightarrow{0.2} P \xrightarrow{0.4} S$: probabilità $0.2 \times 0.4 = 0.08$
+\end{enumerate}
+Sommando: $p_{SS}^{(2)} = 0.64 + 0.08 = 0.72$.
+Verifichiamo con $P^2$:
+\begin{align*}
+P^2 &= \begin{pmatrix} 0.8 & 0.2 \\ 0.4 & 0.6 \end{pmatrix} \begin{pmatrix} 0.8 & 0.2 \\ 0.4 & 0.6 \end{pmatrix} \\
+&= \begin{pmatrix}
+(0.8)(0.8)+(0.2)(0.4) & (0.8)(0.2)+(0.2)(0.6) \\
+(0.4)(0.8)+(0.6)(0.4) & (0.4)(0.2)+(0.6)(0.6)
+\end{pmatrix} \\
+&= \begin{pmatrix}
+0.64+0.08 & 0.16+0.12 \\
+0.32+0.24 & 0.08+0.36
+\end{pmatrix} = \begin{pmatrix}
+0.72 & 0.28 \\
+0.56 & 0.44
+\end{pmatrix}
+\end{align*}
+Conferma $p_{SS}^{(2)} = 0.72$. E $p_{SP}^{(2)} = 0.28$, etc.
+\end{example}
+
+\begin{exercise}[Esempio Giardino - Esame 13 Settembre 2024, Es 4b]
+Stati $\mathcal{S}=\{A,B,C,D\}$. Matrice di transizione:
+\begin{equation*}
+P = \begin{pmatrix} % A   B   C   D
+0   & 0.1 & 0.4 & 0.5 \\ % da A
+0.3 & 0   & 0.2 & 0.5 \\ % da B
+0.4 & 0.6 & 0   & 0   \\ % da C
+0.6 & 0.4 & 0   & 0     % da D
+\end{pmatrix}
+\end{equation*}
+L'esercizio chiede $p_{AA}^{(3)}$: probabilità che un bambino partito da A si ritrovi in A dopo tre vialetti.
+Usiamo il calcolo diretto (somma dei cammini di lunghezza 3 da A ad A):
+\begin{itemize}
+    \item $A \to B \to A \to A$: $p_{AB}p_{BA}p_{AA} = (0.1)(0.3)(0) = 0$ (impossibile perché $p_{AA}=0$)
+    \item $A \to B \to C \to A$: $p_{AB}p_{BC}p_{CA} = (0.1)(0.2)(0.4) = 0.008$
+    \item $A \to B \to D \to A$: $p_{AB}p_{BD}p_{DA} = (0.1)(0.5)(0.6) = 0.030$
+    \item $A \to C \to A \to A$: $p_{AC}p_{CA}p_{AA} = (0.4)(0.4)(0) = 0$
+    \item $A \to C \to B \to A$: $p_{AC}p_{CB}p_{BA} = (0.4)(0.6)(0.3) = 0.072$
+    \item $A \to D \to A \to A$: $p_{AD}p_{DA}p_{AA} = (0.5)(0.6)(0) = 0$
+    \item $A \to D \to B \to A$: $p_{AD}p_{DB}p_{BA} = (0.5)(0.4)(0.3) = 0.060$
+\end{itemize}
+Ci sono altri cammini? No, perché da A non si può andare in A in un passo. Quindi ogni cammino di 3 passi da A ad A deve usare 3 stati distinti da A nel mezzo, o tornare su uno stato intermedio.
+I cammini possibili sono quelli che coinvolgono transizioni tipo $A \to X \to Y \to A$.
+$A \xrightarrow{p_{AX}} X \xrightarrow{p_{XY}} Y \xrightarrow{p_{YA}} A$.
+$X, Y \in \{B,C,D\}$.
+$p_{AA}^{(3)} = \sum_{X \neq A} \sum_{Y \neq A, Y \neq X \text{ o } Y=X \text{ se } p_{XX}>0} p_{AX} p_{XY} p_{YA}$.
+Questo è un po' più schematico:
+\begin{align*}
+p_{AA}^{(3)} &= p_{AB}p_{BA}^{(2)} + p_{AC}p_{CA}^{(2)} + p_{AD}p_{DA}^{(2)} \\
+% dove p_{XA}^{(2)} = p_{XB}p_{BA} + p_{XC}p_{CA} + p_{XD}p_{DA} (escludendo p_{XA}p_{AA})
+% Questo è più semplice: sommare le prob dei cammini
+p_{AA}^{(3)} &= p_{AB} (p_{BC}p_{CA} + p_{BD}p_{DA}) \\
+           &+ p_{AC} (p_{CA}p_{AA \text{ (che è 0)}} + p_{CB}p_{BA}) \\
+           &+ p_{AD} (p_{DA}p_{AA \text{ (che è 0)}} + p_{DB}p_{BA}) \\
+p_{AA}^{(3)} &= 0.1 \cdot (0.2 \cdot 0.4 + 0.5 \cdot 0.6) \\ % A->B->C->A + A->B->D->A
+           &+ 0.4 \cdot (0.4 \cdot 0 + 0.6 \cdot 0.3) \\ % A->C->A->A (imposs.) + A->C->B->A
+           &+ 0.5 \cdot (0.6 \cdot 0 + 0.4 \cdot 0.3) \\ % A->D->A->A (imposs.) + A->D->B->A
+           &= 0.1 \cdot (0.08 + 0.30) + 0.4 \cdot (0.18) + 0.5 \cdot (0.12) \\
+           &= 0.1 \cdot (0.38) + 0.072 + 0.060 \\
+           &= 0.038 + 0.072 + 0.060 = 0.170
+\end{align*}
+Quindi $p_{AA}^{(3)} = 0.17$.
+(La soluzione nell'esame fa questo calcolo come $\sum_{k_1} \sum_{k_2} p_{Ak_1} p_{k_1k_2} p_{k_2A}$ e ottiene 0.17, che è corretto).
+\end{exercise}
+
+\section{Classificazione degli Stati}
+Ora introduciamo alcuni concetti per capire meglio la struttura di una CM.
+
+\begin{definition}[Accessibilità]
+Uno stato $j$ è \textbf{accessibile} dallo stato $i$ (scritto $i \to j$) se esiste un intero $m \ge 0$ tale che $p_{ij}^{(m)} > 0$.
+Cioè, è possibile (con probabilità positiva) raggiungere lo stato $j$ partendo dallo stato $i$ in un qualche numero di passi.
+\begin{itemize}
+    \item Per $m=0$, $p_{ii}^{(0)}=1$, quindi $i \to i$ è sempre vero (ogni stato è accessibile da sé stesso in 0 passi).
+    \item Per $i \neq j$, $i \to j$ se esiste un cammino di probabilità positiva dal nodo $i$ al nodo $j$ nel grafo della catena.
+\end{itemize}
+\end{definition}
+
+\begin{definition}[Comunicazione]
+Due stati $i$ e $j$ \textbf{comunicano} (scritto $i \leftrightarrow j$) se $i \to j$ e $j \to i$.
+Cioè, è possibile andare da $i$ a $j$ ed è possibile tornare da $j$ a $i$.
+\end{definition}
+
+\begin{proposition}
+La relazione di comunicazione $\leftrightarrow$ è una \textbf{relazione di equivalenza}:
+\begin{itemize}
+    \item \textbf{Riflessiva:} $i \leftrightarrow i$ (perché $i \to i$ in 0 passi).
+    \item \textbf{Simmetrica:} Se $i \leftrightarrow j$, allora $j \leftrightarrow i$ (per definizione).
+    \item \textbf{Transitiva:} Se $i \leftrightarrow j$ e $j \leftrightarrow k$, allora $i \leftrightarrow k$. (Se posso andare da $i$ a $j$ e da $j$ a $k$, posso andare da $i$ a $k$. Stessa cosa per il ritorno).
+\end{itemize}
+\end{proposition}
+Essendo una relazione di equivalenza, la comunicazione partiziona lo spazio degli stati $\mathcal{S}$ in \textbf{classi comunicanti} (o classi di equivalenza). Tutti gli stati in una classe comunicano tra loro, e non comunicano con stati al di fuori della loro classe (nel senso che se $i$ è in classe $C_1$ e $k$ in $C_2 \neq C_1$, non può essere $i \leftrightarrow k$).
+
+\begin{definition}[Catena Irriducibile]
+Una catena di Markov è \textbf{irriducibile} se esiste \textbf{una sola classe comunicante}, che è quindi l'intero spazio degli stati $\mathcal{S}$.
+In altre parole, in una catena irriducibile, ogni stato è accessibile da ogni altro stato. (E quindi ogni stato comunica con ogni altro stato).
+\end{definition}
+
+\begin{example}[Ing. Rossi]
+$P = \begin{pmatrix} 1/3 & 1/3 & 1/3 \\ 1/2 & 0 & 1/2 \\ 0 & 1 & 0 \end{pmatrix}$. Stati $\{0,1,2\}$.
+\begin{itemize}
+    \item Da 0: $0 \to 0$ (es. $0 \to 1 \to 0$, $p_{00}^{(2)}=5/18>0$), $0 \to 1$ ($p_{01}=1/3>0$), $0 \to 2$ ($p_{02}=1/3>0$).
+    \item Da 1: $1 \to 0$ ($p_{10}=1/2>0$), $1 \to 1$ (es. $1 \to 0 \to 1$, $p_{11}^{(2)}=1/6+1/3=1/2>0$), $1 \to 2$ ($p_{12}=1/2>0$).
+    \item Da 2: $2 \to 0$ (es. $2 \to 1 \to 0$, $p_{20}^{(2)}=1/2>0$), $2 \to 1$ ($p_{21}=1>0$), $2 \to 2$ (es. $2 \to 1 \to 2$, $p_{22}^{(2)}=1/2>0$).
+\end{itemize}
+Tutti gli stati comunicano con tutti gli altri. C'è una sola classe comunicante $\mathcal{S}=\{0,1,2\}$.
+La catena è \textbf{irriducibile}.
+(Conferma dalla soluzione dell'esame 19 Giugno 2024: la catena è irriducibile).
+\end{example}
+
+\begin{example}[Esempio Giardino]
+$P = \begin{pmatrix} 0 & 0.1 & 0.4 & 0.5 \\ 0.3 & 0 & 0.2 & 0.5 \\ 0.4 & 0.6 & 0 & 0 \\ 0.6 & 0.4 & 0 & 0 \end{pmatrix}$. Stati $\{A,B,C,D\}$.
+Vediamo se da A si può raggiungere ogni stato e viceversa:
+\begin{itemize}
+    \item $A \to B$ ($p_{AB}=0.1$), $B \to A$ ($p_{BA}=0.3$). Quindi $A \leftrightarrow B$.
+    \item $A \to C$ ($p_{AC}=0.4$), $C \to A$ ($p_{CA}=0.4$). Quindi $A \leftrightarrow C$.
+    \item $A \to D$ ($p_{AD}=0.5$), $D \to A$ ($p_{DA}=0.6$). Quindi $A \leftrightarrow D$.
+\end{itemize}
+Poiché $A$ comunica con $B, C, D$, e la comunicazione è transitiva, tutti gli stati comunicano tra loro. Ad esempio, $B \leftrightarrow C$ perché $B \leftrightarrow A$ e $A \leftrightarrow C$.
+C'è una sola classe comunicante $\mathcal{S}=\{A,B,C,D\}$.
+La catena è \textbf{irriducibile}.
+(Conferma dalla soluzione dell'esame 13 Settembre 2024: la catena è irriducibile).
+\end{example}
+
+\begin{example}[Catena non irriducibile]
+Consideriamo $\mathcal{S}=\{1,2,3\}$ e $P = \begin{pmatrix} 1/2 & 1/2 & 0 \\ 1/2 & 1/2 & 0 \\ 0 & 1/3 & 2/3 \end{pmatrix}$.
+\begin{itemize}
+    \item $1 \leftrightarrow 2$: $p_{12}>0, p_{21}>0$. Classe $C_1=\{1,2\}$.
+    \item $3 \to 2$ ($p_{32}>0$), ma da 2 non si può andare in 3 ($p_{23}=0$, e anche $p_{13}=0$, quindi non si può uscire da $C_1$ per andare in 3). Quindi $2 \not\to 3$.
+    \item Lo stato 3 comunica solo con se stesso in modo "banale" se non può raggiungere altri stati che a loro volta lo raggiungono. Ma qui $3 \to 2$, e da $2$ non si torna in $3$.
+    Quindi $3$ non comunica con $1$ o $2$.
+\end{itemize}
+Le classi comunicanti sono $C_1=\{1,2\}$ e $C_2=\{3\}$.
+Poiché ci sono più classi comunicanti, la catena \textbf{non è irriducibile}.
+$C_1$ è una classe \textbf{chiusa} (una volta entrati, non si esce). $C_2$ non è chiusa perché da 3 si può andare in 2 (che è in $C_1$).
+Uno stato come 3, da cui si può uscire per non tornare più, viene detto \textit{transiente}. Gli stati in una classe chiusa da cui non si può uscire sono detti \textit{ricorrenti}.
+\end{example}
+
+% Aggiungerò altre sezioni (distribuzione di Xn, distribuzione invariante, regolarità, convergenza, problemi di assorbimento)
+% man mano che "digerisco" le dispense e gli esami in relazione.
+% Per ora questo copre le definizioni fondamentali e il calcolo delle probabilità in più passi.
+
+\end{document}

@@ -1,0 +1,186 @@
+\input{preambolo_comune}
+
+% --- Titolo ---
+\title{Variabili Aleatorie}
+\author{Basato sulle prove d'esame}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Definizioni Fondamentali}
+
+\subsection{Richiamo: Eventi}
+Ricordi cos'è un esperimento aleatorio? È un qualsiasi processo il cui esito non è noto con certezza prima che venga eseguito (es. lancio di un dado, estrazione di una carta).
+Lo spazio campionario $\Omega$ è l'insieme di tutti i possibili esiti di un esperimento aleatorio.
+
+Un \textbf{evento} $A$ è, informalmente, un'affermazione riguardante l'ipotetico risultato dell'esperimento aleatorio, di cui è possibile dire con certezza se è vera o falsa una volta noto l'esito. Matematicamente, un evento è un sottoinsieme dello spazio campionario $\Omega$, ovvero $A \subseteq \Omega$. Questo sottoinsieme contiene tutti gli esiti per cui l'affermazione è vera (i cosiddetti "casi favorevoli").
+
+\textit{Esempio:}
+Se l'esperimento è il lancio di un dado a 6 facce, $\Omega = \{1, 2, 3, 4, 5, 6\}$.
+L'evento $A = \text{"esce un numero pari"}$ corrisponde al sottoinsieme $A = \{2, 4, 6\}$.
+
+\subsection{Variabili Aleatorie (v.a.)}
+Una \textbf{variabile aleatoria} (o numero aleatorio, v.a.) è un'affermazione riguardante l'ipotetico risultato dell'esperimento aleatorio che identifica \textbf{uno e un solo numero reale} una volta noto l'esito dell'esperimento.
+Mentre per un evento ci chiediamo "è vero o falso?", per una variabile aleatoria ci chiediamo "quanto vale?".
+
+Matematicamente, una variabile aleatoria $X$ è una \textbf{funzione} definita sullo spazio campionario $\Omega$ che associa ad ogni esito $\omega \in \Omega$ un numero reale $X(\omega) \in \mathbb{R}$.
+\[ X: \Omega \to \mathbb{R} \]
+Useremo lettere maiuscole come $X, Y, Z$ per indicare le variabili aleatorie.
+
+\textit{Esempio 1: Lancio di due dadi}
+Consideriamo il lancio di due dadi standard. Lo spazio campionario $\Omega$ è l'insieme di tutte le coppie ordinate $(d_1, d_2)$ dove $d_1, d_2 \in \{1, 2, 3, 4, 5, 6\}$. Ci sono $6 \times 6 = 36$ esiti possibili.
+Definiamo alcune variabili aleatorie:
+\begin{itemize}
+    \item $X = \text{"somma dei due risultati"}$.
+    Se l'esito è $\omega = (d_1, d_2)$, allora $X(\omega) = d_1 + d_2$.
+    Ad esempio, se esce $(2, 5)$, $X(2,5) = 2+5=7$.
+    \item $Y = \text{"prodotto dei due risultati"}$.
+    Se l'esito è $\omega = (d_1, d_2)$, allora $Y(\omega) = d_1 \cdot d_2$.
+    Ad esempio, se esce $(2, 5)$, $Y(2,5) = 2 \cdot 5=10$.
+    \item $Z = \text{"risultato del lancio del primo dado"}$.
+    Se l'esito è $\omega = (d_1, d_2)$, allora $Z(\omega) = d_1$.
+    Ad esempio, se esce $(2, 5)$, $Z(2,5) = 2$.
+\end{itemize}
+
+\textbf{Variabili Aleatorie Costanti:}
+Una v.a. $X$ si dice costante se assume sempre lo stesso valore numerico $a$, qualunque sia l'esito $\omega$.
+\[ X(\omega) = a, \quad \forall \omega \in \Omega \]
+Nel seguito, $a$ indicherà sia la costante numerica sia la v.a. costante uguale ad $a$.
+
+\textbf{Variabili Aleatorie Indicatrici (o di Bernoulli):}
+Dato un evento $A \subseteq \Omega$, possiamo definire una v.a. $X$ (spesso indicata con $1_A$ o $I_A$) che "indica" se l'evento $A$ si è verificato:
+\[ X = 1_A(\omega) = \begin{cases} 1 & \text{se } \omega \in A \text{ (cioè A si verifica)} \\ 0 & \text{se } \omega \notin A \text{ (cioè A non si verifica)} \end{cases} \]
+Questa v.a. è molto importante perché collega direttamente eventi e variabili aleatorie. Conoscere il valore di $1_A$ significa sapere se $A$ si è verificato o no. In un certo senso, la nozione di v.a. generalizza quella di evento.
+
+\section{Eventi Associati e Legge di una Variabile Aleatoria}
+
+\subsection{Eventi Associati ad una Variabile Aleatoria}
+Se $X$ è una v.a. e $B$ è un sottoinsieme di numeri reali ($B \subseteq \mathbb{R}$), possiamo definire un evento $E$ associato ad $X$ e $B$ come l'insieme di tutti gli esiti $\omega \in \Omega$ per cui il valore assunto da $X$, cioè $X(\omega)$, appartiene a $B$.
+\[ E = \{\omega \in \Omega : X(\omega) \in B\} \]
+Questo evento si indica più brevemente con $\{X \in B\}$ o $(X \in B)$.
+
+\textit{Esempio (continuazione lancio due dadi, $X=$ somma):}
+\begin{itemize}
+    \item Se $B = \{3\}$, l'evento $\{X \in \{3\}\}$ (scritto anche $\{X=3\}$) è "la somma è uguale a 3".
+    Gli esiti favorevoli sono $\{(1,2), (2,1)\}$.
+    \item Se $B = (-\infty, 5]$, l'evento $\{X \in (-\infty, 5]\}$ (scritto anche $\{X \le 5\}$) è "la somma è minore o uguale a 5".
+    Gli esiti favorevoli sono $\{(1,1), (1,2), (1,3), (1,4), (2,1), (2,2), (2,3), (3,1), (3,2), (4,1)\}$.
+    \item Se $B = \{2, 4, 6, 8, 10, 12\}$, l'evento $\{X \in B\}$ è "la somma è un numero pari".
+\end{itemize}
+
+Casi particolari di notazione per $B$ intervallo:
+\begin{itemize}
+    \item $\{X = x\}$ significa $\{\omega \in \Omega : X(\omega) = x\}$
+    \item $\{X < x\}$ significa $\{\omega \in \Omega : X(\omega) < x\}$
+    \item $\{X \le x\}$ significa $\{\omega \in \Omega : X(\omega) \le x\}$
+    \item $\{a < X < b\}$ significa $\{\omega \in \Omega : a < X(\omega) < b\}$
+    % e così via per altre combinazioni
+\end{itemize}
+Per semplicità, la probabilità di un evento generato da $X$, cioè $P(\{\omega \in \Omega: X(\omega) \in B\})$, si scrive $P(X \in B)$.
+
+\textit{Esercizio (Identità Fondamentale):}
+Mostrare che per qualsiasi v.a. $X$ e qualsiasi $x \in \mathbb{R}$:
+\[ P(X \le x) = P(X < x) + P(X = x) \]
+\textit{Soluzione:}
+L'evento $\{X \le x\}$ può essere visto come l'unione di due eventi disgiunti:
+$\{X < x\}$ (tutti gli esiti per cui $X$ è strettamente minore di $x$) e
+$\{X = x\}$ (tutti gli esiti per cui $X$ è esattamente uguale a $x$).
+Cioè, $\{X \le x\} = \{X < x\} \cup \{X = x\}$.
+Poiché questi due eventi sono disgiunti (un numero non può essere contemporaneamente $<x$ e $=x$), per l'additività della probabilità:
+$P(X \le x) = P(\{X < x\} \cup \{X = x\}) = P(X < x) + P(X = x)$. $\square$
+Questa identità sarà molto utile quando parleremo di variabili aleatorie continue.
+
+\subsection{Distribuzione (o Legge) di una Variabile Aleatoria}
+La \textbf{distribuzione di probabilità} (o \textbf{legge}) di una variabile aleatoria $X$, indicata con $P_X$, descrive come la probabilità totale (che è 1) si "distribuisce" sui possibili valori che $X$ può assumere.
+Formalmente, $P_X$ è una funzione che assegna una probabilità ad ogni "sensato" sottoinsieme $B$ di numeri reali:
+\[ P_X(B) = P(X \in B) \]
+$P_X$ è quindi una misura di probabilità definita sui sottoinsiemi (Boreliani) di $\mathbb{R}$. Si scrive $X \sim P_X$ per dire che $X$ ha distribuzione $P_X$.
+
+\textit{Esempio 1: Variabile Aleatoria Costante}
+Se $X(\omega) = a$ per ogni $\omega$ (cioè $X=a$ è una v.a. costante).
+Allora, per qualsiasi $B \subseteq \mathbb{R}$:
+\[ P_X(B) = P(X \in B) = \begin{cases} 1 & \text{se } a \in B \\ 0 & \text{se } a \notin B \end{cases} \]
+Questa distribuzione è chiamata \textbf{delta di Dirac} in $a$, e si indica con $\delta_a$. Quindi $X \sim \delta_a$.
+
+\textit{Esempio 2: Variabile Aleatoria Indicatrice $1_A$}
+Ricordiamo che $1_A$ vale 1 se $A$ si verifica (con probabilità $P(A)$) e 0 se $A$ non si verifica (con probabilità $P(A^c) = 1-P(A)$).
+Sia $X = 1_A$. Qual è la sua legge $P_X$?
+Consideriamo un $B \subseteq \mathbb{R}$:
+\begin{itemize}
+    \item Se $1 \in B$ e $0 \notin B$: $\{X \in B\} = \{X=1\} = A$. Quindi $P_X(B) = P(A)$.
+    \item Se $1 \notin B$ e $0 \in B$: $\{X \in B\} = \{X=0\} = A^c$. Quindi $P_X(B) = P(A^c)$.
+    \item Se $1 \in B$ e $0 \in B$: $\{X \in B\} = \{X=0\} \cup \{X=1\} = \Omega$. Quindi $P_X(B) = P(\Omega) = 1$.
+    \item Se $1 \notin B$ e $0 \notin B$: $\{X \in B\} = \emptyset$. Quindi $P_X(B) = P(\emptyset) = 0$.
+\end{itemize}
+Possiamo esprimere questa legge come una combinazione delle delta di Dirac:
+$P_X = P(A^c) \delta_0 + P(A) \delta_1$.
+Questa è la \textbf{distribuzione di Bernoulli} di parametro $p=P(A)$.
+
+\section{Funzione di Ripartizione (CDF)}
+La legge $P_X$ è un oggetto un po' complesso (assegna probabilità a insiemi di reali). Spesso è più comodo lavorare con la \textbf{Funzione di Ripartizione} (Cumulative Distribution Function, CDF), indicata con $F_X(x)$.
+La CDF $F_X(x)$ è definita come la probabilità che la variabile aleatoria $X$ assuma un valore minore o uguale a $x$:
+\[ F_X(x) = P(X \le x) = P_X((-\infty, x]), \quad \forall x \in \mathbb{R} \]
+Si può dimostrare che conoscere $F_X(x)$ per tutti gli $x$ è equivalente a conoscere la legge $P_X$. La CDF caratterizza completamente la distribuzione di una v.a. Si scrive $X \sim F_X$.
+
+\subsection{Proprietà della Funzione di Ripartizione}
+Una funzione $F(x): \mathbb{R} \to [0,1]$ è una CDF di una qualche variabile aleatoria se e solo se soddisfa le seguenti proprietà (Teorema 2.1 delle dispense):
+\begin{enumerate}
+    \item \textbf{Monotona non decrescente:} Se $x_1 < x_2$, allora $F(x_1) \le F(x_2)$.
+    (Infatti, $\{X \le x_1\} \subseteq \{X \le x_2\}$, quindi $P(X \le x_1) \le P(X \le x_2)$).
+    \item \textbf{Continua a destra:} Per ogni $x \in \mathbb{R}$, $\lim_{y \to x^+} F(y) = F(x)$.
+    \item \textbf{Limiti agli estremi:}
+    \[ \lim_{x \to -\infty} F(x) = 0 \]
+    \[ \lim_{x \to +\infty} F(x) = 1 \]
+\end{enumerate}
+Vale anche il viceversa: se una funzione $G: \mathbb{R} \to [0,1]$ verifica queste 4 proprietà, allora esiste una v.a. $X$ tale che $F_X = G$.
+
+\subsection{Relazione tra CDF e probabilità di eventi}
+È importante notare (N.B. e Osservazione a pag. 12 delle dispense):
+\begin{itemize}
+    \item Il limite destro è $F_X(x)$: $\lim_{y \to x^+} F_X(y) = F_X(x) = P(X \le x)$.
+    \item Il limite sinistro esiste sempre ed è: $F_X(x^-) = \lim_{y \to x^-} F_X(y) = P(X < x)$.
+\end{itemize}
+Da questo e dall'identità $P(X \le x) = P(X < x) + P(X = x)$, segue che:
+\[ P(X = x) = F_X(x) - F_X(x^-) \]
+Questo significa che $F_X$ è continua in $x$ se e solo se $P(X=x)=0$. Se $P(X=x)>0$, allora $F_X$ ha un "salto" (discontinuità) in $x$ di ampiezza $P(X=x)$.
+
+Il Teorema 2.2 delle dispense fornisce le formule per calcolare la probabilità che $X$ cada in vari tipi di intervalli, usando $F_X(x)$ e $F_X(x^-)$:
+\begin{itemize}
+    \item $P(X = x) = F_X(x) - F_X(x^-)$
+    \item $P(x < X \le y) = F_X(y) - F_X(x)$
+    \item $P(x \le X \le y) = F_X(y) - F_X(x^-)$
+    \item $P(x \le X < y) = F_X(y^-) - F_X(x^-)$
+    \item $P(x < X < y) = F_X(y^-) - F_X(x)$
+\end{itemize}
+Se $F_X$ è continua (cioè $P(X=x)=0$ per ogni $x$, come vedremo per le v.a. continue), allora $F_X(x^-) = F_X(x)$, e tutte queste formule si semplificano. Ad esempio, $P(x < X \le y) = P(x \le X \le y) = F_X(y) - F_X(x)$.
+
+\textit{Esempio: CDF di una v.a. costante $X=a$}
+$F_X(x) = P(X \le x)$.
+\begin{itemize}
+    \item Se $x < a$: $P(X \le x) = P(a \le x) = 0$ (perché $a$ non è $\le x$).
+    \item Se $x \ge a$: $P(X \le x) = P(a \le x) = 1$ (perché $a$ è $\le x$).
+\end{itemize}
+Quindi:
+\[ F_X(x) = \begin{cases} 0 & \text{se } x < a \\ 1 & \text{se } x \ge a \end{cases} \]
+Questa è una funzione a gradino, con un salto di ampiezza 1 in $x=a$. Infatti, $P(X=a) = F_X(a) - F_X(a^-) = 1 - 0 = 1$.
+
+\textit{Esempio: CDF di una v.a. indicatrice $X=1_A$ (con $P(A)=p$)}
+$X$ può valere 0 (con probabilità $1-p$) o 1 (con probabilità $p$).
+$F_X(x) = P(X \le x)$.
+\begin{itemize}
+    \item Se $x < 0$: $P(X \le x) = 0$ (perché $X$ non può essere $<0$).
+    \item Se $0 \le x < 1$: $P(X \le x) = P(X=0) = 1-p$.
+    \item Se $x \ge 1$: $P(X \le x) = P(X=0 \text{ o } X=1) = P(X=0) + P(X=1) = (1-p)+p = 1$.
+\end{itemize}
+Quindi:
+\[ F_X(x) = \begin{cases} 0 & \text{se } x < 0 \\ 1-p & \text{se } 0 \le x < 1 \\ 1 & \text{se } x \ge 1 \end{cases} \]
+Questa è una funzione a gradino con salti in $x=0$ (ampiezza $1-p$) e $x=1$ (ampiezza $p$).
+$P(X=0) = F_X(0) - F_X(0^-) = (1-p) - 0 = 1-p$.
+$P(X=1) = F_X(1) - F_X(1^-) = 1 - (1-p) = p$.
+
+% Qui finirà questo capitolo. I prossimi capitoli tratteranno le v.a. discrete, continue, vettori, ecc.
+
+\end{document}

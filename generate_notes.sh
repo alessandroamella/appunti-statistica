@@ -51,14 +51,11 @@ fi
 echo "Verifico che tutti i file necessari siano presenti..."
 
 FILES=(
-  "01-introduzione.tex"
-  "02-fondamenti-di-probabilita.tex"
-  "03-variabili-aleatorie-discrete.tex"
-  "04-variabili-aleatorie-continue.tex"
-  "05-variabili-aleatorie-congiunte.tex"
-  "06-catene-di-markov.tex"
-  "07-strategie-per-risolvere-gli-esercizi-e-riepilogo.tex"
-  "08-tabelle-e-formulario-essenziale.tex"
+  "01-spazio-prob-condiz.tex"
+  "02-calcolo-combinatorio.tex"
+  "03-var-aleatorie.tex"
+  "04-markov.tex"
+  "05-formulari.tex"
 )
 
 # Generate the appropriate preamble
@@ -157,31 +154,22 @@ Sentiti libero di utilizzare, condividere o contribuire a questi appunti attrave
 
 \clearpage
 
-\chapter{Introduzione}
-\input{01-introduzione-content}
+\chapter{Spazio Campionario e Probabilità}
+\input{01-spazio-prob-condiz-content}
 
-\chapter{Fondamenti di Probabilità}
-\input{02-fondamenti-di-probabilita-content}
+\chapter{Calcolo Combinatorio}
+\input{02-calcolo-combinatorio-content}
 
-\chapter{Variabili Aleatorie Discrete}
-\input{03-variabili-aleatorie-discrete-content}
-
-\chapter{Variabili Aleatorie Continue}
-\input{04-variabili-aleatorie-continue-content}
-
-\chapter{Variabili Aleatorie Congiunte}
-\input{05-variabili-aleatorie-congiunte-content}
+\chapter{Variabili Aleatorie}
+\input{03-var-aleatorie-content}
 
 \chapter{Catene di Markov}
-\input{06-catene-di-markov-content}
-
-\chapter{Strategie per Risolvere gli Esercizi e Riepilogo}
-\input{07-strategie-per-risolvere-gli-esercizi-e-riepilogo-content}
+\input{04-markov-content}
 
 \appendix
 
-\chapter{Tabelle e Formulario Essenziale}
-\input{08-tabelle-e-formulario-essenziale-content}
+\chapter{Formulario}
+\input{05-formulari-content}
 
 \end{document}
 EOT

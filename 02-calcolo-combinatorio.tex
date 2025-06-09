@@ -1,0 +1,356 @@
+\input{preambolo_comune}
+
+% --- Titolo ---
+\title{Calcolo Combinatorio}
+\author{Basato sulle prove d'esame}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introduzione ai Problemi di Conteggio}
+Molti problemi di probabilità, specialmente all'inizio, si riducono a "contare" quanti sono i modi in cui un evento può accadere rispetto a tutti i modi possibili. Questo è il cuore del calcolo combinatorio applicato alla probabilità.
+
+\begin{definition}[Spazio Campionario Finito e Probabilità Uniforme]
+Consideriamo un esperimento aleatorio il cui risultato può essere uno tra un numero finito di esiti possibili. L'insieme di tutti questi esiti si chiama \textbf{spazio campionario}, indicato con $\Omega = \{\omega_1, \omega_2, \dots, \omega_N\}$.
+Se tutti gli $N$ esiti sono \textbf{equiprobabili} (hanno la stessa probabilità di verificarsi), allora la probabilità di ogni singolo esito elementare $\{\omega_i\}$ è:
+$$ P(\{\omega_i\}) = \frac{1}{N} $$
+\end{definition}
+
+\begin{theorem}[Formula di Laplace]
+Se gli esiti di uno spazio campionario finito $\Omega$ sono equiprobabili, la probabilità di un evento $A$ (che è un sottoinsieme di $\Omega$) è data da:
+$$ P(A) = \frac{\text{numero di esiti favorevoli ad } A}{\text{numero di esiti possibili}} = \frac{|A|}{|\Omega|} $$
+dove $|A|$ indica la cardinalità di $A$ (cioè il numero di elementi in $A$) e $|\Omega|$ la cardinalità di $\Omega$.
+\end{theorem}
+
+\begin{remark}
+Capisci subito che il "gioco" sta nel calcolare correttamente $|A|$ e $|\Omega|$. È qui che entra in gioco il calcolo combinatorio!
+\end{remark}
+
+\begin{example}[Lancio di un dado]
+Se lanciamo un dado a 6 facce non truccato:
+\begin{itemize}
+    \item $\Omega = \{1, 2, 3, 4, 5, 6\}$, quindi $|\Omega|=6$.
+    \item Ogni esito ha probabilità $1/6$.
+    \item Sia $A$ l'evento "esce un numero pari". Allora $A = \{2, 4, 6\}$, quindi $|A|=3$.
+    \item $P(A) = |A|/|\Omega| = 3/6 = 1/2$.
+\end{itemize}
+\end{example}
+
+\section{Strumenti di Base del Calcolo Combinatorio}
+
+\subsection{Fattoriale}
+\begin{definition}[Fattoriale]
+Per un numero intero non negativo $n$, il \textbf{fattoriale} di $n$, indicato con $n!$, è:
+\begin{itemize}
+    \item $n! = n \cdot (n-1) \cdot (n-2) \cdot \dots \cdot 2 \cdot 1$, se $n \ge 1$.
+    \item $0! = 1$ (per convenzione, molto utile nelle formule!).
+\end{itemize}
+\end{definition}
+\begin{example}
+$5! = 5 \cdot 4 \cdot 3 \cdot 2 \cdot 1 = 120$.
+$3! = 3 \cdot 2 \cdot 1 = 6$.
+\end{example}
+
+\subsection{Coefficiente Binomiale}
+\begin{definition}[Coefficiente Binomiale]
+Dati due interi non negativi $n$ e $k$, con $k \le n$, il \textbf{coefficiente binomiale} $\binom{n}{k}$ (si legge "n su k") è definito come:
+$$ \binom{n}{k} = \frac{n!}{k!(n-k)!} $$
+Esso rappresenta il numero di modi per scegliere $k$ oggetti da un insieme di $n$ oggetti distinti, senza tener conto dell'ordine.
+\end{definition}
+
+\begin{example}
+Quanti modi ci sono per scegliere 2 persone da un gruppo di 5?
+$$ \binom{5}{2} = \frac{5!}{2!(5-2)!} = \frac{5!}{2!3!} = \frac{120}{2 \cdot 6} = \frac{120}{12} = 10 $$
+\end{example}
+
+Proprietà utili del coefficiente binomiale:
+\begin{itemize}
+    \item $\binom{n}{0} = 1$ (c'è un solo modo per non scegliere niente)
+    \item $\binom{n}{n} = 1$ (c'è un solo modo per scegliere tutto)
+    \item $\binom{n}{1} = n$ (ci sono $n$ modi per scegliere un oggetto)
+    \item $\binom{n}{k} = \binom{n}{n-k}$ (scegliere $k$ oggetti è come escluderne $n-k$)
+\end{itemize}
+
+\begin{theorem}[Formula di Stifel o del Triangolo di Tartaglia]
+$$ \binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k} $$
+Per capire: per scegliere $k$ oggetti da $n$, o scegli un oggetto fissato $\bar{e}$ (e allora devi sceglierne altri $k-1$ dai rimanenti $n-1$), oppure non lo scegli (e allora devi sceglierne $k$ dai rimanenti $n-1$).
+\end{theorem}
+
+\begin{theorem}[Teorema Binomiale di Newton]
+Per ogni $a, b \in \mathbb{R}$ e $n \in \mathbb{N}$:
+$$ (a+b)^n = \sum_{k=0}^{n} \binom{n}{k} a^k b^{n-k} $$
+Il coefficiente binomiale $\binom{n}{k}$ conta quante volte compare il termine $a^k b^{n-k}$ quando espandi $(a+b)(a+b)\dots(a+b)$ ($n$ volte). Per ottenere $a^k b^{n-k}$, devi scegliere $a$ da $k$ dei fattori e $b$ dai rimanenti $n-k$ fattori.
+\end{theorem}
+
+\section{Metodo delle Scelte Successive}
+Questo è un principio fondamentale per contare.
+Se un'operazione complessa può essere scomposta in $k$ scelte successive, e la prima scelta può essere fatta in $n_1$ modi, la seconda in $n_2$ modi (indipendentemente dalla prima), ..., la $k$-esima in $n_k$ modi (indipendentemente dalle precedenti), allora il numero totale di modi per compiere l'intera operazione è $n_1 \cdot n_2 \cdot \dots \cdot n_k$.
+
+\begin{example}[Password]
+Quante password di 8 caratteri si possono formare usando le 26 lettere minuscole dell'alfabeto inglese e le 10 cifre numeriche (totale 36 simboli)?
+\begin{enumerate}
+    \item Se i caratteri possono ripetersi:
+    Per ogni posizione (8 scelte successive), ho 36 opzioni.
+    Numero totale = $36 \cdot 36 \cdot \dots \cdot 36$ (8 volte) = $36^8$.
+    \item Se i caratteri devono essere tutti distinti:
+    1° carattere: 36 opzioni
+    2° carattere: 35 opzioni (uno è già stato usato)
+    3° carattere: 34 opzioni
+    ...
+    8° carattere: $36-7 = 29$ opzioni
+    Numero totale = $36 \cdot 35 \cdot 34 \cdot 33 \cdot 32 \cdot 31 \cdot 30 \cdot 29$.
+\end{enumerate}
+\end{example}
+
+\begin{remark}
+Quando usi questo metodo, assicurati che ogni sequenza di scelte identifichi \textbf{uno e un solo} elemento dell'insieme che vuoi contare, e che \textbf{tutti} gli elementi siano contati.
+A volte, l'ordine delle scelte può portare a contare più volte lo stesso elemento (vedi esempio del poker sulla doppia coppia).
+\end{remark}
+
+\begin{example}[Formare un comitato]
+Da un gruppo di 5 uomini e 7 donne, si vuole formare un comitato di 2 uomini e 3 donne. Quanti comitati possibili?
+\begin{itemize}
+    \item Scelta degli uomini: $\binom{5}{2}$ modi.
+    \item Scelta delle donne: $\binom{7}{3}$ modi.
+\end{itemize}
+Numero totale di comitati = $\binom{5}{2} \cdot \binom{7}{3} = 10 \cdot \frac{7 \cdot 6 \cdot 5}{3 \cdot 2 \cdot 1} = 10 \cdot 35 = 350$.
+\end{example}
+
+\begin{example}[Ispirato da Esame 08 Settembre 2023, Esercizio 2]
+Una classe di 10 studenti (4 maschi e 6 femmine) viene divisa in due gruppi da 5 per due gite diverse (Firenze e Roma). Quanti modi ci sono per formare il gruppo che va a Roma?
+Questo equivale a scegliere 5 studenti su 10: $\binom{10}{5}$ modi.
+$$ \binom{10}{5} = \frac{10!}{5!5!} = \frac{10 \cdot 9 \cdot 8 \cdot 7 \cdot 6}{5 \cdot 4 \cdot 3 \cdot 2 \cdot 1} = 2 \cdot 9 \cdot 2 \cdot 7 = 252 $$
+Una volta scelto il gruppo per Roma, l'altro è automaticamente determinato.
+
+Qual è la probabilità che nel gruppo per Roma ci siano esattamente 2 maschi (e quindi 3 femmine)?
+\begin{itemize}
+    \item Scelta dei 2 maschi su 4: $\binom{4}{2}$ modi.
+    \item Scelta delle 3 femmine su 6: $\binom{6}{3}$ modi.
+\end{itemize}
+Numero di gruppi per Roma con 2 maschi e 3 femmine = $\binom{4}{2} \cdot \binom{6}{3} = 6 \cdot \frac{6 \cdot 5 \cdot 4}{3 \cdot 2 \cdot 1} = 6 \cdot 20 = 120$.
+Probabilità = $\frac{120}{252} = \frac{10}{21}$.
+\end{example}
+
+\section{Disposizioni e Combinazioni}
+Formalizziamo alcuni concetti visti negli esempi. Sia $E$ un insieme con $|E|=n$ elementi distinti.
+
+\subsection{Disposizioni con Ripetizione ($DR_{n,k}$)}
+\begin{definition}
+Le \textbf{disposizioni con ripetizione} di $n$ oggetti presi a $k$ a $k$ ($DR_{n,k}$) sono tutte le sequenze \textbf{ordinate} di $k$ oggetti scelti da $n$, dove ogni oggetto può essere scelto più volte.
+$$ |DR_{n,k}| = n^k $$
+\end{definition}
+\begin{example}
+Lancio di un dado 3 volte. $n=6$ (facce del dado), $k=3$ (lanci).
+Gli esiti sono sequenze ordinate tipo (1,1,1), (1,2,3), (6,5,4), etc.
+Numero totale di esiti = $6^3 = 216$.
+Questo è lo stesso dell'esempio della password con ripetizione ($n=36, k=8$).
+\end{example}
+
+\begin{example}[Ispirato da Esame 22 Maggio 2024, Esercizio 1]
+Tre urne A, B, C sono inizialmente vuote. Vengono inserite 5 palline distinguibili, una dopo l'altra. Ogni pallina viene messa in un'urna scelta a caso.
+Per ogni pallina (5 scelte successive), ci sono 3 possibili urne.
+Lo spazio campionario $\Omega$ è l'insieme delle sequenze $(u_1, u_2, u_3, u_4, u_5)$ dove $u_i \in \{A,B,C\}$.
+$|\Omega| = |DR_{3,5}| = 3^5 = 243$.
+Qual è la probabilità che l'urna A rimanga vuota?
+Se A è vuota, ogni pallina deve andare in B o C (2 scelte per ogni pallina).
+Numero di modi = $2^5 = 32$.
+Probabilità = $32/243$.
+Qual è la probabilità che A e B rimangano vuote?
+Se A e B sono vuote, ogni pallina deve andare in C (1 scelta per ogni pallina).
+Numero di modi = $1^5 = 1$.
+Probabilità = $1/243$.
+\end{example}
+
+\subsection{Disposizioni Semplici (senza Ripetizione) ($D_{n,k}$)}
+\begin{definition}
+Le \textbf{disposizioni semplici} di $n$ oggetti presi a $k$ a $k$ ($D_{n,k}$, con $k \le n$) sono tutte le sequenze \textbf{ordinate} di $k$ oggetti \textbf{distinti} scelti da $n$.
+$$ |D_{n,k}| = n(n-1)\dots(n-k+1) = \frac{n!}{(n-k)!} $$
+\end{definition}
+\begin{example}
+In quanti modi 3 persone possono sedersi su 5 sedie numerate?
+$n=5$ (sedie), $k=3$ (persone). L'ordine conta (chi siede sulla sedia 1 è diverso da chi siede sulla sedia 2). Le persone sono distinte.
+$|D_{5,3}| = 5 \cdot 4 \cdot 3 = 60$.
+Questo è lo stesso dell'esempio della password senza ripetizione.
+\end{example}
+
+\begin{definition}[Permutazioni ($P_n$)]
+Le \textbf{permutazioni} di $n$ oggetti distinti sono tutte le sequenze ordinate possibili degli $n$ oggetti. Sono un caso particolare di disposizioni semplici con $k=n$.
+$$ |P_n| = |D_{n,n}| = n! $$
+\end{definition}
+\begin{example}
+In quanti modi si possono anagrammare le lettere della parola "CIAO"?
+Sono 4 lettere distinte. Numero di anagrammi = $4! = 24$.
+\end{example}
+
+\subsection{Combinazioni Semplici (senza Ripetizione) ($C_{n,k}$)}
+\begin{definition}
+Le \textbf{combinazioni semplici} di $n$ oggetti presi a $k$ a $k$ ($C_{n,k}$, con $k \le n$) sono tutti i sottoinsiemi di $k$ oggetti scelti da $n$, \textbf{senza tener conto dell'ordine} e \textbf{senza ripetizione}.
+$$ |C_{n,k}| = \binom{n}{k} = \frac{n!}{k!(n-k)!} $$
+\end{definition}
+\begin{example}
+Estraiamo 5 carte da un mazzo di 52. Quante mani possibili? L'ordine non conta.
+$|C_{52,5}| = \binom{52}{5}$.
+\end{example}
+\begin{remark}
+Relazione tra $D_{n,k}$ e $C_{n,k}$:
+Per formare una disposizione semplice $D_{n,k}$, possiamo:
+\begin{enumerate}
+    \item Scegliere $k$ oggetti distinti (una combinazione): $\binom{n}{k}$ modi.
+    \item Ordinare questi $k$ oggetti (una permutazione): $k!$ modi.
+\end{enumerate}
+Quindi, $|D_{n,k}| = \binom{n}{k} \cdot k!$. Da cui $\binom{n}{k} = \frac{|D_{n,k}|}{k!}$.
+\end{remark}
+
+\section{I Tre Esperimenti Aleatori di Riferimento (Estrazioni da un'urna)}
+Consideriamo un'urna con $n$ palline distinguibili. Estraiamo $k$ palline.
+
+\begin{enumerate}
+    \item \textbf{Estrazione con reimmissione (ordine conta, ripetizione ammessa):}
+    Dopo ogni estrazione, la pallina viene rimessa nell'urna.
+    Lo spazio campionario è $DR_{n,k}$. $|\Omega| = n^k$.
+    Tutti gli $n^k$ esiti sono equiprobabili.
+
+    \item \textbf{Estrazione senza reimmissione (ordine conta, ripetizione non ammessa):}
+    La pallina estratta non viene rimessa nell'urna ($k \le n$).
+    Lo spazio campionario è $D_{n,k}$. $|\Omega| = \frac{n!}{(n-k)!}$.
+    Tutti gli esiti sono equiprobabili.
+
+    \item \textbf{Estrazione simultanea (ordine non conta, ripetizione non ammessa):}
+    Le $k$ palline vengono estratte tutte insieme ($k \le n$).
+    Lo spazio campionario è $C_{n,k}$. $|\Omega| = \binom{n}{k}$.
+    Tutti gli esiti (i gruppi di $k$ palline) sono equiprobabili.
+\end{enumerate}
+
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{RIPETIZIONE} & \textbf{Senza ripetizione} & \textbf{Con ripetizione} \\
+\textbf{ORDINE} & & \\
+\hline
+\textbf{Si tiene conto dell'ordine} & Estrazione senza reimmissione & Estrazione con reimmissione \\
+& $\Omega = D_{n,k}$ & $\Omega = DR_{n,k}$ \\
+& $|\Omega| = \frac{n!}{(n-k)!}$ & $|\Omega| = n^k$ \\
+\hline
+\textbf{Non si tiene conto dell'ordine} & Estrazione simultanea & (Combinazioni con ripetizione*) \\
+& $\Omega = C_{n,k}$ & \\
+& $|\Omega| = \binom{n}{k}$ & \\
+\hline
+\end{tabular}
+\end{center}
+*Le combinazioni con ripetizione (casella vuota) non sono tipicamente usate come spazio campionario con probabilità uniforme perché gli eventi elementari non sarebbero equiprobabili se derivati da un processo di scelte equiprobabili. Si preferisce sempre usare $DR_{n,k}$ e poi raggruppare gli esiti se l'ordine non conta.*
+
+\begin{remark}[Importante per gli esercizi!]
+Quando un problema sembra riguardare estrazioni "senza ordine e con ripetizione" (es. lancio una moneta 3 volte e mi interessa solo quante Teste sono uscite, non l'ordine), per garantire l'equiprobabilità degli esiti fondamentali, è quasi sempre meglio usare lo spazio campionario delle \textbf{disposizioni con ripetizione ($DR_{n,k}$)} e poi contare quanti di questi esiti ordinati corrispondono all'evento "non ordinato" che ci interessa.
+\end{remark}
+
+\begin{example}[Lancio di 2 monete]
+Evento A = "esce una Testa e una Croce".
+Spazio $DR_{2,2}$: TT, TC, CT, CC. (N=4, equiprobabili).
+Evento A = \{TC, CT\}. $|A|=2$. $P(A)=2/4=1/2$.
+Se usassimo uno spazio "non ordinato" \{TT, TC, CC\}, e lo ritenessimo equiprobabile, avremmo $P(A)=1/3$, che è sbagliato se le monete sono eque!
+Perché [TC] raggruppa due esiti equiprobabili (TC e CT), mentre [TT] ne raggruppa uno solo (TT).
+\end{example}
+
+\section{Probabilità Binomiale: Un'applicazione Chiave}
+Questo è un modello importantissimo che deriva direttamente dall'estrazione con reimmissione.
+Consideriamo un'urna con $b$ palline bianche e $r$ palline rosse (totale $n=b+r$ palline).
+Effettuiamo $k$ estrazioni \textbf{con reimmissione}.
+Vogliamo calcolare la probabilità dell'evento $A_l$: "si estraggono esattamente $l$ palline bianche (e quindi $k-l$ palline rosse)", con $0 \le l \le k$.
+
+Probabilità di estrarre una bianca in una singola estrazione: $p = b/(b+r)$.
+Probabilità di estrarre una rossa in una singola estrazione: $1-p = r/(b+r)$.
+
+Lo spazio campionario $\Omega$ è $DR_{b+r, k}$, quindi $|\Omega| = (b+r)^k$.
+Per contare gli esiti favorevoli ad $A_l$:
+\begin{enumerate}
+    \item \textbf{Scegliere le posizioni} delle $l$ palline bianche nelle $k$ estrazioni: ci sono $\binom{k}{l}$ modi.
+    \item Per ognuna delle $l$ posizioni "bianche", ci sono $b$ scelte possibili (le $b$ palline bianche). Totale $b^l$ modi.
+    \item Per ognuna delle $k-l$ posizioni "rosse", ci sono $r$ scelte possibili. Totale $r^{k-l}$ modi.
+\end{enumerate}
+Quindi, $|A_l| = \binom{k}{l} b^l r^{k-l}$.
+La probabilità è:
+$$ P(A_l) = \frac{\binom{k}{l} b^l r^{k-l}}{(b+r)^k} = \binom{k}{l} \left(\frac{b}{b+r}\right)^l \left(\frac{r}{b+r}\right)^{k-l} $$
+Che si scrive comunemente come:
+$$ P(X=l) = \binom{k}{l} p^l (1-p)^{k-l} $$
+dove $X$ è la variabile aleatoria "numero di palline bianche estratte in $k$ prove". Si dice che $X$ segue una distribuzione Binomiale $B(k,p)$.
+
+\begin{example}[Ispirato da Esame 13 Settembre 2024, Esercizio 1c]
+Un'urna contiene 2 palline bianche e 8 nere (totale 10). Si estraggono 6 palline \textbf{con reimmissione}.
+Qual è la probabilità che almeno una delle 6 palline estratte sia bianca?
+Questo è un problema binomiale. $k=6$ (estrazioni).
+Probabilità di estrarre una bianca $p = 2/10 = 1/5$.
+Probabilità di estrarre una nera $1-p = 4/5$.
+L'evento "almeno una bianca" è il complementare di "nessuna bianca" (cioè "tutte nere").
+$P(\text{tutte 6 nere}) = P(X=0 \text{ bianche}) = \binom{6}{0} (1/5)^0 (4/5)^{6-0} = 1 \cdot 1 \cdot (4/5)^6 = (4/5)^6$.
+$P(\text{almeno una bianca}) = 1 - P(\text{tutte 6 nere}) = 1 - (4/5)^6$.
+$(4/5)^6 = 4096 / 15625 \approx 0.262$.
+$P(\text{almeno una bianca}) \approx 1 - 0.262 = 0.738$.
+\end{example}
+
+\begin{exercise}[Lancio di dadi]
+Si lanciano 5 dadi a 6 facce.
+\begin{enumerate}
+    \item Qual è la probabilità che non esca nessun 6?
+    \item Qual è la probabilità che esca esattamente un 6?
+    \item Qual è la probabilità che escano almeno due 6?
+\end{enumerate}
+(Suggerimento: ogni lancio è una prova. Successo = "esce un 6", $p=1/6$. Numero di prove $k=5$.)
+\end{exercise}
+
+\begin{exercise}[Bersaglio]
+Un arciere colpisce il centro del bersaglio con probabilità $p=0.7$. Tira 4 frecce.
+\begin{enumerate}
+    \item Qual è la probabilità che colpisca il centro esattamente 3 volte?
+    \item Qual è la probabilità che colpisca il centro almeno una volta?
+\end{enumerate}
+\end{exercise}
+
+\section{Esercizi Vari di Riepilogo (ispirati agli esami)}
+
+\begin{exercise}[Selezione di comitato con vincoli]
+Un club ha 10 membri: 6 uomini e 4 donne.
+\begin{enumerate}
+    \item Quanti comitati di 4 persone si possono formare? $\binom{10}{4}$
+    \item Quanti comitati di 4 persone si possono formare se il comitato deve avere esattamente 2 uomini e 2 donne? $\binom{6}{2}\binom{4}{2}$
+    \item Qual è la probabilità che un comitato di 4 persone scelto a caso abbia 2 uomini e 2 donne? $\frac{\binom{6}{2}\binom{4}{2}}{\binom{10}{4}}$
+    \item Se Marco e Anna sono due membri del club, qual è la probabilità che entrambi siano nel comitato di 4 persone?
+    (Suggerimento: se M e A sono nel comitato, devi scegliere altre 2 persone dagli 8 rimanenti. Casi favorevoli: $\binom{8}{2}$. Casi totali: $\binom{10}{4}$.)
+    \item Qual è la probabilità che né Marco né Anna siano nel comitato?
+    (Suggerimento: devi scegliere 4 persone dagli 8 rimanenti, escludendo M e A. Casi favorevoli: $\binom{8}{4}$.)
+    \item Qual è la probabilità che Marco sia nel comitato ma Anna no?
+    (Suggerimento: Marco è dentro. Devi scegliere altre 3 persone dai rimanenti 8 (escludendo Anna). Casi favorevoli: $\binom{8}{3}$.)
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Lancio di due dadi con condizione]
+Si lanciano due dadi regolari a sei facce, X e Y.
+Qual è la probabilità che Y sia un multiplo stretto di X (cioè Y = kX con $k \ge 2$)?
+(Suggerimento: Elenca tutte le 36 coppie (X,Y) possibili. Identifica quelle che soddisfano la condizione.
+X=1: Y=2,3,4,5,6 (5 casi)
+X=2: Y=4,6 (2 casi)
+X=3: Y=6 (1 caso)
+Totale 8 casi favorevoli. $P=8/36=2/9$.)
+Se Y è un multiplo stretto di X, qual è il valore più probabile assunto da X?
+(Abbiamo 5 casi con X=1, 2 casi con X=2, 1 caso con X=3. Quindi X=1 è il più probabile dato l'evento.)
+\end{exercise}
+
+\begin{exercise}[Palline in Urne Distinte]
+Ci sono 4 palline distinguibili e 3 urne distinguibili. Ogni pallina viene inserita in un'urna a caso.
+\begin{enumerate}
+    \item Qual è lo spazio campionario e la sua cardinalità? ($DR_{3,4} = 3^4=81$)
+    \item Qual è la probabilità che la prima urna (Urna 1) contenga esattamente 2 palline?
+    (Suggerimento:
+    1. Scegli 2 palline da mettere nell'Urna 1: $\binom{4}{2}$ modi.
+    2. Le rimanenti 2 palline devono andare nelle Urne 2 o 3 (2 scelte per ognuna): $2^2$ modi.
+    Casi favorevoli = $\binom{4}{2} \cdot 2^2 = 6 \cdot 4 = 24$. Probabilità = $24/81$.
+    )
+    \item Qual è la probabilità che tutte le palline finiscano nella stessa urna?
+    (Tutte in Urna 1 O tutte in Urna 2 O tutte in Urna 3. $1+1+1 = 3$ casi favorevoli. $P=3/81$.)
+\end{enumerate}
+\end{exercise}
+
+\end{document}

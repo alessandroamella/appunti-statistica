@@ -199,6 +199,14 @@ cat >>"$OUTPUT_FILE" <<EOF
 % Pacchetto xcolor (necessario per \definecolor e TikZ)
 \\usepackage[table]{xcolor}
 
+% Robe
+\\newcommand{\\Pcond}[2]{P(#1 \mid #2)}
+\\newcommand{\\Pc}{P}
+\\newcommand{\\OmegaSet}{\\Omega}
+\\newcommand{\\capSet}{\\cap}
+\\newcommand{\\cupSet}{\\cup}
+\\newcommand{\\compSet}[1]{{#1}^c}
+
 % Multicolonna e multirow per tabelle
 \\usepackage{multicol}
 \\usepackage{multirow}
@@ -290,6 +298,8 @@ ${COLOR_CMD}
 \\newtheorem{definition}[theorem]{Definizione}
 \\newtheorem{example}[theorem]{Esempio}
 \\newtheorem{remark}[theorem]{Osservazione}
+\\newtheorem{exercise}[theorem]{Esercizio}
+
 \\newenvironment{proof}[1][Dimostrazione]
     {\\begin{trivlist}\\item[\\hskip \\labelsep {\\bfseries #1}]}
     {\\end{trivlist}}  % Ambiente per le dimostrazioni
